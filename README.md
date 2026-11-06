@@ -23,7 +23,7 @@ The cloud API is currently paused at Scott’s request to stop recurring Durable
 
 ## Run the prototype
 
-For the real desktop build, first run `bun install`, then `npm run desktop`. `npm run check:api`, `npm run check:desktop` and `npm run check:website` check the applications; `npm run verify` runs the combined gate. See the desktop guide for private test setup and the execution brief for live verification status. The commands below run the preserved browser prototypes.
+For the real desktop build, first run `bun install`, then `npm run desktop`. On a fresh clone, run `npm run setup:desktop` once before the desktop checks: it projects the Electrobun devkit into the git-ignored `apps/desktop/.hutch`, which the desktop TypeScript config and imports resolve from. `npm run check:api`, `npm run check:desktop` and `npm run check:website` check the applications; `npm run verify` runs the combined gate. See the desktop guide for private test setup and the execution brief for live verification status. The commands below run the preserved browser prototypes.
 
 ```sh
 npm run dev

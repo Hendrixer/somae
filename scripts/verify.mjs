@@ -120,6 +120,9 @@ await check('prototype-local-links', async () => {
   return `${count} local prototype references resolved; remote links were not contacted.`;
 });
 
+// Build token exports first: desktop imports packages/design-system/dist, which a fresh checkout doesn't have.
+await check('design-token-exports', () => [run(['packages/design-system/build.mjs']), run(['packages/design-system/validate.mjs'])].join('\n'));
+
 await check('repository-boundaries', () => run(['scripts/check-boundaries.mjs']));
 
 await check('context-references', () => run(['scripts/context.mjs', '--check']));
@@ -131,8 +134,6 @@ await check('behavioral-tests', () => {
   if (!tests.some(path => path.startsWith('packages/domain/'))) throw new Error('No domain conformance tests found.');
   return run(['--test', ...tests]);
 });
-
-await check('design-token-exports', () => [run(['packages/design-system/build.mjs']), run(['packages/design-system/validate.mjs'])].join('\n'));
 
 await check('api-runtime-and-build', () => run(['scripts/check-app.mjs', 'api']));
 await check('desktop-native-build', () => run(['scripts/check-app.mjs', 'desktop']));

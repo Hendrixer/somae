@@ -17,6 +17,7 @@
     "check:desktop": "node scripts/check-app.mjs desktop",
     "check:website": "node scripts/check-app.mjs website",
     "desktop": "bun run --cwd apps/desktop dev",
+    "setup:desktop": "cd apps/desktop && bunx electrobun prepare --env=dev",
     "channel:proof": "node scripts/channel-proof.mjs",
     "map": "node scripts/check-boundaries.mjs",
     "context": "node scripts/context.mjs"
