@@ -1,0 +1,34 @@
+/* Somae Studio: restrained materials, optical hierarchy, compact interaction. */
+:root,[data-theme="studio"] {
+  --canvas:#f5f5f7;
+  --surface:#ffffff;
+  --surface-raised:#ffffff;
+  --surface-inset:#f5f5f7;
+  --ink:#1d1d1f;
+  --ink-muted:#6e6e73;
+  --ink-soft:#818187;
+  --line:#e8e8ed;
+  --accent:#0066cc;
+  --accent-hover:#0071e3;
+  --accent-soft:#eef5ff;
+  --accent-ink:#0066cc;
+  --leaf:#287c43;
+  --leaf-soft:#edf7ee;
+  --petal:#f1ecfa;
+  --honey:#faf1dd;
+  --font-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif;
+  --font-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
+  --radius-sm:10px; --radius-md:14px; --radius-lg:24px; --radius-xl:30px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:20px; --space-6:24px; --space-8:32px; --space-10:40px;
+  --motion:200ms;
+  --shadow:0 24px 70px -15px rgb(33 44 61 / 15%),0 3px 12px rgb(33 44 61 / 3%),inset 0 0 0 1px rgb(255 255 255 / 75%);
+}
+[data-theme="pearl"] {
+  --canvas:#f3f1f7; --surface:#fffeff; --surface-inset:#f6f3f9;
+  --line:#eae5ef; --accent:#7758a7; --accent-hover:#8865bf; --accent-soft:#f5effd; --accent-ink:#7758a7;
+}
+[data-theme="sage"] {
+  --canvas:#f0f4f1; --surface:#fefffe; --surface-inset:#f3f7f4;
+  --line:#e4ebe5; --accent:#3a7858; --accent-hover:#458866; --accent-soft:#edf6ef; --accent-ink:#3a7858;
+}

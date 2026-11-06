@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "somae-test-api",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-18",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "vars": { "SOMAE_SERVICE_PAUSED": "true" },
+  "secrets": { "required": ["SOMAE_DESKTOP_TOKEN", "SOMAE_BRIDGE_TOKEN"] },
+  "routes": [{ "pattern": "api.getsomae.ai", "custom_domain": true }],
+  "durable_objects": {
+    "bindings": [{ "name": "WORKSPACES", "class_name": "Workspace" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Workspace"] }],
+  "r2_buckets": [{ "binding": "ORIGINALS", "bucket_name": "somae-test-originals" }],
+  "observability": { "enabled": true, "traces": { "enabled": true } }
+}

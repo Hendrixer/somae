@@ -1,0 +1,199 @@
+import { animateLayout, enterContent, confirm, swapPresence, pressFeedback } from './motion.js';
+
+const paths = {
+  inbox: '<path d="m6 4-3 9v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5l-3-9Z"/><path d="M3 13h5l2 3h4l2-3h5"/>',
+  activity: '<path d="M3 12h4l3-8 4 16 3-8h4"/>',
+  requests: '<rect x="4" y="5" width="16" height="14" rx="4"/><path d="m8 10 4 3 4-3"/>',
+  context: '<path d="M4 6c3-2 5-2 8 0 3-2 5-2 8 0v14c-3-2-5-2-8 0-3-2-5-2-8 0Z"/><path d="M12 6v14"/>',
+  connections: '<path d="m10 14 4-4M8 16l-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 1 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 0)"/>',
+  appearance: '<path d="M12 3c-5 0-9 4-9 9s4 9 9 9c2 0 3-1 2-3s0-3 3-3 4-1 4-3c0-5-4-9-9-9Z"/><path d="M7 9h.01M11 6h.01M16 8h.01M7 14h.01"/>',
+  search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>',
+  bell: '<path d="M6 9a6 6 0 0 1 12 0v5l2 3H4l2-3ZM10 21h4"/>',
+  quiet: '<path d="m3 3 18 18M6 6a6 6 0 0 0 0 3v5l-2 3h14M11 3a6 6 0 0 1 7 6v3M10 21h4"/>',
+  check: '<path d="m5 12 4 4L19 6"/>',
+  choice: '<circle cx="7" cy="7" r="3"/><circle cx="7" cy="17" r="3"/><path d="M13 7h7M13 17h7"/>',
+  question: '<path d="M9 8a3 3 0 1 1 5 2c-2 1-2 2-2 3M12 17h.01"/><circle cx="12" cy="12" r="10"/>',
+  review: '<path d="M14 2H5v20h14V7Zm0 0v5h5M8 11h8M8 15h8M8 19h5"/>',
+  expand: '<path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  arrow: '<path d="M5 12h14m-5-5 5 5-5 5"/>',
+  back: '<path d="M19 12H5m5-5-5 5 5 5"/>',
+  lock: '<rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>',
+  leaf: '<path d="M20 3C7 2 2 9 5 16c5 8 17 3 15-13ZM5 20 16 8"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>',
+  folder: '<path d="M3 6h7l2 2h9v12H3Z"/>',
+  file: '<path d="M14 2H5v20h14V7Zm0 0v5h5M8 12h8M8 16h6"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  heart: '<path d="M12 20S2 14 2 8c0-5 7-6 10-1 3-5 10-4 10 1 0 6-10 12-10 12Z"/>',
+  send: '<path d="m4 4 17 8-17 8 3-8Zm3 8h14"/>',
+  chevronLeft: '<path d="m14 6-6 6 6 6"/>',
+  chevronRight: '<path d="m10 6 6 6-6 6"/>',
+  up: '<path d="M12 19V5m-5 5 5-5 5 5"/>',
+  download: '<path d="M12 3v12m-4-4 4 4 4-4M5 17v4h14v-4"/>',
+  more: '<circle cx="5" cy="12" r=".7"/><circle cx="12" cy="12" r=".7"/><circle cx="19" cy="12" r=".7"/>',
+  roam: '<circle cx="12" cy="12" r="7"/><path d="M3 16c2 2 8 1 12-2s7-6 6-8M7 5l-2 3"/>',
+  close: '<path d="m6 6 12 12M18 6 6 18"/>'
+};
+const icon = (name) => `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.inbox}</svg>`;
+const escape = (value) => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = (selector) => document.querySelector(selector);
+const agents={codex:{name:'Codex',mark:'↗',kind:'codex',status:'Working on Somae'},claude:{name:'Claude Code',mark:'✳',kind:'claude',status:'Draft ready'},roam:{name:'Roam',mark:'r',kind:'roam',status:'Planning Austin'},research:{name:'Fieldwork',mark:'f',kind:'research',status:'Researching'}};
+const avatar=a=>`<span class="avatar ${agents[a].kind}" aria-hidden="true">${a==='roam'?icon('roam'):a==='research'?icon('leaf'):agents[a].mark}</span>`;
+const requests=[
+{id:'runs',agent:'codex',title:'Where should agent runs live?',project:'Somae',intent:'Build the request & response loop',message:'Two ways to structure the data. I’d keep execution history separate, but it’s your call.',type:'choice',time:'8m',options:[{label:'Create an agent_runs table',recommended:true},{label:'Extend the sessions table'}],context:'A separate table gives retries, events, and multiple runs their own lifecycle. Extending sessions is a smaller change today. Either way, I’ll draft the migration before changing any data.'},
+{id:'onboarding',agent:'claude',title:'A first hello. How does it feel?',project:'Somae',intent:'Write the first-run experience',message:'The opening copy is ready. Three short screens, one simple idea.',type:'review',time:'14m'},
+{id:'austin',agent:'roam',title:'A place to land in Austin.',project:'Austin trip',intent:'Find a stay for November 7–10',message:'Three good options, all within your budget. I’d go with The LINE for the lake and walkability.',type:'approval',time:'2m'},
+{id:'weekend',agent:'roam',title:'What kind of weekend do you need?',project:'Personal',intent:'Leave a little room for the weekend',message:'Something slow, or a little adventure? A sentence is plenty.',type:'question',time:'32m',suggestions:['A quiet cabin & a good book','A day outside','Somewhere new to wander']},
+{id:'research',agent:'research',title:'Three ideas worth keeping.',project:'Somae',intent:'Explore human identity for agents',message:'The connection flow has a useful shape now. Here are the patterns that stood out.',type:'review',time:'1h'}
+];
+const hotels={line:{name:'The LINE Austin',total:'$1,486'},carpenter:{name:'Carpenter Hotel',total:'$1,248'},san:{name:'Hotel San José',total:'$1,362'}};
+let stored={};try{stored=JSON.parse(localStorage.getItem('somae-studio-v3')||'{}');}catch{}
+const state={theme:'aura',selected:'runs',wide:false,answers:{},comments:{},later:[],connections:{codex:true,claude:true,roam:true,research:true},pending:{studio:true,brian:true},context:{},profile:{name:'Scott Moss',handle:'scott'},quiet:false,...stored};
+let page='request',filter='waiting',query='',collapsed=false,hotel='line',timer;
+let renderedKey='', motionDirection=1;
+const replyDrafts=new Map();
+function save(){try{localStorage.setItem('somae-studio-v3',JSON.stringify(state));}catch{}}
+function toast(text){$('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(timer);timer=setTimeout(()=>$('#toast').classList.remove('visible'),3000);}
+function waiting(){return requests.filter(r=>!state.answers[r.id]&&!state.later.includes(r.id));}
+function current(){return requests.find(r=>r.id===state.selected)||requests[0];}
+function go(route){if(location.hash===`#${route}`)routePage();else location.hash=route;}
+function collapse(){
+  collapsed=true;
+  $('#resting-count').textContent=waiting().length?`${waiting().length} need you`:'All quiet';
+  swapPresence($('#companion'),$('#resting-pill'));
+  $('#wake-widget').focus({preventScroll:true});
+}
+function wake(){
+  collapsed=false;
+  swapPresence($('#resting-pill'),$('#companion'),{opening:true});
+  $('#widget').querySelector('button')?.focus({preventScroll:true});
+}
+function renderDock(){const n=waiting().length;$('#dock').innerHTML=`<button class="dock-button ${page==='inbox'?'active':''}" id="open-inbox" aria-label="Inbox, ${n} requests" title="Inbox">${icon('inbox')}${n?`<span class="dock-count">${n}</span>`:''}</button><div class="agent-dock" aria-label="Your agents">${Object.keys(agents).map(a=>`<button class="agent-dot ${a==='research'?'running':''} ${page==='request'&&current().agent===a?'active':''}" data-agent="${a}" title="${agents[a].name} · ${agents[a].status}" aria-label="Open ${agents[a].name} request">${avatar(a)}</button>`).join('')}</div><span class="dock-separator"></span><button class="dock-button ${page==='activity'?'active':''}" id="open-activity" aria-label="Agent activity" title="Activity">${icon('activity')}</button><button class="dock-button ${page==='menu'?'active':''}" id="open-menu" aria-label="More, settings and connections" title="Your space">${icon('more')}</button>`;$('#open-inbox').onclick=()=>go('inbox');$('#open-activity').onclick=()=>go('activity');$('#open-menu').onclick=()=>go('menu');document.querySelectorAll('[data-agent]').forEach(b=>b.onclick=()=>{const a=b.dataset.agent;const r=waiting().find(r=>r.agent===a)||requests.find(r=>r.agent===a);go(`request/${r.id}`);});}
+function size(){ $('#widget').classList.toggle('wide',state.wide);$('#size-toggle').innerHTML=(state.wide?'Wide':'Compact')+' <span aria-hidden="true">↗</span>';$('#size-toggle').setAttribute('aria-pressed',state.wide); }
+function head(title,subtitle=''){return `<header class="widget-head"><div class="page-heading"><button class="icon-button" data-back="menu" aria-label="Back to your space">${icon('back')}</button><h1>${title}</h1></div><button class="icon-button" data-minimize aria-label="Minimize Somae">${icon('close')}</button></header>${subtitle?`<div class="widget-status">${subtitle}</div>`:''}`;}
+function requestHead(r){
+  const index=waiting().findIndex(x=>x.id===r.id);
+  const status=state.answers[r.id]?'Answer sent':state.later.includes(r.id)?'Later':'Needs you';
+  return `<header class="widget-head"><div class="agent-identity">${avatar(r.agent)}<div><strong>${agents[r.agent].name}</strong><small><span class="identity-state ${state.answers[r.id]?'done':''}"></span>${r.project} · ${status}</small></div></div><div class="head-tools"><span class="page-position" aria-label="Request position">${index<0?'✓':`${index+1} / ${waiting().length}`}</span><button class="icon-button prev-control" id="previous" title="Previous · J" aria-label="Previous request">${icon('chevronLeft')}</button><button class="icon-button" id="next" title="Next · K" aria-label="Next request">${icon('chevronRight')}</button><button class="icon-button" data-minimize title="Minimize · Esc" aria-label="Minimize Somae">${icon('close')}</button></div></header>`;
+}
+function choiceContent(r){const a=state.answers[r.id];return `<div class="option-list">${r.options.map((o,i)=>`<button class="option ${o.recommended?'recommended-option':''} ${a?(a.option===i?'selected':'unselected'):''}" data-option="${i}" ${a?'disabled':''}><span class="option-key">${a?.option===i?icon('check'):i+1}</span><span>${o.label}${o.recommended?'<em>Recommended</em>':''}</span><span class="option-arrow">${icon('arrow')}</span></button>`).join('')}</div><details class="more-context"><summary>Why this approach?</summary><p>${r.context}</p></details>`;}
+function reviewContent(r){
+  const label=r.id==='onboarding'?'Onboarding · Draft 02':'Field notes · Identity';
+  const content=r.id==='onboarding'?`<h3>A little room for you.</h3><p>Your agents can do a lot. Every now and then, they need something only you can give: a decision, a detail, a go-ahead.</p><p>This is where those moments come together.</p>`:`<p><strong>01 · A handle invites a connection.</strong><br>Discovery and permission are separate moments.</p><p><strong>02 · Make the scope understandable.</strong><br>Show what the agent can do, in human terms.</p><p><strong>03 · Give trust an expiration.</strong><br>Once, this session, or until revoked.</p>`;
+  return `<article class="draft"><div class="section-label"><span>${label}</span><button class="icon-button" id="save-artifact" aria-label="Download ${r.id==='onboarding'?'draft':'notes'}" title="Download draft">${icon('download')}</button></div>${content}</article>`;
+}
+function requestBody(r){return `<div class="request-context"><span class="intent">${r.intent}</span><span class="request-age">${r.time} ago</span></div><h2 class="request-question">${r.title}</h2><p class="agent-message">${r.message}</p>${r.type==='choice'?choiceContent(r):r.type==='review'?reviewContent(r):r.type==='approval'?`<div class="canvas-frame"><div class="canvas-title"><span>Roam / Your stay</span><button id="expand-canvas">${state.wide?'Compact view':'More room'} ${icon('expand')}</button></div><iframe id="trip-canvas" title="Interactive hotel comparison" sandbox="allow-scripts" src="/prototypes/desktop/canvases/trip.html?hotel=${hotel}&theme=${state.theme}"></iframe></div>`:`<div class="option-list">${r.suggestions.map((s,i)=>`<button class="option" data-suggestion="${escape(s)}" ${state.answers[r.id]?'disabled':''}><span class="option-key">${i+1}</span><span>${s}</span></button>`).join('')}</div>`}${(state.comments[r.id]||[]).map(c=>`<p class="reply-note"><span>You · just now</span>${escape(c)}</p>`).join('')}`;}
+function footer(r){const a=state.answers[r.id];if(a)return `<footer class="widget-foot"><div class="answer-receipt">${icon('check')}<span>${escape(a.text)}</span><button id="undo">Undo</button></div><button class="next-request" id="next-after"><span>${waiting().length?'Next request':'Back to your inbox'}</span><span>${waiting().length+' waiting'} <kbd>K</kbd></span></button></footer>`;return `<footer class="widget-foot">${r.type==='approval'?`<div class="booking-summary"><div><strong id="hotel-name">${hotels[hotel].name}</strong><small>Nov 7–10 · Free cancellation</small></div><div class="amount"><span id="hotel-total">${hotels[hotel].total}</span><small>Total, incl. taxes</small></div></div><div class="approval-actions"><button class="button primary" id="approve">Approve booking ${icon('check')}</button><button class="button" id="reject">Not this one</button></div>`:r.type==='review'?`<div class="approval-actions"><button class="button primary" id="approve">Looks good ${icon('check')}</button><button class="button" id="changes">Ask for a change</button></div>`:''}<form id="reply-form" class="composer"><textarea id="reply" rows="1" placeholder="${r.type==='question'?'In your own words…':'Add a thought…'}" aria-label="Reply to ${agents[r.agent].name}"></textarea><button type="submit" aria-label="Send reply" title="Send · ⌘ Enter" disabled>${icon('up')}</button></form></footer>`;}
+function patchRequest(r){
+  const widget=$('#widget');
+  if(widget.dataset.requestId!==r.id || !widget.querySelector('.widget-body')){
+    widget.innerHTML=requestHead(r)+`<div class="widget-body">${requestBody(r)}</div>`+footer(r);
+  }else{
+    widget.querySelector('.widget-head').outerHTML=requestHead(r);
+    const body=widget.querySelector('.widget-body');
+    if(r.type==='approval'){
+      body.querySelectorAll('.reply-note').forEach(n=>n.remove());
+      body.insertAdjacentHTML('beforeend',(state.comments[r.id]||[]).map(c=>`<p class="reply-note"><span>You · just now</span>${escape(c)}</p>`).join(''));
+    }else body.innerHTML=requestBody(r);
+    widget.querySelector('.widget-foot').outerHTML=footer(r);
+  }
+  widget.dataset.requestId=r.id;
+}
+
+function bindComposer(){
+  const input=$('#reply');
+  if(!input)return;
+  input.value=replyDrafts.get(state.selected)||'';
+  const update=()=>{
+    replyDrafts.set(state.selected,input.value);
+    $('#reply-form button').disabled=!input.value.trim();
+    input.style.height='auto';
+    input.style.height=Math.min(100,input.scrollHeight)+'px';
+  };
+  input.addEventListener('input',update);
+  update();
+}
+
+function changeSize(){
+  animateLayout($('#widget'),()=>{state.wide=!state.wide;save();size();},{duration:420});
+  if($('#expand-canvas'))$('#expand-canvas').innerHTML=(state.wide?'Compact view':'More room')+' '+icon('expand');
+  if($('#wide-setting'))$('#wide-setting').textContent=state.wide?'Wide':'Compact';
+}
+
+function renderRequest(){const r=current();patchRequest(r);$('#previous').onclick=()=>step(-1);$('#next').onclick=()=>step(1);$('#next-after')?.addEventListener('click',()=>waiting().length?step(1):go('inbox'));document.querySelectorAll('[data-option]').forEach(b=>b.onclick=()=>answer(r.options[Number(b.dataset.option)].label,Number(b.dataset.option)));document.querySelectorAll('[data-suggestion]').forEach(b=>b.onclick=()=>{$('#reply').value=b.dataset.suggestion;$('#reply').dispatchEvent(new Event('input'));$('#reply').focus();});$('#reply-form')?.addEventListener('submit',e=>{e.preventDefault();const text=$('#reply').value.trim();if(!text){$('#reply').focus();return;}if(r.type==='question')answer(text);else{state.comments[r.id]=[...(state.comments[r.id]||[]),text];replyDrafts.delete(r.id);save();render('comment');$('#reply')?.focus();}});$('#undo')?.addEventListener('click',undo);$('#approve')?.addEventListener('click',()=>{answer(r.type==='approval'?`Approved ${hotels[hotel].name} · ${hotels[hotel].total}`:'Looks good.');});$('#reject')?.addEventListener('click',()=>answer('Please find another stay.'));$('#changes')?.addEventListener('click',()=>{const text=$('#reply').value.trim();if(!text){$('#reply').placeholder='What would you change?';$('#reply').focus();}else answer('Changes requested: '+text);});$('#expand-canvas')?.addEventListener('click',changeSize);$('#save-artifact')?.addEventListener('click',()=>{const text=$('.draft').innerText;const url=URL.createObjectURL(new Blob([text],{type:'text/plain'}));const a=document.createElement('a');a.href=url;a.download=r.id+'-draft.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Draft saved.');});}
+function answer(text,option=null){
+  const draft=$('#reply')?.value.trim();
+  if(draft&&current().type!=='question'&&!text.startsWith('Changes requested:')){
+    state.comments[state.selected]=[...(state.comments[state.selected]||[]),draft];
+  }
+  state.answers[state.selected]={text,option};
+  state.later=state.later.filter(id=>id!==state.selected);
+  replyDrafts.delete(state.selected);
+  save();render('answer');
+  $('#undo')?.focus({preventScroll:true});
+}
+function undo(){
+  if(!state.answers[state.selected])return;
+  delete state.answers[state.selected];save();render('undo');
+  $('[data-option], #approve, #reply')?.focus({preventScroll:true});
+}
+function step(direction){motionDirection=direction;const list=waiting();if(!list.length){go('inbox');return;}const i=list.findIndex(r=>r.id===state.selected);const next=i<0?(direction<0?list.length-1:0):(i+direction+list.length)%list.length;go(`request/${list[next].id}`);}
+function row(r){return `<button class="inbox-row" data-request="${r.id}">${avatar(r.agent)}<span class="row-text"><strong>${r.title}</strong><small>${agents[r.agent].name} · ${r.project}</small></span><span class="row-time">${state.answers[r.id]?'✓':r.time}</span>${icon('arrow')}</button>`;}
+function inbox(){let list=filter==='answered'?requests.filter(r=>state.answers[r.id]):filter==='later'?requests.filter(r=>state.later.includes(r.id)):waiting();list=list.filter(r=>[r.title,r.project,agents[r.agent].name].some(v=>v.toLowerCase().includes(query.toLowerCase())));$('#widget').innerHTML=`<header class="widget-head"><div class="page-heading"><h1>Inbox</h1><span class="small-count">${waiting().length}</span></div><button class="icon-button" data-minimize aria-label="Minimize Somae">${icon('close')}</button></header><div class="widget-body"><div class="list-tabs" role="group" aria-label="Inbox filter">${[['waiting','Needs you'],['later','Later'],['answered','Answered']].map(([id,label])=>`<button class="${filter===id?'active':''}" data-filter="${id}" aria-pressed="${filter===id}">${label}</button>`).join('')}</div><div class="searchbox">${icon('search')}<input id="inbox-search" placeholder="Find a request…" aria-label="Find a request" value="${escape(query)}"></div><div id="inbox-rows">${list.length?list.map(row).join(''):`<div class="empty"><span class="logo-seed"></span><h2>${query?'Nothing found.':filter==='waiting'?'Nothing needs you.':'A little quiet here.'}</h2><p>${query?'Try an agent or project name.':filter==='waiting'?'Your agents have it from here.':'Your saved requests will be here.'}</p>${filter==='waiting'&&!query?'<button class="button" id="restore">Replay sample requests</button>':''}</div>`}</div></div><footer class="widget-foot"><button class="next-request" id="new-connections" style="padding-top:0"><span>${Object.values(state.pending).filter(Boolean).length} connection invitations</span><span>Review ${icon('arrow')}</span></button></footer>`;document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;query='';render();});$('#inbox-search').oninput=e=>{query=e.target.value;const matches=(filter==='answered'?requests.filter(r=>state.answers[r.id]):filter==='later'?requests.filter(r=>state.later.includes(r.id)):waiting()).filter(r=>[r.title,r.project,agents[r.agent].name].some(v=>v.toLowerCase().includes(query.toLowerCase())));$('#inbox-rows').innerHTML=matches.length?matches.map(row).join(''):'<div class="empty"><h2>Nothing found.</h2><p>Try an agent or project name.</p></div>';document.querySelectorAll('[data-request]').forEach(b=>b.onclick=()=>go(`request/${b.dataset.request}`));};document.querySelectorAll('[data-request]').forEach(b=>b.onclick=()=>go(`request/${b.dataset.request}`));$('#restore')?.addEventListener('click',reset);$('#new-connections').onclick=()=>go('requests');}
+function activity(){const rows=[['codex','Building the request loop','Needs a decision','runs'],['claude','The first hello','Ready for review','onboarding'],['roam','A few days in Austin','Waiting on your go-ahead','austin'],['research','Mapping agent identity','Reading working notes',null]];$('#widget').innerHTML=head('In motion','Your agents, at a glance.')+`<div class="widget-body">${rows.map(([a,title,status,id])=>`<button class="inbox-row" data-session="${id||'research'}">${avatar(a)}<span class="row-text"><strong>${title}</strong><small>${state.answers[id]?'Moving forward':status}</small></span>${id?icon('arrow'):'<span class="status-dot running"></span>'}</button>`).join('')}<p class="permission-summary" style="margin:20px 0">Nothing you need to keep open. We’ll bring the important moments to you.</p></div>`;document.querySelectorAll('[data-session]').forEach(b=>b.onclick=()=>go(`request/${b.dataset.session}`));}
+function menu(){const n=Object.values(state.pending).filter(Boolean).length;$('#widget').innerHTML=head('Your space')+`<div class="widget-body"><div class="agent-identity" style="margin:4px 0 15px"><span class="avatar" style="border-radius:50%;background:var(--surface-inset)">sm</span><div><strong>${escape(state.profile.name)}</strong><small>@${escape(state.profile.handle)}</small></div></div><nav class="nav-menu" aria-label="Your space">${[['connections','connections','Connections','4 agents'],['requests','requests','Invitations',n?n+' new':'All quiet'],['context','context','Context','Your notes'],['appearance','appearance','Appearance',state.theme[0].toUpperCase()+state.theme.slice(1)],['profile','heart','Profile','@'+escape(state.profile.handle)]].map(([id,i,label,detail])=>`<a href="#${id}">${icon(i)}<span>${label}</span><span>${detail} →</span></a>`).join('')}</nav><div class="setting-row"><div><span class="label">Quiet mode</span><small>A pause for your attention.</small></div><button class="button" id="quiet-toggle" aria-pressed="${state.quiet}">${state.quiet?'On':'Off'}</button></div></div>`;$('#quiet-toggle').onclick=()=>{state.quiet=!state.quiet;save();render();};}
+function connections(){const scopes={codex:'Questions, decisions, and session activity',claude:'Questions, artifact reviews, and activity',roam:'Questions and booking approvals',research:'Reviews and Somae context'};$('#widget').innerHTML=head('Connections','Invited by you. Permissioned by you.')+`<div class="widget-body">${Object.keys(agents).map(a=>`<div class="simple-item"><div class="sender">${avatar(a)}<div><strong>${agents[a].name}</strong><small>${state.connections[a]?scopes[a]:'Access paused'}</small></div><button class="button subtle" data-connection="${a}" style="margin-left:auto">${state.connections[a]?'Pause':'Reconnect'}</button></div></div>`).join('')}<p class="permission-summary">You can change your mind at any time.</p></div>`;document.querySelectorAll('[data-connection]').forEach(b=>b.onclick=()=>{state.connections[b.dataset.connection]=!state.connections[b.dataset.connection];save();render();});}
+function invitations(){const list=[{id:'studio',name:'Studio',reason:'I’m helping with the desktop design. May I share layouts and ask you a question?',scopes:['Send reviews','Ask questions']},{id:'brian',name:'Brian’s agent',reason:'Brian would like your thoughts on the API contract. Just one question.',scopes:['Ask one question']}].filter(r=>state.pending[r.id]);$('#widget').innerHTML=head('Invitations','They’ll need your permission first.')+`<div class="widget-body">${list.map(r=>`<section class="simple-item"><h3>${r.name}</h3><p>${r.reason}</p><div style="margin-top:12px">${r.scopes.map(s=>`<label class="scope"><input type="checkbox" checked data-scope="${r.id}">${s}</label>`).join('')}</div><div class="actions"><button class="button primary" data-allow="${r.id}">Allow once</button><button class="button" data-decline="${r.id}">Decline</button></div></section>`).join('')||'<div class="empty"><span class="logo-seed"></span><h2>No new faces.</h2><p>New connection invitations will be here.</p></div>'}</div>`;document.querySelectorAll('[data-allow]').forEach(b=>b.onclick=()=>{if(!document.querySelector(`[data-scope="${b.dataset.allow}"]:checked`)){toast('Choose a permission first.');return;}state.pending[b.dataset.allow]=false;save();render();toast('Allowed once in this prototype.');});document.querySelectorAll('[data-decline]').forEach(b=>b.onclick=()=>{state.pending[b.dataset.decline]=false;save();render();});}
+const notes={somae:{title:'Somae',subtitle:'Product direction and working decisions.',text:'A human control plane for agents.\n\nIdentity, permission, attention, and durable requests.\n\nProve three loops: MCP request and response; SDK connection and typed request; agent session activity.\n\nKnowing a handle grants discovery. A scoped connection grants interaction.'},preferences:{title:'The way I like things',subtitle:'Small details that help an agent understand you.',text:'Keep it simple and thoughtful.\n\nShow me enough context to make a decision.\n\nAsk before booking, publishing, or changing permissions.'},travel:{title:'Out in the world',subtitle:'Your plans, in one place.',text:'Austin · November 7–10\n\nStay budget: $1,600 for three nights.\n\nWalkable, good design, a little nature. Free cancellation.'}};
+function context(){const id=location.hash.split('/')[1];if(notes[id]){const n=notes[id];$('#widget').innerHTML=head(n.title)+`<div class="widget-body"><p class="subheading">${n.subtitle}</p><textarea id="context-note" class="context-note" aria-label="${n.title} notes">${escape(state.context[id]??n.text)}</textarea><div class="actions"><button class="button primary" id="save-note">Save notes</button><a class="button" href="#context">All context</a></div><p class="permission-summary">Yours to keep. Yours to share.</p></div>`;$('#save-note').onclick=()=>{state.context[id]=$('#context-note').value;save();toast('Notes saved in this browser.');};}else $('#widget').innerHTML=head('A little context','Yours to keep. Yours to share.')+`<div class="widget-body">${Object.entries(notes).map(([id,n])=>`<a class="inbox-row" href="#context/${id}">${icon(id==='preferences'?'heart':id==='travel'?'globe':'folder')}<span class="row-text"><strong>${n.title}</strong><small>${n.subtitle}</small></span>${icon('arrow')}</a>`).join('')}<p class="permission-summary" style="line-height:1.8;margin-top:20px">Agent conversations don’t become your memory automatically. You decide what belongs here.</p></div>`;}
+function appearance(){ $('#widget').innerHTML=head('Make it yours')+`<div class="widget-body"><p class="subheading">A quiet surface for the moments that matter.</p><div class="theme-options">${['aura','pearl','sage'].map(t=>`<button class="theme-chip ${state.theme===t?'active':''}" data-theme-choice="${t}" aria-pressed="${state.theme===t}"><div class="theme-colors" data-theme="${t}"><i></i><i></i><i></i></div><span>${t[0].toUpperCase()+t.slice(1)}</span></button>`).join('')}</div><div class="setting-row"><div><span class="label">A little more room</span><small>Expand the same surface for richer content.</small></div><button class="button" id="wide-setting">${state.wide?'Wide':'Compact'}</button></div><div class="setting-row"><div><span class="label">Keyboard shortcuts</span><small>A reply without leaving your flow.</small></div><button class="button" id="show-keys">View</button></div><div class="setting-row"><div><span class="label">Sample requests</span><small>Replay the prototype from the beginning.</small></div><button class="button" id="reset">Reset</button></div></div>`;document.querySelectorAll('[data-theme-choice]').forEach(b=>b.onclick=()=>setTheme(b.dataset.themeChoice));$('#wide-setting').onclick=changeSize;$('#show-keys').onclick=()=>$('#shortcuts').showModal();$('#reset').onclick=reset;}
+function profile(){$('#widget').innerHTML=head('You, here')+`<div class="widget-body"><p class="subheading">Your handle invites a connection. You still choose who gets to reach you.</p><form id="profile-form"><div class="field"><label for="profile-name">Name</label><input id="profile-name" value="${escape(state.profile.name)}" required maxlength="80"></div><div class="field"><label for="profile-handle">Handle</label><input id="profile-handle" value="${escape(state.profile.handle)}" required pattern="[a-zA-Z0-9_]{2,30}" title="2–30 letters, numbers, or underscores"></div><button class="button primary" type="submit">Save profile</button></form></div>`;$('#profile-form').onsubmit=e=>{e.preventDefault();state.profile={name:$('#profile-name').value.trim(),handle:$('#profile-handle').value.trim()};save();toast('Profile saved in this prototype.');};}
+function reset(){state.answers={};state.comments={};state.later=[];state.pending={studio:true,brian:true};state.connections={codex:true,claude:true,roam:true,research:true};state.context={};state.selected='runs';filter='waiting';query='';hotel='line';replyDrafts.clear();save();toast('Sample requests restored.');go('request/runs');}
+function bindCommon(){document.querySelectorAll('[data-minimize]').forEach(b=>b.onclick=collapse);document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>go(b.dataset.back));}
+function render(reason='auto'){
+  const key=page==='request'?`request/${state.selected}`:location.hash;
+  const same=key===renderedKey;
+  const oldBody=$('.widget-body');
+  const scroll=same?oldBody?.scrollTop||0:0;
+  const active=document.activeElement;
+  const focus=same&&active?.id?{id:active.id,start:active.selectionStart,end:active.selectionEnd}:null;
+  animateLayout($('#widget'),()=>{
+    if(page!=='request')delete $('#widget').dataset.requestId;
+    ({request:renderRequest,inbox,activity,menu,connections,requests:invitations,context,appearance,profile}[page]||renderRequest)();
+    size();renderDock();bindCommon();bindComposer();
+    if(same&&$('.widget-body'))$('.widget-body').scrollTop=scroll;
+  },{duration:420});
+  if(!same){enterContent($('.widget-body'),{direction:motionDirection});motionDirection=1;}
+  if(reason==='answer'){confirm($('.answer-receipt'));confirm($('.option.selected .option-key svg'));}
+  if(reason==='comment')enterContent($('.reply-note:last-child'),{direction:1});
+  if(focus&&reason!=='answer'){
+    const next=document.getElementById(focus.id);
+    next?.focus({preventScroll:true});
+    if(next?.setSelectionRange&&focus.start!==null)next.setSelectionRange(focus.start,focus.end);
+  }
+  renderedKey=key;
+}
+function routePage(){
+  const hash=location.hash.slice(1);
+  const [name,id]=hash.split('/');
+  if(name==='request'&&requests.some(r=>r.id===id)){state.selected=id;page='request';}
+  else if(['inbox','activity','menu','connections','requests','context','appearance','profile'].includes(name))page=name;
+  else page='request';
+  render();
+  if(collapsed)wake();
+}
+function setTheme(theme){
+  state.theme=theme;
+  document.documentElement.dataset.theme=theme;
+  $('#theme-toggle').textContent=theme[0].toUpperCase()+theme.slice(1);
+  save();
+  document.querySelectorAll('[data-theme-choice]').forEach(b=>{const selected=b.dataset.themeChoice===theme;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',selected);});
+  $('#trip-canvas')?.contentWindow.postMessage({type:'somae-theme',theme},'*');
+}
+$('#size-toggle').onclick=changeSize;$('#theme-toggle').onclick=()=>go('appearance');$('#wake-widget').onclick=wake;$('#keyboard-help').onclick=()=>$('#shortcuts').showModal();$('#close-shortcuts').onclick=()=>$('#shortcuts').close();
+window.addEventListener('hashchange',routePage);
+window.addEventListener('message',e=>{const frame=$('#trip-canvas');if(!frame||e.source!==frame.contentWindow||e.data?.type!=='hotel-select'||!hotels[e.data.hotel])return;hotel=e.data.hotel;if($('#hotel-name'))$('#hotel-name').textContent=hotels[hotel].name;if($('#hotel-total'))$('#hotel-total').textContent=hotels[hotel].total;});
+document.addEventListener('keydown',e=>{if($('#shortcuts').open)return;const editing=['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);if(editing){if((e.metaKey||e.ctrlKey)&&e.key==='Enter'&&$('#reply-form')){e.preventDefault();$('#reply-form').requestSubmit();}if(e.key==='Escape')document.activeElement.blur();return;}if(e.metaKey||e.ctrlKey||e.altKey)return;if(e.key==='Escape'){e.preventDefault();if(collapsed)wake();else if(page==='request'&&state.answers[state.selected])undo();else if(page==='inbox')collapse();else go('inbox');}if(collapsed||page!=='request')return;if(e.key.toLowerCase()==='j'){e.preventDefault();step(-1);}if(e.key.toLowerCase()==='k'){e.preventDefault();step(1);}if(e.code==='Space'){e.preventDefault();$('#reply')?.focus();}if(/^[1-3]$/.test(e.key)&&!state.answers[state.selected]){const r=current();const i=Number(e.key)-1;if(r.type==='choice'&&r.options[i]){e.preventDefault();answer(r.options[i].label,i);}else if(r.type==='question'&&r.suggestions[i]){e.preventDefault();$('#reply').value=r.suggestions[i];$('#reply').dispatchEvent(new Event('input'));$('#reply').focus();}}});
+if(!['aura','pearl','sage'].includes(state.theme))state.theme='aura';document.documentElement.dataset.theme=state.theme;$('#theme-toggle').textContent=state.theme[0].toUpperCase()+state.theme.slice(1);routePage();
+
+pressFeedback();

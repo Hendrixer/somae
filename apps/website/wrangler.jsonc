@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "somae-website",
+  "compatibility_date": "2026-10-18",
+  // Static assets only: no Worker script runs, so requests stay free and uncapped.
+  "assets": { "directory": "./public", "not_found_handling": "404-page" },
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "getsomae.ai", "custom_domain": true },
+    { "pattern": "www.getsomae.ai", "custom_domain": true }
+  ]
+}

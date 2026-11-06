@@ -1,0 +1,22 @@
+{
+  "name": "@somae/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun scripts/build.ts dev",
+    "build": "bun scripts/build.ts build",
+    "assets": "bun scripts/build.ts assets",
+    "typecheck": "tsc --noEmit",
+    "test": "bun scripts/native.ts && bun test src/main/host.test.ts src/main/sessions.test.ts src/main/shortcut.test.ts src/main/beacon.test.ts src/main/notifications.test.ts src/view/preferences.test.ts src/view/beacon.test.ts ../../packages/claude-channel/remote.test.ts && node --test src/view/image-gesture.test.js src/view/review-context.test.js src/view/signal-content.test.js src/view/annotation-drafts.test.js"
+  },
+  "devDependencies": {
+    "electrobun": "2.0.2",
+    "@types/bun": "1.3.8",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "@xterm/headless": "6.0.0",
+    "marked": "18.1.1"
+  }
+}

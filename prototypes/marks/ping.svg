@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor" role="img" aria-labelledby="ping-title">
+  <title id="ping-title">Somae Ping — a signal finding its place</title>
+  <path d="M30 10A24 24 0 1 0 54 34H43A13 13 0 1 1 30 21Z"/>
+  <circle cx="47" cy="17" r="8"/>
+</svg>

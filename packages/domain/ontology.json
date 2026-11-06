@@ -1,0 +1,970 @@
+{
+  "$schema": "./ontology.schema.json",
+  "id": "somae.communication",
+  "version": "0.1.0",
+  "status": "executable-reference-subset",
+  "path_base": "repository",
+  "enums": {
+    "hosting": [
+      "local",
+      "hosted"
+    ],
+    "execution": [
+      "turn_based",
+      "durable"
+    ],
+    "connection_state": [
+      "pending",
+      "active",
+      "paused",
+      "revoked"
+    ],
+    "signal_state": [
+      "active",
+      "answered",
+      "withdrawn",
+      "expired"
+    ],
+    "signal_kind": [
+      "result",
+      "notice",
+      "question",
+      "approval"
+    ],
+    "delivery_state": [
+      "queued",
+      "paused",
+      "received",
+      "failed",
+      "expired",
+      "revoked"
+    ],
+    "input_state": [
+      "unknown",
+      "accepted",
+      "rejected",
+      "ambiguous"
+    ],
+    "interaction_type": [
+      "text",
+      "single_choice",
+      "multiple_choice",
+      "form",
+      "approval"
+    ],
+    "presentation_type": [
+      "native",
+      "native_choice",
+      "native_form",
+      "artifact"
+    ],
+    "capability": [
+      "messages.start",
+      "messages.continue",
+      "messages.publish",
+      "signals.publish",
+      "signals.update",
+      "signals.withdraw",
+      "responses.receive",
+      "responses.remote_continuation",
+      "artifacts.publish",
+      "artifacts.receive",
+      "context.receive"
+    ],
+    "device_kind": [
+      "desktop",
+      "mobile"
+    ],
+    "artifact_presentation_type": [
+      "document",
+      "image",
+      "code",
+      "data"
+    ]
+  },
+  "entities": [
+    {
+      "name": "person",
+      "collection": "persons",
+      "identity": "id",
+      "description": "Stable person identity; the handle is an address, never authorization."
+    },
+    {
+      "name": "device",
+      "collection": "devices",
+      "identity": "id",
+      "description": "Authenticated registered device bound to a person and machine."
+    },
+    {
+      "name": "endpoint",
+      "collection": "endpoints",
+      "identity": "id",
+      "description": "Concrete agent integration, capabilities, execution and hosting properties."
+    },
+    {
+      "name": "connection",
+      "collection": "connections",
+      "identity": "id",
+      "description": "Revisioned grant between one person and one endpoint."
+    },
+    {
+      "name": "conversation",
+      "collection": "conversations",
+      "identity": "id",
+      "description": "Append-only ordered timeline with one stable destination."
+    },
+    {
+      "name": "message",
+      "collection": "messages",
+      "identity": "id",
+      "immutable": true,
+      "description": "Authored content with a readable fallback and pinned attachments."
+    },
+    {
+      "name": "signal",
+      "collection": "signals",
+      "identity": "id",
+      "description": "Agent-authored revisioned attention and interaction surface."
+    },
+    {
+      "name": "response",
+      "collection": "responses",
+      "identity": "id",
+      "immutable": true,
+      "description": "One human submission to exact signal/interaction terms."
+    },
+    {
+      "name": "artifact",
+      "collection": "artifacts",
+      "identity": "id + revision",
+      "immutable": true,
+      "description": "Immutable content version scoped to one conversation."
+    },
+    {
+      "name": "context_snapshot",
+      "collection": "context_snapshots",
+      "identity": "id",
+      "immutable": true,
+      "description": "Explicitly consented snapshot with a declared audience and purpose."
+    },
+    {
+      "name": "delivery",
+      "collection": "deliveries",
+      "identity": "id",
+      "description": "Canonical outbox record; receipt and application outcome are distinct."
+    },
+    {
+      "name": "event",
+      "collection": "events",
+      "identity": "id",
+      "immutable": true,
+      "description": "Ordered audit notification of accepted canonical state."
+    },
+    {
+      "name": "inbox_view",
+      "collection": "inbox_views",
+      "identity": "person_id + signal_id",
+      "description": "Personal reading/set-aside state independent of signal lifecycle."
+    },
+    {
+      "name": "review",
+      "collection": "library.reviews",
+      "identity": "id",
+      "immutable": true,
+      "description": "Immutable exact-version batched feedback and optional approve/reject decision, committed with one message/outbox and an optional exact request response."
+    },
+    {
+      "name": "approved_version",
+      "collection": "library.approval_history",
+      "identity": "artifact_id + sequence",
+      "immutable": true,
+      "description": "Immutable approved-copy evidence. The current pointer pins a reviewed version; rejecting that version removes the pointer while preserving history and an approved older copy."
+    },
+    {
+      "name": "review_request",
+      "collection": "library.review_requests",
+      "identity": "signal_id",
+      "immutable": true,
+      "description": "Explicit structured content-review association pinning an approval signal revision and its complete exact artifact set; confers no execution or publication permission."
+    },
+    {
+      "name": "artifact_decision",
+      "collection": "library.decision_history",
+      "identity": "id",
+      "immutable": true,
+      "description": "Append-only approve/reject decision for one immutable artifact version, with per-artifact sequence and originating review. library.decisions holds the current pointer."
+    }
+  ],
+  "relationships": [
+    {
+      "from": "device",
+      "field": "person_id",
+      "to": "person",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "connection",
+      "field": "person_id",
+      "to": "person",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "connection",
+      "field": "endpoint_id",
+      "to": "endpoint",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "conversation",
+      "field": "connection_id",
+      "to": "connection",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "message",
+      "field": "conversation_id",
+      "to": "conversation",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "signal",
+      "field": "message_id",
+      "to": "message",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "response",
+      "field": "signal_id",
+      "to": "signal",
+      "cardinality": "zero-or-one-to-one"
+    },
+    {
+      "from": "response",
+      "field": "message_id",
+      "to": "message",
+      "cardinality": "one-to-one"
+    },
+    {
+      "from": "response",
+      "field": "delivery_id",
+      "to": "delivery",
+      "cardinality": "one-to-one"
+    },
+    {
+      "from": "artifact",
+      "field": "conversation_id",
+      "to": "conversation",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "context_snapshot",
+      "field": "conversation_id",
+      "to": "conversation",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "delivery",
+      "field": "connection_id",
+      "to": "connection",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "inbox_view",
+      "field": "signal_id",
+      "to": "signal",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "review",
+      "field": "artifacts[].artifact_id + revision",
+      "to": "artifact",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "approved_version",
+      "field": "artifact_id + artifact_revision",
+      "to": "artifact",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "review",
+      "field": "message_id",
+      "to": "message",
+      "cardinality": "one-to-one"
+    },
+    {
+      "from": "review",
+      "field": "delivery_id",
+      "to": "delivery",
+      "cardinality": "one-to-one"
+    },
+    {
+      "from": "review",
+      "field": "response_id",
+      "to": "response",
+      "cardinality": "zero-or-one-to-one"
+    },
+    {
+      "from": "review",
+      "field": "source_request.signal_id + expected_revision",
+      "to": "signal",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "review_request",
+      "field": "signal_id + revision",
+      "to": "signal",
+      "cardinality": "one-to-one"
+    },
+    {
+      "from": "review_request",
+      "field": "artifacts[].artifact_id + revision",
+      "to": "artifact",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "artifact_decision",
+      "field": "artifact_id + artifact_revision",
+      "to": "artifact",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "artifact_decision",
+      "field": "review_id",
+      "to": "review",
+      "cardinality": "many-to-one"
+    }
+  ],
+  "commands": {
+    "message.submit": {
+      "actor": "person",
+      "capability": "messages.start | messages.continue",
+      "required": [
+        "content"
+      ],
+      "optional": [
+        "connection_id",
+        "conversation_id",
+        "title",
+        "artifact_refs",
+        "context",
+        "in_reply_to_message_id"
+      ]
+    },
+    "message.publish": {
+      "actor": "endpoint",
+      "capability": "messages.publish",
+      "required": [
+        "content"
+      ],
+      "optional": [
+        "connection_id",
+        "conversation_id",
+        "title",
+        "artifact_refs",
+        "in_reply_to_message_id",
+        "continuity"
+      ]
+    },
+    "signal.publish": {
+      "actor": "endpoint",
+      "capability": "signals.publish",
+      "required": [
+        "kind",
+        "content",
+        "interaction",
+        "presentation"
+      ],
+      "optional": [
+        "connection_id",
+        "conversation_id",
+        "title",
+        "artifact_refs",
+        "in_reply_to_message_id",
+        "expires_at",
+        "continuation",
+        "continuity",
+        "supersedes_signal_id"
+      ]
+    },
+    "signal.update": {
+      "actor": "endpoint",
+      "capability": "signals.update",
+      "required": [
+        "signal_id",
+        "expected_revision",
+        "kind",
+        "content",
+        "interaction",
+        "presentation"
+      ],
+      "optional": [
+        "artifact_refs",
+        "in_reply_to_message_id",
+        "expires_at",
+        "continuation"
+      ]
+    },
+    "signal.withdraw": {
+      "actor": "endpoint",
+      "capability": "signals.withdraw",
+      "required": [
+        "signal_id",
+        "expected_revision",
+        "reason"
+      ],
+      "optional": []
+    },
+    "signal.expire": {
+      "actor": "system",
+      "required": [
+        "signal_id",
+        "expected_revision"
+      ],
+      "optional": []
+    },
+    "response.submit": {
+      "actor": "person",
+      "capability": "responses.receive",
+      "required": [
+        "signal_id",
+        "expected_revision",
+        "interaction_id",
+        "value"
+      ],
+      "optional": [
+        "content",
+        "artifact_refs",
+        "context"
+      ]
+    },
+    "artifact.publish": {
+      "actor": "endpoint",
+      "capability": "artifacts.publish",
+      "required": [
+        "conversation_id",
+        "media_type",
+        "presentation_type",
+        "content_ref",
+        "digest",
+        "size",
+        "description"
+      ],
+      "optional": [
+        "artifact_id",
+        "expected_revision"
+      ]
+    },
+    "connection.pause": {
+      "actor": "person",
+      "required": [
+        "connection_id",
+        "expected_revision"
+      ],
+      "optional": []
+    },
+    "connection.resume": {
+      "actor": "person",
+      "required": [
+        "connection_id",
+        "expected_revision"
+      ],
+      "optional": []
+    },
+    "connection.revoke": {
+      "actor": "person",
+      "required": [
+        "connection_id",
+        "expected_revision"
+      ],
+      "optional": []
+    },
+    "conversation.bind": {
+      "actor": "endpoint",
+      "required": [
+        "conversation_id",
+        "session_id",
+        "workspace_id"
+      ],
+      "optional": []
+    },
+    "delivery.dispatch": {
+      "actor": "system",
+      "required": [
+        "delivery_id"
+      ],
+      "optional": []
+    },
+    "delivery.ack": {
+      "actor": "endpoint",
+      "required": [
+        "delivery_id"
+      ],
+      "optional": []
+    },
+    "input.accept": {
+      "actor": "endpoint",
+      "required": [
+        "delivery_id"
+      ],
+      "optional": []
+    },
+    "input.reject": {
+      "actor": "endpoint",
+      "required": [
+        "delivery_id",
+        "reason"
+      ],
+      "optional": []
+    },
+    "input.unknown": {
+      "actor": "endpoint",
+      "required": [
+        "delivery_id",
+        "reason"
+      ],
+      "optional": []
+    },
+    "endpoint.set_availability": {
+      "actor": "system",
+      "required": [
+        "endpoint_id",
+        "online"
+      ],
+      "optional": []
+    },
+    "inbox.mark": {
+      "actor": "person",
+      "required": [
+        "signal_id"
+      ],
+      "optional": [
+        "read",
+        "set_aside"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "id": "SOMAE-001",
+      "description": "A trusted principal owns the target person/device or endpoint. Command payloads cannot supply author/origin identity.",
+      "enforcement": [
+        "packages/domain/index.js#authorize"
+      ],
+      "tests": [
+        "another person or endpoint cannot use a connection, answer its signal, or withdraw it",
+        "the person cannot publish as an agent, and the agent cannot submit a human response",
+        "a caller-supplied origin cannot disguise a phone as the local registered machine",
+        "an unregistered authenticated device cannot submit human communication",
+        "terminal-originated conversations are endpoint-scoped, session-bound and create no fake person delivery"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-002",
+      "description": "New publications and submissions require an active connection.",
+      "enforcement": [
+        "packages/domain/index.js#active"
+      ],
+      "tests": [
+        "a pending connection cannot publish content to authorize itself",
+        "pause rejects new input, suspends undelivered input, and permits authenticated withdrawal",
+        "revocation terminates undelivered input and withdraws active requests while retaining history"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-003",
+      "description": "Every operation and interaction requires endpoint support intersected with grant capabilities and permissions.",
+      "enforcement": [
+        "packages/domain/index.js#capability"
+      ],
+      "tests": [
+        "declaring support does not replace consent: messages.start requires capabilities",
+        "declaring support does not replace consent: messages.start requires permissions",
+        "a grant cannot manufacture a capability absent from the endpoint itself",
+        "a notification-only connector can send an informational signal but cannot offer an unsupported reply action",
+        "signal publication includes its timeline message without implicitly granting standalone message publication"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-004",
+      "description": "Local starts and unsolicited follow-ups require the registered machine and an online adapter.",
+      "enforcement": [
+        "packages/domain/index.js#localMessagePolicy"
+      ],
+      "tests": [
+        "local starts and unsolicited follow-ups from a phone are rejected even while the endpoint is online",
+        "an offline local endpoint cannot queue a fresh start even from its registered machine",
+        "a mobile device cannot become a local initiation client through a coincidentally matching machine binding",
+        "hosted starts and follow-ups accept both desktop and phone origins"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-005",
+      "description": "Remote local responses require an offered valid continuation bound to the existing session/workspace.",
+      "enforcement": [
+        "packages/domain/index.js#continuationPolicy"
+      ],
+      "tests": [
+        "remote local responses require an explicit bound continuation; a conversation ID alone is insufficient",
+        "an offered local continuation must match the conversation's existing session and workspace",
+        "a valid remote continuation queues offline without allowing replacement session or workspace selection",
+        "remote local continuation requires its capabilities grant independently of response support",
+        "remote local continuation requires its permissions grant independently of response support"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-006",
+      "description": "Timeline messages, responses, artifact revisions and context snapshots never mutate; updates append.",
+      "enforcement": [
+        "packages/domain/index.js#assertEvolution"
+      ],
+      "tests": [
+        "changed choices reject an old response and retain the previous evidence",
+        "new artifact revisions cannot silently change the concrete terms of an existing approval",
+        "sharing context requires explicit consent and a purpose, and stores a copied snapshot for the exact destination",
+        "callers cannot mutate accepted records through command objects, returned values, or snapshots"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-007",
+      "description": "Signal/grant updates and responses compare exact expected revisions.",
+      "enforcement": [
+        "packages/domain/index.js#revision"
+      ],
+      "tests": [
+        "changed choices reject an old response and retain the previous evidence",
+        "updating an approval to a newer artifact invalidates its old revision and terms digest"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-008",
+      "description": "Only active signals transition; one terminal response can win; terminal signals never reopen.",
+      "enforcement": [
+        "packages/domain/index.js#signalActive",
+        "packages/domain/index.js#assertEvolution"
+      ],
+      "tests": [
+        "withdrawal before response wins the terminal race without deleting history",
+        "response before withdrawal wins the terminal race and preserves the accepted answer",
+        "two authenticated devices cannot both answer the same required interaction",
+        "terminal signals cannot be updated into an active request again"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-009",
+      "description": "Deadline validity is checked at submission and dispatch; expired delivery cannot resurrect an answer.",
+      "enforcement": [
+        "packages/domain/index.js#signalActive",
+        "packages/domain/index.js#dispatch"
+      ],
+      "tests": [
+        "a deadline is checked before accepting a response",
+        "an accepted offline continuation can expire before dispatch without un-answering the signal"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-010",
+      "description": "Structured values must match supported declared interaction options/schema.",
+      "enforcement": [
+        "packages/domain/index.js#validateValue"
+      ],
+      "tests": [
+        "duplicate choice IDs and values outside the declared interaction do not accept a response",
+        "changed choices reject an old response and retain the previous evidence",
+        "multiple-choice replies validate the offered IDs as one complete terminal submission",
+        "form replies enforce required fields, types, enums, bounds, and unknown-field rejection before accepting",
+        "text replies enforce a declared size limit without dropping or truncating the person's message",
+        "review source cannot answer a foreign conversation and legacy choices require an explicitly offered value"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-011",
+      "description": "Approval action and operation/scope/target/cost/artifacts are pinned by terms digest.",
+      "enforcement": [
+        "packages/domain/index.js#normalizeInteraction",
+        "packages/domain/index.js#validateValue"
+      ],
+      "tests": [
+        "new artifact revisions cannot silently change the concrete terms of an existing approval",
+        "updating an approval to a newer artifact invalidates its old revision and terms digest",
+        "response feedback does not bypass stale request revisions or exact approval terms",
+        "content review cannot answer an unrelated execution approval even with an explicitly supplied action"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-012",
+      "description": "Artifacts are immutable, explicitly referenced versions with conversation scope and receive limits.",
+      "enforcement": [
+        "packages/domain/index.js#artifactRefs",
+        "packages/domain/index.js#publishArtifact"
+      ],
+      "tests": [
+        "new artifact revisions cannot silently change the concrete terms of an existing approval",
+        "updating an approval to a newer artifact invalidates its old revision and terms digest",
+        "an artifact version is conversation-scoped and cannot be attached to another conversation",
+        "a failed rich publication leaves no half-created conversation, message, signal, event, or outbox entry",
+        "an explicitly included attachment must satisfy the endpoint's receive media and size limits",
+        "including an attachment requires receive support and consent, independent of message support",
+        "null content blocks and falsy artifact pins produce safe domain errors without partially publishing",
+        "invalid response feedback and undeclared artifact blocks leave the request and outbox unchanged",
+        "structured review requests reject foreign and stale artifact pins without publishing a signal"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-013",
+      "description": "Context disclosure needs explicit consent, purpose and exact audience; payloads are copied.",
+      "enforcement": [
+        "packages/domain/index.js#shareContext"
+      ],
+      "tests": [
+        "sharing context requires explicit consent and a purpose, and stores a copied snapshot for the exact destination",
+        "context receive capability and permission are independent of messaging authority",
+        "extra context audience or caller-supplied private routing authority fails closed"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-014",
+      "description": "Response, canonical answer plus feedback, answered signal and one message/outbox commit atomically; errors leave state unchanged.",
+      "enforcement": [
+        "packages/domain/index.js#createRuntime",
+        "packages/domain/index.js#submitResponse"
+      ],
+      "tests": [
+        "local_coding: one conversation spans initial input, question, response, and informational result",
+        "hosted_coding: one conversation spans initial input, question, response, and informational result",
+        "custom_turn_based: one conversation spans initial input, question, response, and informational result",
+        "custom_durable: one conversation spans initial input, question, response, and informational result",
+        "a failed rich publication leaves no half-created conversation, message, signal, event, or outbox entry",
+        "duplicate choice IDs and values outside the declared interaction do not accept a response",
+        "a response carries its canonical decision and feedback in one atomic pinned message and delivery",
+        "invalid response feedback and undeclared artifact blocks leave the request and outbox unchanged",
+        "review decisions atomically send all notes, answer the exact request and create one outbox delivery"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-015",
+      "description": "Idempotency is actor+operation scoped; changed payload conflicts; replay still checks current authority.",
+      "enforcement": [
+        "packages/domain/index.js#createRuntime"
+      ],
+      "tests": [
+        "an idempotent publication or response retry returns the same result without adding records",
+        "the same idempotency key cannot expose another actor's answer or bypass a later revocation",
+        "same-person message retry from another device reuses the original submission and origin",
+        "same-person response retry from another device returns the first accepted response",
+        "state audit rejects a corrupted idempotency cache actor",
+        "state audit rejects a corrupted idempotency cache result",
+        "response feedback retries reuse the same message and delivery and reject changed feedback",
+        "review decision retries across devices add no duplicate messages or decisions and recheck authority"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-016",
+      "description": "Stored, integration receipt and input acceptance are separate; receipts require a dispatched delivery-bound endpoint.",
+      "enforcement": [
+        "packages/domain/index.js#receipt"
+      ],
+      "tests": [
+        "receipt authority belongs to the destination delivery and cannot be used by another endpoint",
+        "pause does not erase receipts for an input already dispatched",
+        "revoke does not erase receipts for an input already dispatched",
+        "hosted_coding: one conversation spans initial input, question, response, and informational result"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-017",
+      "description": "Pause suspends undispatched delivery, revoke stops pending communication and withdraws active signals, without recalling dispatched effects.",
+      "enforcement": [
+        "packages/domain/index.js#changeConnection"
+      ],
+      "tests": [
+        "pause rejects new input, suspends undelivered input, and permits authenticated withdrawal",
+        "revocation terminates undelivered input and withdraws active requests while retaining history",
+        "pause does not erase receipts for an input already dispatched",
+        "revoke does not erase receipts for an input already dispatched"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-018",
+      "description": "Ambiguous provider handoff blocks automatic dispatch until reconciliation outside this reference runtime.",
+      "enforcement": [
+        "packages/domain/index.js#dispatch",
+        "packages/domain/index.js#receipt"
+      ],
+      "tests": [
+        "an ambiguous provider handoff is visible and cannot be automatically dispatched again"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-019",
+      "description": "Reading/set-aside change only person-owned view state, never agent signal lifecycle.",
+      "enforcement": [
+        "packages/domain/index.js#markInbox"
+      ],
+      "tests": [
+        "marking a result read or set aside changes only the person's view, not its conversation or agent lifecycle"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-020",
+      "description": "Accepted changes create ordered immutable audit events with source audience and causation.",
+      "enforcement": [
+        "packages/domain/index.js#emit",
+        "packages/domain/index.js#verifyState"
+      ],
+      "tests": [
+        "state audit rejects forged event sources and an audience outside the conversation"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-021",
+      "description": "Seed and candidate state satisfy identity, relational and lifecycle invariants before becoming canonical.",
+      "enforcement": [
+        "packages/domain/index.js#verifyState",
+        "packages/domain/index.js#createRuntime"
+      ],
+      "tests": [
+        "state audit reports malformed records and historical revisions without throwing",
+        "state audit rejects a human timeline submission with no outbound delivery",
+        "state audit rejects changed accepted approval terms",
+        "state audit rejects missing bound local continuation",
+        "state audit rejects extended response delivery deadline",
+        "state audit rejects wrong response delivery signal revision",
+        "state audit rejects forged integration receipt endpoint",
+        "state audit rejects an unattached foreign artifact embedded in message content",
+        "state audit rejects a foreign artifact presentation even when current and historical pins agree",
+        "state audit rejects a corrupted idempotency cache actor",
+        "state audit rejects a corrupted idempotency cache result",
+        "terminal-originated conversations are endpoint-scoped, session-bound and create no fake person delivery"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-022",
+      "description": "Unsupported commands, extra authority fields, interaction types and rich presentation modes fail closed; text fallback required.",
+      "enforcement": [
+        "packages/domain/index.js#validateCommand",
+        "packages/domain/index.js#content",
+        "packages/domain/index.js#normalizeInteraction"
+      ],
+      "tests": [
+        "extra context audience or caller-supplied private routing authority fails closed",
+        "unsupported rich content needs a readable fallback and cannot manufacture custom app authority",
+        "duplicate choice IDs and values outside the declared interaction do not accept a response",
+        "a caller-supplied origin cannot disguise a phone as the local registered machine",
+        "null content blocks and falsy artifact pins produce safe domain errors without partially publishing"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-023",
+      "description": "A review pins exact versions and valid anchors. Structured review decisions or exact question answers with optional comments commit with one delivery; question answers never change artifact decisions. Stale or invalid input preserves drafts; unrelated and execution requests are not inferred or answered.",
+      "enforcement": [
+        "packages/library/index.js#validateAnchor",
+        "packages/library/index.js#applyLibraryOperation"
+      ],
+      "tests": [
+        "version-bound review and agent delivery commit together, preserve drafts on stale input, and deduplicate retries",
+        "invalid text anchors and out-of-bounds image regions cannot create a review or delivery",
+        "review decisions atomically send all notes, answer the exact request and create one outbox delivery",
+        "decision sequence, stale artifact and source request failures roll back all changes and keep drafts",
+        "review source cannot answer a foreign conversation and legacy choices require an explicitly offered value",
+        "choosing one of several overlapping review requests answers only that exact request",
+        "content review cannot answer an unrelated execution approval even with an explicitly supplied action",
+        "question answers from the artifact canvas send exact choices or text with optional comments and never change artifact decisions",
+        "zero-comment artifact submissions require an exact question answer or structured review decision"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-024",
+      "description": "Approve/reject decisions compare exact per-artifact sequences, retain immutable history and notify the agent even without notes. Approval pins the reviewed version; rejection removes only an approval of that version and preserves approved older copies.",
+      "enforcement": [
+        "packages/library/index.js#applyLibraryOperation"
+      ],
+      "tests": [
+        "library preserves actual immutable versions and an approval pin when a revision arrives",
+        "zero-note approval and rejection notify the agent and retain immutable decision history",
+        "rejecting a new revision retains a previously approved older copy",
+        "legacy approval alias sends available notes once and preserves old cached approvals without redelivery",
+        "legacy approval rejects incompatible or unfinished drafts without discarding them"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-025",
+      "description": "Client projections exclude private provider routing, host snapshots and idempotency stores.",
+      "enforcement": [
+        "packages/library/index.js#projectLibrary"
+      ],
+      "tests": [
+        "client projection excludes provider routing, idempotency data and credentials"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-026",
+      "description": "Reviewable HTML/Markdown becomes an inert text-block model; executable and hidden markup cannot enter the privileged review view.",
+      "enforcement": [
+        "packages/library/document.js#documentModel"
+      ],
+      "tests": [
+        "review document model exposes natural text without executable HTML or hidden instructions"
+      ],
+      "status": "implemented-reference"
+    },
+    {
+      "id": "SOMAE-027",
+      "description": "Library retries recheck current communication authority before returning cached results.",
+      "enforcement": [
+        "packages/library/index.js#applyLibraryOperation"
+      ],
+      "tests": [
+        "library idempotency replay rechecks current communication authority after revocation",
+        "review decision retries across devices add no duplicate messages or decisions and recheck authority",
+        "question feedback retries once across devices and rejects stale or unauthorized submissions without losing drafts"
+      ],
+      "status": "implemented-reference"
+    }
+  ],
+  "deferred": [
+    "connection invitations and OAuth",
+    "transport authentication",
+    "production storage transactions",
+    "cryptographic webhook signatures",
+    "provider adapters and checkpoint reconciliation",
+    "custom embedded apps",
+    "binary upload/access-control storage",
+    "record deletion/retention",
+    "replay retention and recipient cursor transport",
+    "ongoing context grants",
+    "agent-to-agent handoff"
+  ],
+  "test_sources": [
+    "packages/domain/conformance.test.js",
+    "packages/domain/audit-regressions.test.js",
+    "packages/domain/response-content.test.js",
+    "packages/library/library.test.js",
+    "packages/library/document.test.js"
+  ]
+}

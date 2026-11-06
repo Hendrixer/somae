@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+coverage/
+dist/
+artifacts/
+.hutch/
+.cottontail-tmp/
+.wrangler/
+build/

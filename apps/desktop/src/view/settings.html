@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-theme="electric">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Somae Settings</title>
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/settings.css">
+  <script src="/settings.js" type="module"></script>
+</head>
+<body>
+  <div class="settings-shell">
+    <header class="settings-titlebar"><span>Somae Settings</span></header>
+    <nav class="settings-tabs" role="tablist" aria-label="Settings">
+      <button id="tab-general" role="tab" aria-controls="panel-general" aria-selected="true" tabindex="0" data-tab="general"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/></svg><span>General</span></button>
+      <button id="tab-appearance" role="tab" aria-controls="panel-appearance" aria-selected="false" tabindex="-1" data-tab="appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16"/><path d="M12 4a8 8 0 0 1 0 16Z" class="icon-fill"/></svg><span>Appearance</span></button>
+      <button id="tab-shortcuts" role="tab" aria-controls="panel-shortcuts" aria-selected="false" tabindex="-1" data-tab="shortcuts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h8v8H8zM8 8H5.5A2.5 2.5 0 1 1 8 5.5Zm8 0V5.5A2.5 2.5 0 1 1 18.5 8Zm0 8h2.5a2.5 2.5 0 1 1-2.5 2.5Zm-8 0v2.5A2.5 2.5 0 1 1 5.5 16Z"/></svg><span>Shortcuts</span></button>
+    </nav>
+
+    <main class="settings-content">
+      <section id="panel-general" role="tabpanel" aria-labelledby="tab-general">
+        <div class="section-heading"><h1>A little more out of the way.</h1><p>Here when you need it. Quiet when you don’t.</p></div>
+        <div class="settings-group">
+          <div class="setting-row">
+            <div class="setting-copy"><label for="show-beacon">Floating widget</label><p>Keep the hand and signal count on screen when Somae is closed.</p></div>
+            <label class="switch"><input id="show-beacon" type="checkbox" role="switch" checked><span aria-hidden="true"></span></label>
+          </div>
+          <div class="widget-specimen" aria-hidden="true"><div class="mini-beacon"><span class="wave-mark"></span><span>3 signals</span><kbd>⌘ ⇧ Space</kbd></div><span>A small way back in.</span></div>
+        </div>
+        <div class="settings-group">
+          <div class="setting-row">
+            <div class="setting-copy"><label for="notifications">Desktop notifications</label><p id="notification-permission">New signals when Somae is closed. Silent by default.</p></div>
+            <label class="switch"><input id="notifications" type="checkbox" role="switch" aria-describedby="notification-permission"><span aria-hidden="true"></span></label>
+          </div>
+        </div>
+        <div class="settings-group motion-group">
+          <div class="setting-copy"><h2>Motion</h2><p>Windows settle into place. Content changes without getting in your way.</p></div>
+          <div class="segmented" role="radiogroup" aria-label="Motion preference">
+            <button type="button" role="radio" aria-checked="true" data-motion="system" tabindex="0">Follow system</button>
+            <button type="button" role="radio" aria-checked="false" data-motion="reduce" tabindex="-1">Reduce motion</button>
+          </div>
+          <p class="setting-footnote">Follow system respects your Mac’s Reduce Motion setting.</p>
+        </div>
+      </section>
+
+      <section id="panel-appearance" role="tabpanel" aria-labelledby="tab-appearance" hidden>
+        <div class="section-heading"><h1>Set the mood.</h1><p>Three accents. The same quiet presence.</p></div>
+        <div class="theme-grid" role="radiogroup" aria-label="Color theme">
+          <button type="button" class="theme-choice" role="radio" aria-checked="true" data-theme-choice="electric" tabindex="0">
+            <span class="theme-preview" data-theme="electric" aria-hidden="true"><span class="preview-header"><span class="wave-mark"></span><span class="preview-wordmark">somae</span><span class="preview-dot"></span></span><span class="preview-title">One small<br>decision.</span><span class="preview-line"></span><span class="preview-actions"><span></span><span></span></span></span>
+            <span class="theme-caption"><span><strong>Electric</strong><small>Near black & lime</small></span><span class="choice-check" aria-hidden="true">✓</span></span>
+          </button>
+          <button type="button" class="theme-choice" role="radio" aria-checked="false" data-theme-choice="infrared" tabindex="-1">
+            <span class="theme-preview" data-theme="infrared" aria-hidden="true"><span class="preview-header"><span class="wave-mark"></span><span class="preview-wordmark">somae</span><span class="preview-dot"></span></span><span class="preview-title">One small<br>decision.</span><span class="preview-line"></span><span class="preview-actions"><span></span><span></span></span></span>
+            <span class="theme-caption"><span><strong>Infrared</strong><small>Near black & coral</small></span><span class="choice-check" aria-hidden="true">✓</span></span>
+          </button>
+          <button type="button" class="theme-choice" role="radio" aria-checked="false" data-theme-choice="afterhours" tabindex="-1">
+            <span class="theme-preview" data-theme="afterhours" aria-hidden="true"><span class="preview-header"><span class="wave-mark"></span><span class="preview-wordmark">somae</span><span class="preview-dot"></span></span><span class="preview-title">One small<br>decision.</span><span class="preview-line"></span><span class="preview-actions"><span></span><span></span></span></span>
+            <span class="theme-caption"><span><strong>After hours</strong><small>Near black & lilac</small></span><span class="choice-check" aria-hidden="true">✓</span></span>
+          </button>
+        </div>
+        <div class="appearance-note"><span class="wave-mark" aria-hidden="true"></span><p>Your theme follows you across the widget, inbox and library.<br>No restart needed.</p></div>
+      </section>
+
+      <section id="panel-shortcuts" role="tabpanel" aria-labelledby="tab-shortcuts" hidden>
+        <div class="section-heading"><h1>Keep your hands where they are.</h1><p>A few keys to clear your signals and get back to it.</p></div>
+        <div class="shortcut-list">
+          <div class="shortcut-row"><span>Open or close Somae</span><kbd aria-label="Command Shift Space">⌘ ⇧ Space</kbd></div>
+          <div class="shortcut-row"><span>New message</span><kbd aria-label="Command N">⌘ N</kbd></div>
+          <div class="shortcut-row"><span>Settings</span><kbd aria-label="Command comma">⌘ ,</kbd></div>
+          <div class="shortcut-row"><span>Previous or next signal</span><span class="key-pair"><kbd>←</kbd><kbd>→</kbd></span></div>
+          <div class="shortcut-row"><span>Choose an option</span><span class="key-pair"><kbd>↑</kbd><kbd>↓</kbd><span>then</span><kbd>↵</kbd></span></div>
+          <div class="shortcut-row"><span>Answer by number</span><span class="key-pair"><kbd>1</kbd><span>–</span><kbd>8</kbd></span></div>
+          <div class="shortcut-row"><span>Set a signal aside</span><kbd aria-label="Command left arrow">⌘ ←</kbd></div>
+          <div class="shortcut-row"><span>Send a message or approve review</span><kbd aria-label="Command Enter">⌘ ↵</kbd></div>
+          <div class="shortcut-row"><span>Disapprove a review</span><kbd aria-label="Command Shift Enter">⌘ ⇧ ↵</kbd></div>
+        </div>
+        <p class="shortcut-note">Signal shortcuts stay out of the way while you’re typing.</p>
+      </section>
+    </main>
+    <footer class="settings-footer"><span class="footer-brand"><span class="wave-mark" aria-hidden="true"></span>somae</span><span id="settings-status" role="status" aria-live="polite">Settings save on this Mac.</span></footer>
+  </div>
+</body>
+</html>

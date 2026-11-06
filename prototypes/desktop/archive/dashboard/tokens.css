@@ -1,0 +1,52 @@
+/* Semantic tokens are shared; theme values can change without changing components. */
+:root, [data-theme="clay"] {
+  --canvas: #f1e7df;
+  --sidebar: #eee1d6;
+  --surface: #fcf9f2;
+  --surface-raised: #fffcf6;
+  --surface-inset: #f5eee3;
+  --ink: #4b302c;
+  --ink-muted: #87685b;
+  --ink-soft: #a08471;
+  --line: #e5d8cb;
+  --accent: #a6503b;
+  --accent-hover: #8c3f2e;
+  --accent-soft: #ecd4c6;
+  --accent-ink: #783d2e;
+  --leaf: #54634a;
+  --leaf-soft: #e7ebdd;
+  --petal: #f1ddd9;
+  --honey: #eedeb2;
+  --shadow: 0 8px 24px rgb(91 49 30 / 4%);
+  --font-body: 'DM Sans', 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-display: 'Lora', 'Iowan Old Style', Georgia, serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --motion: 180ms;
+}
+[data-theme="petal"] {
+  --canvas: #f3e5e2; --sidebar: #ecd9d5; --surface: #fff8f1;
+  --surface-raised: #fffbf6; --surface-inset: #f5e9e2;
+  --ink: #603637; --ink-muted: #91676a; --ink-soft: #ac8180;
+  --line: #e9d3cb; --accent: #a94f62; --accent-hover: #913f53;
+  --accent-soft: #f0d4da; --accent-ink: #83394c;
+  --leaf: #686a49; --leaf-soft: #ebebd9; --petal: #efced5; --honey: #f1ddba;
+}
+[data-theme="meadow"] {
+  --canvas: #e9eadd; --sidebar: #e1e3d0; --surface: #faf9ed;
+  --surface-raised: #fffef3; --surface-inset: #f0f0e1;
+  --ink: #414b34; --ink-muted: #72795c; --ink-soft: #8e9477;
+  --line: #d9ddc6; --accent: #6c7850; --accent-hover: #55643b;
+  --accent-soft: #dce2c9; --accent-ink: #4c5e37;
+  --leaf: #657243; --leaf-soft: #e3e9d2; --petal: #edddd0; --honey: #ece0b8;
+}

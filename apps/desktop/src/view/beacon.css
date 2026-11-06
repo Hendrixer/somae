@@ -1,0 +1,30 @@
+:root { color-scheme: dark; color: var(--somae-color-ink); font-family: var(--somae-font-family-sans); background: transparent; -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; background: transparent; overflow: hidden; }
+.beacon-shell { display: flex; align-items: center; width: 100%; height: 100%; background: var(--somae-color-panel); border: 1px solid var(--somae-border-color-beacon); border-radius: 24px; overflow: hidden; transition: background var(--somae-motion-duration-theme), border-color var(--somae-motion-duration-hover); }
+.beacon-shell:has(.beacon-open:hover), .beacon-shell.is-hovered { background: var(--somae-color-surface); }
+.beacon-grip { display: flex; align-items: center; justify-content: center; gap: 2px; width: 21px; height: 100%; padding-left: 8px; flex-shrink: 0; -webkit-app-region: drag; cursor: grab; }
+.beacon-grip span { width: 1px; height: 11px; border-radius: 1px; background: var(--somae-color-faint); opacity: .45; }
+.beacon-open { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; height: 100%; padding: 0 16px 0 3px; border: 0; border-radius: 0 24px 24px 0; background: transparent; color: var(--somae-color-ink); text-align: left; font: 500 12px/1 var(--somae-font-family-sans); cursor: pointer; -webkit-app-region: no-drag; }
+.beacon-open:focus-visible { outline: 2px solid var(--somae-color-focus); outline-offset: -4px; }
+.beacon-open:active { background: var(--somae-color-surface-hover); }
+.beacon-open:disabled { cursor: progress; }
+.beacon-hand { width: var(--somae-size-brand-beacon); height: var(--somae-size-brand-beacon); flex-shrink: 0; mask: url('/wave.svg') center/contain no-repeat; background: var(--somae-color-accent); }
+#beacon-count { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+kbd { color: var(--somae-color-muted); font: 9px/1 var(--somae-font-family-mono); white-space: nowrap; padding-left: 8px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+:root[data-reduced-motion="true"] * { transition: none !important; }
+/* A small wrist-led hello, followed by a still reading surface. */
+.beacon-hand { position: relative; transform-origin: 61% 85%; }
+.beacon-open { position: relative; }
+.beacon-open::before, .beacon-open::after { content: ''; position: absolute; pointer-events: none; left: 1px; top: 13px; width: 5px; height: 12px; border-left: 1px solid var(--somae-color-muted); border-radius: 50%; opacity: 0; }
+.beacon-open::after { left: -3px; top: 12px; height: 14px; }
+.beacon-shell.is-waving { --beacon-wave-count: 4; }
+.beacon-shell.is-waving .beacon-hand { animation: beacon-hello var(--somae-motion-duration-attention) var(--somae-motion-easing-standard) var(--beacon-wave-count); }
+.beacon-shell.is-waving .beacon-open::before { animation: beacon-swish var(--somae-motion-duration-attention) ease-out var(--beacon-wave-count); }
+.beacon-shell.is-waving .beacon-open::after { animation: beacon-swish var(--somae-motion-duration-attention) .05s ease-out var(--beacon-wave-count); }
+.beacon-shell.has-arrival #beacon-count { opacity: .72; }
+@keyframes beacon-hello { 0%, 100% { transform: rotate(0); } 12% { transform: rotate(-15deg); } 28% { transform: rotate(19deg); } 44% { transform: rotate(-12deg); } 60% { transform: rotate(14deg); } 78% { transform: rotate(-5deg); } 90% { transform: rotate(2deg); } }
+@keyframes beacon-swish { 0%, 12%, 100% { opacity: 0; transform: translateX(2px); } 25%, 58% { opacity: .6; transform: translateX(0); } 80% { opacity: 0; transform: translateX(-2px); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+:root[data-reduced-motion="true"] *, :root[data-reduced-motion="true"] *::before, :root[data-reduced-motion="true"] *::after { animation: none !important; }

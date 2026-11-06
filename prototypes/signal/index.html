@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" data-material="electric">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Somae / Signal</title>
+  <meta name="theme-color" content="#cbd74b">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./message-ui.css">
+  <link rel="stylesheet" href="./brand-preview.css">
+  <link rel="stylesheet" href="./conversation-ui.css">
+  <script type="module" src="./app.js"></script>
+  <script type="module" src="./brand-preview.js"></script>
+<link rel="stylesheet" href="/prototypes/navigation.css">
+</head>
+<body>
+  <div class="wallpaper" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><span class="wallpaper-type">s.</span></div>
+  <header class="lab-header"><span><b>somae</b><span class="lab-index">03 / SIGNAL</span></span><div class="preview-scenarios"><button id="sample-signal" hidden title="Simulate the agent’s next reply in this local prototype">Agent reply ↗</button><label>On<select id="preview-device"><option value="macbook">MacBook</option><option value="iphone">iPhone</option></select></label><label>Try<select id="preview-scenario"><option value="default">A moment…</option><option value="updated">Request updated</option><option value="withdrawn">Request withdrawn</option><option value="answered">Answered on iPhone</option><option value="expired">Request expired</option><option value="offline">MacBook offline</option><option value="online">MacBook reconnected</option><option value="failed">Delivery failed</option><option value="approval">Staging approval</option><option value="connect">Connect an agent</option><option value="replay">Replay the demo</option></select></label><details class="lab-design"><summary>Design</summary><div><label>Mark<select id="preview-mark" disabled><option value="wave">Wave</option><option value="hello">Hello</option></select></label><button id="open-brand-preview" class="brand-preview-trigger" disabled>App icon ↗</button></div></details></div></header>
+  <main class="stage">
+    <button class="beacon" id="beacon" aria-label="Summon Somae" hidden><span class="signal-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="beacon-count">4</span><kbd>⌘ K</kbd></button>
+    <section class="instrument" id="instrument" aria-label="Somae Signal">
+      <header class="instrument-head"><button class="wordmark" id="home" aria-label="Back to signals"><span class="signal-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>somae</button><div class="head-right"><span class="signal-count" id="signal-count" aria-live="polite"></span><button class="key-button new-message" id="new-message" aria-label="New message" title="New message · ⌘ N" aria-keyshortcuts="Meta+N Control+N"><span aria-hidden="true">+</span> <span id="new-message-label">New</span></button><button class="key-button" id="find" aria-label="Open inbox and search" title="Find · Command K">⌘ K</button><button class="dismiss" id="dismiss" aria-label="Hide Somae" title="Hide · Escape">×</button></div></header>
+      <div id="delivery-alert"></div>
+      <div id="view"></div>
+      <div class="canvas-wrap" id="canvas-wrap" hidden></div>
+      <div id="reply-wrap"></div>
+      <div id="history-wrap"></div>
+      <footer class="instrument-foot" id="instrument-foot"></footer>
+    </section>
+    <div class="away-hint" id="away-hint" hidden><span>Here when you need it.</span><button id="summon">Summon Somae <kbd>⌘ K</kbd></button></div>
+  </main>
+  <footer class="lab-footer"><nav class="prototype-nav" aria-label="Prototypes"><span class="prototype-nav-label">Explore</span><a href="/prototypes/desktop/index.html#inbox">Aura</a><a href="/prototypes/gather/index.html#needs">Gather</a><a href="/prototypes/signal/index.html#moment/launch" aria-current="page">Signal</a></nav><span><span class="prototype-caption">Local experiment <span class="footer-dot">·</span><a href="./archive/decision-v1/index.html#moment/launch">Earlier Signal ↗</a><span class="footer-dot">·</span></span> <button id="help">Keys & moves</button></span></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="brand-preview" aria-labelledby="brand-preview-title">
+    <button id="close-brand-preview" class="dismiss" aria-label="Close app icon preview">×</button>
+    <span class="eyebrow">IN ITS ELEMENT</span>
+    <h2 id="brand-preview-title">Wave. At every size.</h2>
+    <div class="brand-options" role="group" aria-label="Logo to preview"><button data-brand-choice="wave" aria-pressed="true">Wave</button><button data-brand-choice="hello" aria-pressed="false">Hello</button></div>
+    <div class="brand-scale-study">
+      <figure><div class="brand-app-icon brand-app-icon-large" data-brand-mark aria-hidden="true"></div><figcaption>APP ICON / 112</figcaption></figure>
+      <figure><div class="brand-app-icon brand-app-icon-small" data-brand-mark aria-hidden="true"></div><figcaption>48</figcaption></figure>
+      <figure><span class="brand-menu-icon" data-brand-mark aria-hidden="true"></span><figcaption>16</figcaption></figure>
+    </div>
+    <p>A little hello, wherever Somae lives.</p>
+    <div class="brand-preview-links"><a href="../marks/refined.html">Compare the refinements ↗</a><a id="brand-download" href="../marks/wave-refined.svg" download="somae-wave.svg">SVG ↓</a></div>
+  </dialog>
+  <dialog id="keys" aria-labelledby="keys-title"><button id="close-keys" class="dismiss" aria-label="Close keyboard shortcuts">×</button><span class="eyebrow">LESS REACHING</span><h2 id="keys-title">Keep your hands<br>where the thought is.</h2><dl><div><dt>Summon / inbox / back</dt><dd>⌘ K</dd></div><div><dt>New message / draft</dt><dd>⌘ N</dd></div><div><dt>Previous / next signal</dt><dd>← / →</dd></div><div><dt>Choose a displayed action</dt><dd>1 / 2</dd></div><div><dt>Move through options / choose</dt><dd>↑ / ↓ / ↵</dd></div><div><dt>Set aside / return to queue</dt><dd>⌘ ←</dd></div><div><dt>Open the preview</dt><dd>P</dd></div><div><dt>Reply or give feedback</dt><dd>R</dd></div><div><dt>Show the conversation</dt><dd>H</dd></div><div><dt>Send a message or reply</dt><dd>⌘ ↵</dd></div><div><dt>Step back / disappear</dt><dd>Esc</dd></div></dl><p>Use Ctrl in place of ⌘ on Windows. These shortcuts work inside this prototype.</p></dialog>
+</body>
+</html>

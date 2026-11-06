@@ -1,0 +1,14 @@
+{
+  "name": "@somae/claude-channel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Somae's local two-way Claude Code channel.",
+  "scripts": {
+    "start": "bun src/server.ts",
+    "check": "bun test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1"
+  }
+}

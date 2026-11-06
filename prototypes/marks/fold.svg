@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor" role="img" aria-labelledby="fold-title">
+  <title id="fold-title">Somae Fold</title>
+  <path d="M12 29C12 18.5 20.5 10 31 10H48.5C51.2 10 52.4 13.4 50.3 15.2L30.4 31.4C28.3 33.1 25.7 34 23 34H17C14.2 34 12 31.8 12 29Z"/>
+  <path d="M52 35C52 45.5 43.5 54 33 54H15.5C12.8 54 11.6 50.6 13.7 48.8L33.6 32.6C35.7 30.9 38.3 30 41 30H47C49.8 30 52 32.2 52 35Z"/>
+</svg>

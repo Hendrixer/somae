@@ -1,0 +1,23 @@
+# Somae Design
+
+> Working design system v0.2.0 for Somae: a compact interface for sending messages to agents and receiving signals. Wave is the selected mark. All materials use neutral near-black surfaces. Accent is reserved for brand and a primary action; focus, selection and annotations have separate neutral roles. Electric is the default material; Infrared and After hours are experimental.
+
+## Start here
+
+- [Visual guide](./index.html): Interactive reference for colors, typography, components, and motion.
+- [Agent guide](./agent-guide.md): Design intent, implementation rules, accessibility, and product boundaries.
+
+## Tokens
+
+- [Canonical tokens](./tokens.json): DTCG 2025.10 source values with descriptions and status.
+- [CSS variables](./tokens.css): Generated semantic variables and theme selectors.
+- [JavaScript exports](./tokens.js): CSS-ready values, themes, metadata, and cssVariables(theme).
+- [TypeScript declarations](./tokens.d.ts): Types for the JavaScript exports.
+- [Token catalog](./catalog.json): Flat generated token index for lookup and tooling.
+
+## Brand
+
+- [Wave](./assets/wave.svg): Approved single-color SVG using currentColor.
+- [Wave in ink](./assets/wave-ink.svg): Explicit ink fill for image embedding.
+- [Wave in acid](./assets/wave-acid.svg): Explicit acid fill for image embedding.
+

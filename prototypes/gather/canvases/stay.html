@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" data-theme="mint">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A place to stay · Gather</title>
+  <link rel="stylesheet" href="/prototypes/gather/tokens.css">
+  <style>
+    :root { color-scheme: light; --stay-ink:#263a36; --stay-muted:#72827b; --stay-accent:#3f7b69; --stay-line:#e2e8e1; --stay-wash:#eff5ed; --stay-selected:#e8f1e7; }
+    :root[data-theme="iris"] { --stay-accent:#75689c; --stay-wash:#f2eff7; --stay-selected:#eee9f5; --stay-line:#e6e1ed; }
+    :root[data-theme="sand"] { --stay-accent:#9a7754; --stay-wash:#f6f0e7; --stay-selected:#f4eadb; --stay-line:#e9e1d6; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; background:transparent; }
+    body { font:13px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif; color:var(--stay-ink); -webkit-font-smoothing:antialiased; }
+    button { font:inherit; color:inherit; }
+    .stay { padding:18px 18px 14px; }
+    .trip { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 14px; }
+    .dates { display:flex; align-items:center; gap:7px; font-weight:560; letter-spacing:-.15px; }
+    .dates svg { width:15px; height:15px; color:var(--stay-muted); }
+    .nights { color:var(--stay-muted); font-size:11px; }
+    .hotels { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .hotel { display:block; position:relative; width:100%; padding:0; text-align:left; border:1px solid var(--stay-line); background:rgba(255,255,255,.7); border-radius:18px; overflow:hidden; cursor:pointer; transition:border-color .2s,background .2s,box-shadow .2s,transform .2s; -webkit-tap-highlight-color:transparent; }
+    .hotel:hover { transform:translateY(-2px); border-color:color-mix(in srgb,var(--stay-accent) 40%,var(--stay-line)); }
+    .hotel:active { transform:scale(.98); }
+    .hotel:focus-visible { outline:3px solid color-mix(in srgb,var(--stay-accent) 32%,transparent); outline-offset:3px; }
+    .hotel[aria-pressed="true"] { border-color:color-mix(in srgb,var(--stay-accent) 65%,white); background:var(--stay-selected); box-shadow:0 0 0 1px color-mix(in srgb,var(--stay-accent) 14%,transparent); }
+    .hotel:disabled { cursor:default; opacity:1; -webkit-text-fill-color:currentColor; }
+    .hotel:disabled:hover,.hotel:disabled:active { transform:none; border-color:var(--stay-line); }
+    .hotel:disabled[aria-pressed="true"] { border-color:color-mix(in srgb,var(--stay-accent) 65%,white); }
+    .illustration { display:block; width:100%; height:124px; background:var(--stay-wash); }
+    .copy { display:block; padding:14px 14px 13px; }
+    .name { display:block; margin:0 0 2px; font-size:14px; font-weight:600; letter-spacing:-.35px; }
+    .description { display:block; color:var(--stay-muted); font-size:11px; }
+    .price { display:flex; align-items:baseline; gap:5px; margin-top:15px; }
+    .amount { font-size:17px; line-height:1.1; font-weight:570; letter-spacing:-.5px; font-variant-numeric:tabular-nums; }
+    .total { font-size:10px; color:var(--stay-muted); }
+    .check { position:absolute; right:10px; top:10px; display:grid; place-items:center; width:23px; height:23px; border-radius:50%; color:transparent; border:1px solid rgba(63,87,66,.17); background:rgba(255,255,255,.8); transition:color .2s,background .2s,border-color .2s; }
+    .check svg { width:12px; height:12px; }
+    .hotel[aria-pressed="true"] .check { background:var(--stay-accent); border-color:var(--stay-accent); color:white; }
+    .status { margin:10px 0 0; text-align:center; color:var(--stay-muted); font-size:10px; }
+    body[data-locked="true"] .status { color:var(--stay-accent); }
+    .terms { display:flex; align-items:center; justify-content:center; gap:6px; margin:5px 0 0; color:var(--stay-muted); font-size:10px; }
+    .terms svg { width:12px; height:12px; color:var(--stay-accent); }
+    .dot { width:2px; height:2px; background:var(--stay-muted); border-radius:50%; margin:0 2px; }
+    @media (max-width:520px) {
+      .stay { padding:13px 12px 12px; }
+      .trip { margin-bottom:10px; }
+      .hotels { grid-template-columns:1fr; gap:8px; }
+      .hotel { display:grid; grid-template-columns:80px 1fr; border-radius:15px; min-height:83px; }
+      .illustration { height:100%; min-height:83px; }
+      .copy { padding:11px 34px 10px 12px; }
+      .name { font-size:13px; }
+      .description { font-size:10px; }
+      .price { margin-top:6px; gap:4px; }
+      .amount { font-size:14px; }
+      .total { font-size:9px; }
+      .check { right:10px; top:13px; width:19px; height:19px; }
+      .check svg { width:10px; height:10px; }
+      .status { margin-top:8px; font-size:9px; }
+      .terms { margin-top:4px; font-size:9px; }
+    }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none!important; } .hotel:hover { transform:none; } }
+  </style>
+</head>
+<body>
+  <main class="stay" aria-label="Compare three places to stay">
+    <header class="trip">
+      <div class="dates"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="13" height="12" rx="3" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 3.5v3M13.5 3.5v3M3.5 9h13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Nov 7–10</div>
+      <span class="nights">3 nights · Austin</span>
+    </header>
+    <div class="hotels">
+      <button class="hotel" data-hotel="carpenter" aria-pressed="true" aria-label="Select Carpenter Hotel, 1,248 dollars total">
+        <svg class="illustration" viewBox="0 0 240 145" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A warm brick hotel beside a quiet courtyard">
+          <defs><linearGradient id="carpenter-sky" x2="0" y2="1"><stop stop-color="#e5ebe0"/><stop offset="1" stop-color="#f3eee4"/></linearGradient><linearGradient id="carpenter-wall" x2="1" y2="0"><stop stop-color="#bb9580"/><stop offset="1" stop-color="#d0ae97"/></linearGradient></defs>
+          <rect width="240" height="145" fill="url(#carpenter-sky)"/><path d="M0 116Q107 103 240 119V145H0Z" fill="#d9dfca"/><rect x="16" y="44" width="171" height="70" rx="2" fill="url(#carpenter-wall)"/><rect x="27" y="54" width="151" height="5" rx="1" fill="#dac1a9"/><path d="M42 70h17v32H42zM82 70h17v32H82zM122 70h17v32h-17zM162 70h13v32h-13z" fill="#666d5d"/><path d="M48 70v32M88 70v32M128 70v32M168 70v32" stroke="#adab8e" stroke-width="2"/><rect x="15" y="111" width="177" height="5" fill="#927b65"/><ellipse cx="208" cy="122" rx="23" ry="5" fill="#c0cbb2"/><path d="M207 116V49" stroke="#8d9472" stroke-width="3"/><path d="M207 66Q178 52 191 27Q205 16 210 38Q225 21 233 38Q240 60 212 75Z" fill="#849d7c"/><path d="M208 84Q186 68 179 83Q177 96 207 99Z" fill="#9dad89"/><rect x="62" y="120" width="40" height="3" rx="1.5" fill="#acaa8f"/><path d="M67 122v6M96 122v6" stroke="#acaa8f" stroke-width="2"/>
+        </svg>
+        <span class="check"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.5 8 3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="copy"><span class="name">Carpenter Hotel</span><span class="description">A quiet courtyard</span><span class="price"><span class="amount">$1,248</span><span class="total">total</span></span></span>
+      </button>
+      <button class="hotel" data-hotel="line" aria-pressed="false" aria-label="Select The LINE Austin, 1,486 dollars total">
+        <svg class="illustration" viewBox="0 0 240 145" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A modern hotel looking out over the water">
+          <defs><linearGradient id="line-sky" x2="0" y2="1"><stop stop-color="#dce8e5"/><stop offset="1" stop-color="#eff1e8"/></linearGradient><linearGradient id="line-water" x2="1" y2="1"><stop stop-color="#99b7ae"/><stop offset="1" stop-color="#c3d2bf"/></linearGradient></defs>
+          <rect width="240" height="145" fill="url(#line-sky)"/><path d="M0 116Q68 104 133 114Q194 100 240 111V145H0Z" fill="url(#line-water)"/><path d="M8 131h64M80 121h41M143 131h63" stroke="#dfe9d8" stroke-width="1.2" stroke-linecap="round"/><rect x="32" y="24" width="92" height="90" rx="2" fill="#d9d4c7"/><path d="M43 36h70v65H43z" fill="#7f9990"/><path d="M57 36v65M72 36v65M87 36v65M102 36v65M43 49h70M43 62h70M43 75h70M43 88h70" stroke="#d0d3c6" stroke-width="2"/><rect x="27" y="20" width="102" height="6" rx="1" fill="#b7b9ab"/><rect x="125" y="68" width="53" height="45" fill="#c8c8b8"/><path d="M133 78h35v25h-35z" fill="#8aa39a"/><path d="M144 78v25M156 78v25" stroke="#dadbd0" stroke-width="2"/><path d="M198 113V74" stroke="#879c7d" stroke-width="2"/><path d="M198 80Q175 80 186 61Q196 55 199 68Q205 51 217 63Q224 80 198 87Z" fill="#9eb28d"/>
+        </svg>
+        <span class="check"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.5 8 3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="copy"><span class="name">The LINE Austin</span><span class="description">Wake up by the water</span><span class="price"><span class="amount">$1,486</span><span class="total">total</span></span></span>
+      </button>
+      <button class="hotel" data-hotel="san" aria-pressed="false" aria-label="Select Hotel San José, 1,362 dollars total">
+        <svg class="illustration" viewBox="0 0 240 145" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A low hotel nestled in a green garden">
+          <defs><linearGradient id="san-sky" x2="0" y2="1"><stop stop-color="#e8e9df"/><stop offset="1" stop-color="#f2ebdf"/></linearGradient></defs>
+          <rect width="240" height="145" fill="url(#san-sky)"/><path d="M0 112Q123 101 240 114v31H0Z" fill="#d3dabe"/><rect x="35" y="58" width="157" height="54" rx="2" fill="#d6c4aa"/><path d="M27 59 65 38h109l27 21Z" fill="#aeafa0"/><path d="M58 76h23v33H58zM106 76h23v33h-23zM154 76h23v33h-23z" fill="#74846c"/><path d="M64 76v33M112 76v33M160 76v33" stroke="#b4bea0" stroke-width="2"/><path d="M18 123V62" stroke="#899370" stroke-width="3"/><path d="M18 80Q-1 70 7 47Q19 35 25 53Q42 42 49 62Q50 80 21 89Z" fill="#8f9f79"/><path d="M217 126V76" stroke="#899370" stroke-width="3"/><path d="M215 91Q190 81 197 61Q208 51 218 68Q229 56 240 72V97Q229 107 215 99Z" fill="#95a882"/><ellipse cx="114" cy="127" rx="43" ry="9" fill="#bccaaa"/><path d="M100 127h28" stroke="#e6e7ce" stroke-width="3" stroke-linecap="round"/><path d="M202 119q-8-23-17-19q-8 9 5 21M39 119q9-24 18-19q8 9-5 21" fill="#a2b48d"/>
+        </svg>
+        <span class="check"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3.5 8 3 3 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="copy"><span class="name">Hotel San José</span><span class="description">A garden off South Congress</span><span class="price"><span class="amount">$1,362</span><span class="total">total</span></span></span>
+      </button>
+    </div>
+    <p class="status" id="selection-status" role="status">Choose the stay that feels right.</p>
+    <p class="terms"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 8 2.5 2.5L12 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Free cancellation<span class="dot"></span>Taxes included<span class="dot"></span>Sample stays</p>
+  </main>
+  <script>
+    const hotelIds = new Set(['carpenter','line','san']);
+    const themes = new Set(['mint','iris','sand']);
+    const params = new URLSearchParams(location.search);
+    const theme = params.get('theme');
+    let locked = false;
+    if (themes.has(theme)) document.documentElement.dataset.theme = theme;
+    function selectHotel(id, notify = false) {
+      if (locked || !hotelIds.has(id)) return;
+      document.querySelectorAll('[data-hotel]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.hotel === id)));
+      if (notify) parent.postMessage({type:'gather-stay', hotel:id}, '*');
+    }
+    function setLocked(value) {
+      locked = value;
+      document.body.dataset.locked = String(locked);
+      document.querySelectorAll('[data-hotel]').forEach(button => {
+        button.disabled = locked;
+        button.setAttribute('aria-disabled', String(locked));
+      });
+      document.querySelector('#selection-status').textContent = locked ? 'Response saved' : 'Choose the stay that feels right.';
+    }
+    selectHotel(hotelIds.has(params.get('hotel')) ? params.get('hotel') : 'carpenter');
+    setLocked(params.get('locked') === '1');
+    document.querySelectorAll('[data-hotel]').forEach(button => button.addEventListener('click', () => selectHotel(button.dataset.hotel, true)));
+    window.addEventListener('message', event => {
+      if (event.source !== parent) return;
+      if (event.data?.type === 'gather-theme' && themes.has(event.data.theme)) {
+        document.documentElement.dataset.theme = event.data.theme;
+      } else if (event.data?.type === 'gather-stay-lock' && typeof event.data.locked === 'boolean') {
+        setLocked(event.data.locked);
+      }
+    });
+  </script>
+</body>
+</html>

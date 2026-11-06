@@ -1,0 +1,637 @@
+{
+  "schema_version": 1,
+  "id": "somae.repository",
+  "audience": "development_agents",
+  "purpose": "Help coding agents navigate and safely change the Somae repository; this is not a routing/knowledge system for product-connected agents.",
+  "developer_entry_points": [
+    "AGENTS.md",
+    "README.md",
+    "docs/WORKFLOW.md"
+  ],
+  "business_model": "packages/domain/ontology.json",
+  "nodes": [
+    {
+      "id": "api",
+      "kind": "app",
+      "path": "apps/api",
+      "status": "test-version",
+      "description": "Private Cloudflare Worker API, SQLite-backed per-person Durable Object and R2 originals.",
+      "entry_points": [
+        "apps/api/src/worker.ts",
+        "apps/api/wrangler.jsonc",
+        "apps/api/test/worker.test.ts"
+      ],
+      "guide": "apps/api/README.md",
+      "package_name": "@somae/api"
+    },
+    {
+      "id": "desktop",
+      "kind": "app",
+      "path": "apps/desktop",
+      "status": "test-version",
+      "description": "Electrobun/Bun macOS companion with adaptive Signal panel, floating beacon, native Settings, local Claude sessions and version-pinned review/library.",
+      "entry_points": [
+        "apps/desktop/src/main/index.ts",
+        "apps/desktop/src/main/host.ts",
+        "apps/desktop/src/main/shortcut.ts",
+        "apps/desktop/src/native/shortcut.m",
+        "apps/desktop/scripts/native.ts",
+        "apps/desktop/src/view/app.js",
+        "apps/desktop/electrobun.config.ts",
+        "apps/desktop/README.md",
+        "apps/desktop/src/main/window.ts",
+        "apps/desktop/src/view/app.css",
+        "apps/desktop/src/view/controls.js",
+        "apps/desktop/src/view/controls.css",
+        "apps/desktop/src/view/preferences.js",
+        "apps/desktop/src/view/layout.js",
+        "apps/desktop/src/view/image-gesture.js",
+        "apps/desktop/src/view/image-gesture.test.js",
+        "apps/desktop/src/view/review-context.js",
+        "apps/desktop/src/view/review-context.test.js",
+        "apps/desktop/src/view/settings.html",
+        "apps/desktop/src/view/settings.js",
+        "apps/desktop/src/view/settings.css",
+        "apps/desktop/src/view/beacon.html",
+        "apps/desktop/src/view/beacon.js",
+        "apps/desktop/src/view/beacon.css",
+        "apps/desktop/src/main/beacon.test.ts",
+        "apps/desktop/src/native/beacon.test.m",
+        "apps/desktop/src/main/notifications.ts",
+        "apps/desktop/src/main/notifications.test.ts",
+        "apps/desktop/src/native/notifications.m",
+        "apps/desktop/src/view/beacon.test.ts",
+        "apps/desktop/src/view/signal-content.js",
+        "apps/desktop/src/view/signal-content.test.js",
+        "apps/desktop/src/view/annotation-drafts.js",
+        "apps/desktop/src/view/annotation-drafts.test.js"
+      ],
+      "guide": "apps/desktop/README.md",
+      "package_name": "@somae/desktop"
+    },
+    {
+      "id": "mobile",
+      "kind": "app",
+      "path": "apps/mobile",
+      "status": "planned",
+      "description": "Mobile client; framework implementation is reserved.",
+      "entry_points": [
+        "apps/mobile/README.md"
+      ],
+      "guide": "apps/mobile/README.md"
+    },
+    {
+      "id": "website",
+      "kind": "app",
+      "path": "apps/website",
+      "status": "live",
+      "description": "Public site at getsomae.ai: a static-assets Cloudflare Worker with the Beacon page and its two animated demos.",
+      "entry_points": [
+        "apps/website/public/index.html",
+        "apps/website/public/assets/site.js",
+        "apps/website/wrangler.jsonc",
+        "apps/website/public/_headers",
+        "apps/website/test/site.test.js"
+      ],
+      "guide": "apps/website/README.md",
+      "package_name": "@somae/website"
+    },
+    {
+      "id": "domain",
+      "kind": "package",
+      "path": "packages/domain",
+      "status": "reference",
+      "description": "Shared executable business rules, entity ontology and conformance evidence for developers.",
+      "entry_points": [
+        "packages/domain/index.js",
+        "packages/domain/index.d.ts",
+        "packages/domain/ontology.json",
+        "packages/domain/validate.mjs",
+        "packages/domain/response-content.test.js"
+      ],
+      "guide": "packages/domain/README.md",
+      "package_name": "@somae/domain"
+    },
+    {
+      "id": "design-system",
+      "kind": "package",
+      "path": "packages/design-system",
+      "status": "current",
+      "description": "Canonical Signal tokens, approved Wave assets and generated public design reference.",
+      "entry_points": [
+        "packages/design-system/tokens.json",
+        "packages/design-system/build.mjs",
+        "packages/design-system/validate.mjs"
+      ],
+      "guide": "packages/design-system/agent-guide.md",
+      "package_name": "@somae/design-system"
+    },
+    {
+      "id": "design-tokens",
+      "kind": "package",
+      "path": "packages/design-tokens",
+      "status": "preserved",
+      "description": "Earlier Aura, Pearl and Sage palettes.",
+      "entry_points": [
+        "packages/design-tokens/tokens.css"
+      ],
+      "guide": "README.md",
+      "package_name": "@somae/design-tokens"
+    },
+    {
+      "id": "aura",
+      "kind": "prototype",
+      "path": "prototypes/desktop",
+      "status": "preserved",
+      "description": "Earlier companion explorations and the local static preview server.",
+      "entry_points": [
+        "prototypes/desktop/index.html",
+        "prototypes/desktop/app.js",
+        "prototypes/desktop/server.mjs"
+      ],
+      "guide": "prototypes/desktop/README.md",
+      "package_name": "@somae/desktop-prototype"
+    },
+    {
+      "id": "gather",
+      "kind": "prototype",
+      "path": "prototypes/gather",
+      "status": "preserved",
+      "description": "Independent attention tray exploration.",
+      "entry_points": [
+        "prototypes/gather/index.html",
+        "prototypes/gather/app.js"
+      ],
+      "guide": "prototypes/gather/README.md",
+      "package_name": "@somae/gather-prototype"
+    },
+    {
+      "id": "signal",
+      "kind": "prototype",
+      "path": "prototypes/signal",
+      "status": "current",
+      "description": "Current visual/interaction direction: fast keyboard signal queue. Demo state is independent of the domain reference kernel.",
+      "entry_points": [
+        "prototypes/signal/index.html",
+        "prototypes/signal/app.js",
+        "prototypes/signal/conversation-model.js"
+      ],
+      "guide": "prototypes/signal/README.md",
+      "package_name": "@somae/signal-prototype"
+    },
+    {
+      "id": "marks",
+      "kind": "prototype",
+      "path": "prototypes/marks",
+      "status": "preserved",
+      "description": "Logo studies; Wave refined is the approved mark.",
+      "entry_points": [
+        "prototypes/marks/index.html",
+        "prototypes/marks/refined.html",
+        "prototypes/marks/wave-refined.svg"
+      ],
+      "guide": "packages/design-system/agent-guide.md"
+    },
+    {
+      "id": "prototype-shared",
+      "kind": "prototype-support",
+      "path": "prototypes",
+      "status": "current",
+      "description": "Shared prototype navigation assets; more specific child nodes take precedence.",
+      "entry_points": [
+        "prototypes/navigation.css"
+      ],
+      "guide": "README.md"
+    },
+    {
+      "id": "tooling",
+      "kind": "tooling",
+      "path": "scripts",
+      "status": "current",
+      "description": "Local verification gate, code graph and architecture boundary checks.",
+      "entry_points": [
+        "scripts/context.mjs",
+        "scripts/verify.mjs",
+        "scripts/check-boundaries.mjs"
+      ],
+      "guide": "AGENTS.md"
+    },
+    {
+      "id": "contract",
+      "kind": "documentation",
+      "path": "docs/architecture",
+      "status": "current",
+      "description": "Communication semantics and developer-facing repository map.",
+      "entry_points": [
+        "docs/architecture/communication-contract.md",
+        "docs/architecture/repository-map.json"
+      ],
+      "guide": "AGENTS.md"
+    },
+    {
+      "id": "claude-channel",
+      "kind": "package",
+      "path": "packages/claude-channel",
+      "status": "live-spike",
+      "description": "Two-way Claude Code channel with durable input handoff, scoped tools and original-file publication; standalone spike preserved.",
+      "entry_points": [
+        "packages/claude-channel/src/remote.ts",
+        "packages/claude-channel/src/launch.ts",
+        "packages/claude-channel/src/protocol.js",
+        "packages/claude-channel/src/server.ts"
+      ],
+      "guide": "packages/claude-channel/README.md",
+      "package_name": "@somae/claude-channel"
+    },
+    {
+      "id": "library",
+      "kind": "package",
+      "path": "packages/library",
+      "status": "in-progress",
+      "description": "Version-bound artifact feedback and approve/reject decisions, explicit review requests, approval pins and client projections on the communication kernel.",
+      "entry_points": [
+        "packages/library/index.js",
+        "packages/library/index.d.ts",
+        "packages/library/document.js"
+      ],
+      "guide": "packages/library/README.md",
+      "package_name": "@somae/library"
+    }
+  ],
+  "relationships": [
+    {
+      "from": "contract",
+      "to": "domain",
+      "type": "describes",
+      "status": "current",
+      "description": "The ontology and command guards implement a documented reference subset of the contract."
+    },
+    {
+      "from": "tooling",
+      "to": "domain",
+      "type": "verifies",
+      "status": "current",
+      "description": "Verification validates rule evidence and executes the domain behavioral tests."
+    },
+    {
+      "from": "tooling",
+      "to": "design-system",
+      "type": "verifies",
+      "status": "current",
+      "description": "Verification rebuilds and checks canonical token exports."
+    },
+    {
+      "from": "signal",
+      "to": "design-system",
+      "type": "design-reference",
+      "status": "current",
+      "description": "Shared visual language; the prototype retains its own demo CSS and state."
+    },
+    {
+      "from": "marks",
+      "to": "design-system",
+      "type": "brand-source",
+      "status": "current",
+      "description": "Approved Wave assets are used in the canonical design reference."
+    },
+    {
+      "from": "api",
+      "to": "domain",
+      "type": "uses-authorized-command-boundary",
+      "status": "planned",
+      "description": "No application implementation exists yet. Future clients use types and a transport; the Node runtime runs on a trusted host."
+    },
+    {
+      "from": "desktop",
+      "to": "domain",
+      "type": "uses-authorized-command-boundary",
+      "status": "planned",
+      "description": "No application implementation exists yet. Future clients use types and a transport; the Node runtime runs on a trusted host."
+    },
+    {
+      "from": "mobile",
+      "to": "domain",
+      "type": "uses-authorized-command-boundary",
+      "status": "planned",
+      "description": "No application implementation exists yet. Future clients use types and a transport; the Node runtime runs on a trusted host."
+    },
+    {
+      "from": "api",
+      "to": "library",
+      "type": "imports",
+      "status": "implemented",
+      "description": "The Worker persists guarded library/domain candidate state atomically."
+    },
+    {
+      "from": "library",
+      "to": "domain",
+      "type": "imports",
+      "status": "implemented",
+      "description": "All agent communication uses the shared guarded command boundary."
+    },
+    {
+      "from": "desktop",
+      "to": "claude-channel",
+      "type": "integrates",
+      "status": "planned",
+      "description": "Native session lifecycle will manage the verified local channel."
+    },
+    {
+      "from": "website",
+      "to": "design-system",
+      "type": "follows",
+      "status": "current",
+      "description": "Applies Somae Design colors and the Wave mark by hand; it does not import token exports."
+    }
+  ],
+  "rules": [
+    {
+      "id": "REPO-001",
+      "from": [
+        "api",
+        "desktop",
+        "mobile"
+      ],
+      "forbid": [
+        "aura",
+        "gather",
+        "signal",
+        "marks",
+        "prototype-shared"
+      ],
+      "description": "Production applications cannot import fictional prototype models or implementation."
+    },
+    {
+      "id": "REPO-002",
+      "from": [
+        "domain"
+      ],
+      "forbid": [
+        "api",
+        "desktop",
+        "mobile",
+        "aura",
+        "gather",
+        "signal",
+        "marks",
+        "prototype-shared",
+        "design-system",
+        "design-tokens"
+      ],
+      "description": "Business policy stays independent of application, UI and design implementations."
+    },
+    {
+      "id": "REPO-003A",
+      "from": [
+        "api"
+      ],
+      "forbid": [
+        "desktop",
+        "mobile"
+      ],
+      "description": "The API does not import native application internals; shared interfaces belong in packages."
+    },
+    {
+      "id": "REPO-003B",
+      "from": [
+        "desktop"
+      ],
+      "forbid": [
+        "api",
+        "mobile"
+      ],
+      "description": "The desktop client does not import other applications; use shared packages and API transport."
+    },
+    {
+      "id": "REPO-003C",
+      "from": [
+        "mobile"
+      ],
+      "forbid": [
+        "api",
+        "desktop"
+      ],
+      "description": "The mobile client does not import other applications; use shared packages and API transport."
+    },
+    {
+      "id": "REPO-004",
+      "from": [
+        "aura",
+        "gather",
+        "signal",
+        "marks",
+        "prototype-shared"
+      ],
+      "forbid": [
+        "api",
+        "desktop",
+        "mobile"
+      ],
+      "description": "Visual prototypes remain independent of production application implementations."
+    },
+    {
+      "id": "REPO-005A",
+      "from": [
+        "aura"
+      ],
+      "forbid": [
+        "gather",
+        "signal"
+      ],
+      "description": "Preserve Aura as an independent exploration."
+    },
+    {
+      "id": "REPO-005B",
+      "from": [
+        "gather"
+      ],
+      "forbid": [
+        "aura",
+        "signal"
+      ],
+      "description": "Preserve Gather as an independent exploration."
+    },
+    {
+      "id": "REPO-005C",
+      "from": [
+        "signal"
+      ],
+      "forbid": [
+        "aura",
+        "gather"
+      ],
+      "description": "Preserve Signal as an independent exploration."
+    }
+  ],
+  "change_recipes": [
+    {
+      "scope": "business-rule",
+      "read": [
+        "docs/architecture/communication-contract.md",
+        "packages/domain/ontology.json",
+        "packages/domain/README.md"
+      ],
+      "edit": [
+        "packages/domain/index.js",
+        "packages/domain/index.d.ts",
+        "packages/domain/ontology.json",
+        "packages/domain/conformance.test.js",
+        "packages/domain/response-content.test.js"
+      ],
+      "verify": [
+        "npm run check:domain",
+        "npm run verify"
+      ]
+    },
+    {
+      "scope": "signal-ui",
+      "read": [
+        "prototypes/signal/README.md",
+        "prototypes/signal/DESIGN-REVIEW.md",
+        "packages/design-system/agent-guide.md"
+      ],
+      "edit": [
+        "prototypes/signal/app.js",
+        "prototypes/signal/conversation-ui.css",
+        "prototypes/signal/index.html"
+      ],
+      "verify": [
+        "npm run verify",
+        "Browser: keyboard flow, focus, drafts, advance, all-clear, desktop and narrow width"
+      ]
+    },
+    {
+      "scope": "design-tokens",
+      "read": [
+        "packages/design-system/agent-guide.md"
+      ],
+      "edit": [
+        "packages/design-system/tokens.json"
+      ],
+      "verify": [
+        "npm run check:design",
+        "npm run verify",
+        "Browser: visual reference; publish only when requested"
+      ]
+    },
+    {
+      "scope": "new-application-or-package",
+      "read": [
+        "AGENTS.md",
+        "docs/architecture/repository-map.json",
+        "packages/domain/README.md"
+      ],
+      "edit": [
+        "docs/architecture/repository-map.json",
+        "package.json",
+        "scripts/verify.mjs",
+        ".github/workflows/verify.yml"
+      ],
+      "verify": [
+        "npm run verify",
+        "Add actual compiler/build/integration checks for introduced tooling"
+      ]
+    },
+    {
+      "scope": "website",
+      "read": [
+        "apps/website/README.md",
+        "packages/design-system/agent-guide.md"
+      ],
+      "edit": [
+        "apps/website/public/index.html",
+        "apps/website/public/assets/site.js",
+        "apps/website/test/site.test.js"
+      ],
+      "verify": [
+        "npm run verify",
+        "Browser: desktop and narrow width, demo Pause and step buttons by keyboard, reduced motion",
+        "Deploy with bun run --cwd apps/website deploy only when Scott asks"
+      ]
+    },
+    {
+      "scope": "desktop-app",
+      "read": [
+        "docs/architecture/test-version.md",
+        "apps/desktop/README.md",
+        "packages/design-system/agent-guide.md"
+      ],
+      "edit": [
+        "apps/desktop/src/main/index.ts",
+        "apps/desktop/src/main/host.ts",
+        "apps/desktop/src/view/app.js",
+        "apps/desktop/src/view/app.css",
+        "apps/desktop/src/main/host.test.ts",
+        "apps/desktop/src/main/sessions.test.ts",
+        "apps/desktop/src/view/layout.js",
+        "apps/desktop/src/view/image-gesture.js",
+        "apps/desktop/src/view/image-gesture.test.js",
+        "apps/desktop/src/view/review-context.js",
+        "apps/desktop/src/view/review-context.test.js",
+        "apps/desktop/src/view/preferences.js",
+        "apps/desktop/src/view/settings.html",
+        "apps/desktop/src/view/settings.js",
+        "apps/desktop/src/view/settings.css",
+        "apps/desktop/src/view/beacon.html",
+        "apps/desktop/src/view/beacon.js",
+        "apps/desktop/src/view/beacon.css",
+        "apps/desktop/src/main/beacon.test.ts",
+        "apps/desktop/src/native/beacon.test.m",
+        "apps/desktop/src/main/notifications.ts",
+        "apps/desktop/src/main/notifications.test.ts",
+        "apps/desktop/src/native/notifications.m",
+        "apps/desktop/src/view/beacon.test.ts",
+        "apps/desktop/src/view/signal-content.js",
+        "apps/desktop/src/view/signal-content.test.js",
+        "apps/desktop/src/view/annotation-drafts.js",
+        "apps/desktop/src/view/annotation-drafts.test.js"
+      ],
+      "verify": [
+        "npm run check:desktop",
+        "npm run verify",
+        "Native and browser: layout, keyboard, focus, drafts, advance, startup and shutdown"
+      ]
+    },
+    {
+      "scope": "review-library",
+      "read": [
+        "docs/architecture/communication-contract.md",
+        "docs/architecture/test-version.md",
+        "packages/library/README.md"
+      ],
+      "edit": [
+        "packages/library/index.js",
+        "packages/library/index.d.ts",
+        "packages/library/library.test.js",
+        "apps/api/src/worker.ts"
+      ],
+      "verify": [
+        "npm run check:api",
+        "npm run verify"
+      ]
+    },
+    {
+      "scope": "claude-channel",
+      "read": [
+        "packages/claude-channel/README.md",
+        "docs/architecture/test-version.md"
+      ],
+      "edit": [
+        "packages/claude-channel/src/remote.ts",
+        "packages/claude-channel/src/protocol.js",
+        "packages/claude-channel/src/launch.ts",
+        "packages/claude-channel/remote.test.ts"
+      ],
+      "verify": [
+        "npm run check:desktop",
+        "npm run verify",
+        "Real Claude: channel acknowledgement, reply, file publication and follow-up revision"
+      ]
+    }
+  ],
+  "limitations": [
+    "Relationships marked planned are architectural intentions, not existing integrations.",
+    "Import analysis checks literal module specifiers; it does not execute code or resolve every dynamic loader/compiler alias.",
+    "The business ontology and runtime tests establish covered reference rules, not production authentication, persistence or provider behavior."
+  ]
+}

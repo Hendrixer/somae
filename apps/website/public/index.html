@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Somae · Review everything your AI agents make</title>
+<meta name="description" content="Somae is an open-source inbox for your AI agents. Review the video, 3D, sites, logos and docs they make, then send feedback straight back over MCP.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0c0c">
+<link rel="canonical" href="https://getsomae.ai/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Somae">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://getsomae.ai/">
+<meta property="og:title" content="Somae · Every agent. One inbox.">
+<meta property="og:description" content="Somae is an open-source inbox for your AI agents. Review the video, 3D, sites, logos and docs they make, then send feedback straight back over MCP.">
+<meta property="og:image" content="https://getsomae.ai/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Somae: Every agent. One inbox. A Mac desktop with the Somae beacon showing one signal.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Somae · Every agent. One inbox.">
+<meta name="twitter:description" content="Somae is an open-source inbox for your AI agents. Review the video, 3D, sites, logos and docs they make, then send feedback straight back over MCP.">
+<meta name="twitter:image" content="https://getsomae.ai/og.png">
+<meta name="twitter:image:alt" content="Somae: Every agent. One inbox. A Mac desktop with the Somae beacon showing one signal.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Somae",
+  "url": "https://getsomae.ai/",
+  "description": "Somae is an open-source inbox for your AI agents. Review the video, 3D, sites, logos and docs they make, then send feedback straight back over MCP.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "macOS",
+  "image": "https://getsomae.ai/og.png",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "sameAs": ["https://github.com/Hendrixer/somae"]
+}
+</script>
+<link rel="preload" as="image" href="/assets/desktop.jpg" fetchpriority="high">
+<link rel="modulepreload" href="/assets/site.js">
+<style>
+body{margin:0;background:#0c0c0c}
+*{box-sizing:border-box}
+a{color:inherit}a:hover{color:#ffffff}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #d0d0cc;outline-offset:3px}
+::selection{background:#c6c6c0;color:#0c0c0c}
+.bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.b-wide{grid-column:span 2}
+.b-big{grid-column:span 2;grid-row:span 2}
+@media (max-width:1000px){.bento{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.bento{grid-template-columns:minmax(0,1fr)}.b-wide,.b-big{grid-column:auto;grid-row:auto}}
+@keyframes somae-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes somae-summon{from{opacity:0;transform:translateY(12px) scale(.975)}to{opacity:1;transform:none}}
+@keyframes somae-dismiss{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-8px) scale(.98)}}
+@keyframes somae-wave{0%,100%{transform:rotate(0)}12%{transform:rotate(-15deg)}28%{transform:rotate(19deg)}44%{transform:rotate(-12deg)}60%{transform:rotate(14deg)}78%{transform:rotate(-5deg)}90%{transform:rotate(2deg)}}
+@keyframes somae-toast{from{opacity:0;transform:translate(-50%,7px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes somae-caret{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes film-rise{from{transform:translateY(90px);opacity:.25}to{transform:translateY(-8px);opacity:1}}
+@keyframes film-title{0%,55%{opacity:0;letter-spacing:.6em}100%{opacity:1;letter-spacing:.32em}}
+@keyframes orbit{from{transform:rotateX(-16deg) rotateY(0deg)}to{transform:rotateX(-16deg) rotateY(360deg)}}
+@keyframes orbit-inner{from{transform:rotateX(64deg) rotateZ(0deg)}to{transform:rotateX(64deg) rotateZ(360deg)}}
+@keyframes mini-orbit{from{transform:rotateX(-14deg) rotateY(0deg)}to{transform:rotateX(-14deg) rotateY(360deg)}}
+@keyframes wave-bar{0%,100%{transform:scaleY(.45)}50%{transform:scaleY(1)}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+sc-if,sc-for{display:contents}
+@media (max-width:640px){.nav-links{display:none!important}.nav-cta{margin-left:auto!important}}
+[data-dc]:not([data-dc-bound]){visibility:hidden}
+</style>
+<noscript><style>[data-dc]{visibility:visible!important}</style></noscript>
+</head>
+<body>
+<div style="font-family: 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #f4f4f2; background: #0c0c0c">
+
+  <nav aria-label="Main" style="max-width: 1280px; margin: 0 auto; padding: 20px clamp(20px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+    <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 19px; font-weight: 650; letter-spacing: -0.7px">
+      <svg aria-hidden="true" viewBox="0 0 64 64" width="28" height="28" fill="#f4f4f2"><path d="M37 55.5C28.25 57 21.5 51.5 16.75 44.5L6.5 33.25C3.25 28.25 9.75 23.75 13.5 28.25L21.25 36L14.5 18.5C12.5 12.5 20.25 9 23.25 14.75L29.5 28.5C31 32 36 30 34.75 26.5L29 10.25C27 4.25 35.25 1.75 37.25 8L43 26.75C44 30.5 49.25 29 48.25 25.5L46.25 17.25C45 11.25 53.75 9.75 55 16.25L56.5 31.75C58.5 44.5 49.75 54.75 37 55.5Z"></path></svg>
+      somae
+    </a>
+    <div class="nav-links" style="display: flex; flex-wrap: wrap; gap: 4px 24px; margin-left: auto; font-size: 14px; color: #aaa9a5">
+      <a href="#review" style="text-decoration: none; padding: 12px 0">Review</a>
+      <a href="#anything" style="text-decoration: none; padding: 12px 0">What you can review</a>
+      <a href="#agents" style="text-decoration: none; padding: 12px 0">Agents</a>
+    </div>
+    <a class="nav-cta" href="https://github.com/Hendrixer/somae" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid #303030; border-radius: 6px; background: #141414; text-decoration: none; font-size: 14px; font-weight: 500">GitHub</a>
+  </nav>
+
+  <main>
+  <section id="top" style="max-width: 1280px; margin: 0 auto; padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) 0">
+    <h1 style="margin: 0; font-size: clamp(60px, 10vw, 152px); line-height: 0.92; font-weight: 750; letter-spacing: -0.05em">Every agent.<br><span style="color: #92918c">One inbox.</span></h1>
+    <div style="display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 28px 48px; margin-top: clamp(32px, 5vw, 56px)">
+      <p style="flex: 1 1 420px; min-width: 0; max-width: 32em; margin: 0; font-size: clamp(18px, 1.6vw, 21px); line-height: 1.55; color: #aaa9a5">Somae is an inbox for everything your agents make. Agents send you a signal when they need your input. Somae has the tools to review any kind of artifact, then sends your feedback straight back to the agent.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <a href="https://github.com/Hendrixer/somae" style="display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px; border-radius: 6px; background: #f4f4f2; color: #0c0c0c; text-decoration: none; font-size: 16px; font-weight: 650">Get the source <svg aria-hidden="true" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></a>
+        <a href="#review" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 20px; border: 1px solid #303030; border-radius: 6px; background: #141414; text-decoration: none; font-size: 16px; font-weight: 500">See it review</a>
+      </div>
+    </div>
+
+    <figure data-dc="hero" style="margin: clamp(48px, 7vw, 80px) 0 0">
+      <div data-fit="960">
+      <div role="img" aria-label="Animated demo on a Mac desktop: Claude Code works in Terminal, the Somae beacon at the top of the screen waves when the launch is ready, Command Shift Space summons the companion, the signal is set aside, and the companion tucks away" style="position: relative; height: 720px; border-radius: 14px; overflow: hidden; background: #1c1e26; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 40px 120px rgba(0, 0, 0, 0.6); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif">
+        <img src="/assets/desktop.jpg" alt="" fetchpriority="high" decoding="async" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%">
+
+        <div style="position: relative; z-index: 3; display: flex; align-items: center; gap: 20px; height: 28px; padding: 0 16px; background: rgba(12, 12, 18, 0.16); backdrop-filter: blur(30px) saturate(1.4); -webkit-backdrop-filter: blur(30px) saturate(1.4); color: #ffffff; font-size: 13px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); white-space: nowrap">
+          <span style="font-size: 15px; line-height: 1"></span>
+          <span style="font-weight: 700">Terminal</span>
+          <span>Shell</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span>
+          <span style="display: flex; align-items: center; gap: 16px; margin-left: auto">
+            <span style="display: flex; align-items: center; gap: 4px"><svg aria-hidden="true" viewBox="0 0 64 64" width="15" height="15" fill="#ffffff"><path d="M37 55.5C28.25 57 21.5 51.5 16.75 44.5L6.5 33.25C3.25 28.25 9.75 23.75 13.5 28.25L21.25 36L14.5 18.5C12.5 12.5 20.25 9 23.25 14.75L29.5 28.5C31 32 36 30 34.75 26.5L29 10.25C27 4.25 35.25 1.75 37.25 8L43 26.75C44 30.5 49.25 29 48.25 25.5L46.25 17.25C45 11.25 53.75 9.75 55 16.25L56.5 31.75C58.5 44.5 49.75 54.75 37 55.5Z"></path></svg><sc-if value="{{h.menuCount}}"><span style="font-variant-numeric: tabular-nums">1</span></sc-if></span>
+            <svg aria-hidden="true" viewBox="0 0 28 14" width="25" height="12" fill="none" stroke="#ffffff" stroke-width="1.1" opacity="0.95"><rect x="1" y="1" width="22" height="12" rx="3.5"></rect><rect x="3" y="3" width="14" height="8" rx="1.8" fill="#ffffff" stroke="none"></rect><path d="M25.2 5.2v3.6" stroke-linecap="round" stroke-width="1.6"></path></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="#ffffff"><path d="M12 18.6a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2zM6.3 14.3l1.6 1.6a5.8 5.8 0 0 1 8.2 0l1.6-1.6a8.1 8.1 0 0 0-11.4 0zM2.9 10.9l1.6 1.6a10.6 10.6 0 0 1 15 0l1.6-1.6a12.9 12.9 0 0 0-18.2 0z"></path></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m15.5 15.5 5 5"></path></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#ffffff" stroke-width="1.6"><rect x="3" y="5" width="18" height="6" rx="3"></rect><circle cx="15" cy="8" r="1.6" fill="#ffffff"></circle><rect x="3" y="13" width="18" height="6" rx="3"></rect><circle cx="9" cy="16" r="1.6" fill="#ffffff"></circle></svg>
+            <span style="font-variant-numeric: tabular-nums">Thu Nov 6&#160;&#160;9:41 AM</span>
+          </span>
+        </div>
+
+        <div style="position: absolute; z-index: 1; left: 4%; top: 78px; width: min(600px, 54%); height: 430px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; background: rgba(22, 22, 26, 0.86); backdrop-filter: blur(30px) saturate(1.2); -webkit-backdrop-filter: blur(30px) saturate(1.2); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 0 0.5px rgba(0, 0, 0, 0.6); overflow: hidden">
+          <div style="position: relative; display: flex; align-items: center; height: 34px; padding: 0 14px">
+            <span style="display: flex; gap: 8px"><span style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2)"></span><span style="width: 12px; height: 12px; border-radius: 50%; background: #febc2e; box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2)"></span><span style="width: 12px; height: 12px; border-radius: 50%; background: #28c840; box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2)"></span></span>
+            <span style="position: absolute; left: 0; right: 0; text-align: center; color: rgba(255, 255, 255, 0.55); font-size: 13px; font-weight: 600">morrow — claude — 96×28</span>
+          </div>
+          <div style="display: grid; gap: 1px; padding: 6px 16px 20px; font: 12.5px/1.6 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace; color: #e8e8e8">
+            <p style="margin: 0; color: rgba(255, 255, 255, 0.6)">Last login: Thu Nov 6 09:12:04 on ttys002</p>
+            <p style="margin: 0">you@studio morrow % claude</p>
+            <p style="margin: 10px 0 10px; color: #ffffff">&gt; Cut the launch film, export the ring asset, ship a preview of the site and the new logo. Send them to me for review.</p>
+            <p style="margin: 0"><span style="color: rgba(255, 255, 255, 0.5)">✓</span> Rendered launch-film.mp4 <span style="color: rgba(255, 255, 255, 0.5)">0:12 · 4K</span></p>
+            <p style="margin: 0"><span style="color: rgba(255, 255, 255, 0.5)">✓</span> Exported ring.glb</p>
+            <p style="margin: 0"><span style="color: rgba(255, 255, 255, 0.5)">✓</span> Deployed preview morrow.site</p>
+            <p style="margin: 0"><span style="color: rgba(255, 255, 255, 0.5)">✓</span> Drew logo.svg</p>
+            <p style="margin: 0"><span style="color: rgba(255, 255, 255, 0.5)">→</span> request_review <span style="color: rgba(255, 255, 255, 0.5)">via Somae · 4 files</span></p>
+            <p style="margin: 0; padding-left: 2ch; color: rgba(255, 255, 255, 0.5)">Waiting for your decision</p>
+          </div>
+        </div>
+
+        <sc-if value="{{h.showBeacon}}">
+          <div style="position: absolute; z-index: 2; top: 44px; left: 0; right: 0; display: flex; justify-content: center; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both; font-family: 'Helvetica Neue', Arial, sans-serif">
+            <div style="display: flex; align-items: center; gap: 12px; width: 268px; height: 48px; padding: 0 16px 0 10px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px; background: #0c0c0c; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45)">
+              <span aria-hidden="true" style="display: flex; gap: 2px; padding: 0 2px 0 4px"><span style="width: 1px; height: 11px; background: #92918c; opacity: 0.45"></span><span style="width: 1px; height: 11px; background: #92918c; opacity: 0.45"></span></span>
+              <svg aria-hidden="true" viewBox="0 0 64 64" width="22" height="22" fill="#f4f4f2" style="transform-origin: 61% 85%; animation: {{h.waveAnim}}"><path d="M37 55.5C28.25 57 21.5 51.5 16.75 44.5L6.5 33.25C3.25 28.25 9.75 23.75 13.5 28.25L21.25 36L14.5 18.5C12.5 12.5 20.25 9 23.25 14.75L29.5 28.5C31 32 36 30 34.75 26.5L29 10.25C27 4.25 35.25 1.75 37.25 8L43 26.75C44 30.5 49.25 29 48.25 25.5L46.25 17.25C45 11.25 53.75 9.75 55 16.25L56.5 31.75C58.5 44.5 49.75 54.75 37 55.5Z"></path></svg>
+              <span style="flex: 1; font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums">{{h.beaconText}}</span>
+              <span style="color: #aaa9a5; font: 9px SFMono-Regular, Consolas, monospace">⌘ ⇧ Space</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{h.showWindow}}">
+          <div style="position: absolute; z-index: 2; top: 44px; left: 0; right: 0; padding: 0 16px; display: flex; justify-content: center; font-family: 'Helvetica Neue', Arial, sans-serif">
+            <div style="width: 100%; max-width: 600px; background: #0c0c0c; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), 0 2px 5px rgba(0, 0, 0, 0.2); overflow: hidden; animation: {{h.windowAnim}}">
+              <div style="display: flex; align-items: center; gap: 20px; height: 62px; padding: 0 22px; border-bottom: 1px solid #303030">
+                <span style="display: flex; align-items: center; gap: 9px; font-size: 17px; font-weight: 650; letter-spacing: -0.7px"><svg aria-hidden="true" viewBox="0 0 64 64" width="25" height="25" fill="#f4f4f2"><path d="M37 55.5C28.25 57 21.5 51.5 16.75 44.5L6.5 33.25C3.25 28.25 9.75 23.75 13.5 28.25L21.25 36L14.5 18.5C12.5 12.5 20.25 9 23.25 14.75L29.5 28.5C31 32 36 30 34.75 26.5L29 10.25C27 4.25 35.25 1.75 37.25 8L43 26.75C44 30.5 49.25 29 48.25 25.5L46.25 17.25C45 11.25 53.75 9.75 55 16.25L56.5 31.75C58.5 44.5 49.75 54.75 37 55.5Z"></path></svg>somae</span>
+                <span style="display: flex; align-items: center; gap: 3px; margin-left: auto; font-size: 11px">
+                  <span style="display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 9px; border-radius: 5px; background: #181818"><svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM4 13h5l2 3h2l2-3h5"></path></svg>Inbox<sc-if value="{{h.showSignal}}"><span style="display: inline-grid; place-items: center; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 3px; background: #f4f4f2; color: #0c0c0c; font: 9px SFMono-Regular, Consolas, monospace">1</span></sc-if></span>
+                  <span style="display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 9px; color: #aaa9a5"><svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4v16M10 4v16M15 5l5 14"></path></svg>Library</span>
+                </span>
+              </div>
+              <div style="height: 390px">
+                <sc-if value="{{h.showSignal}}">
+                  <div style="display: flex; flex-direction: column; height: 100%">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 27px 30px 24px">
+                      <span style="display: flex; align-items: center; gap: 10px">
+                        <span style="display: inline-grid; place-items: center; width: 30px; height: 30px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 7px; background: #d97757; color: #0c0c0c; font-size: 13px; font-weight: 600">C</span>
+                        <span style="font: 11px/1.3 SFMono-Regular, Consolas, monospace">Claude Code<br><span style="display: inline-block; margin-top: 4px; color: #aaa9a5; font-size: 10px"><span style="display: inline-block; width: 4px; height: 4px; margin-right: 5px; border-radius: 50%; background: #f4f4f2; vertical-align: middle"></span>~/morrow</span></span>
+                      </span>
+                      <span style="font: 9px SFMono-Regular, Consolas, monospace; letter-spacing: 1.1px; color: #aaa9a5">NEEDS YOU</span>
+                    </div>
+                    <p style="margin: 0 30px 14px; font-size: 39px; line-height: 1.04; font-weight: 750; letter-spacing: -1.8px">The launch is ready for your eye.</p>
+                    <p style="margin: 0 30px; font-size: 13px; line-height: 1.75; color: #aaa9a5">A 12-second film, the ring asset, a preview of the site and the logo. Approve them together or request changes.</p>
+                    <div style="display: flex; gap: 8px; margin: 22px 30px 0; overflow: hidden">
+                      <span style="display: flex; align-items: center; gap: 8px; padding: 8px 10px 8px 8px; border: 1px solid #303030; border-radius: 6px; background: #181818; font-size: 11px; font-weight: 500; white-space: nowrap"><span style="display: grid; place-items: center; width: 28px; height: 28px; border-radius: 4px; background: #3a2230; color: #f4f4f2"><svg aria-hidden="true" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></span>launch-film.mp4</span>
+                      <span style="display: flex; align-items: center; gap: 8px; padding: 8px 10px 8px 8px; border: 1px solid #303030; border-radius: 6px; background: #181818; font-size: 11px; font-weight: 500; white-space: nowrap"><span style="display: grid; place-items: center; width: 28px; height: 28px; border-radius: 4px; background: #232323"><span style="width: 14px; height: 14px; border: 2px solid #d8d8d3; border-radius: 50%; transform: rotateX(60deg)"></span></span>ring.glb</span>
+                      <span style="display: flex; align-items: center; gap: 8px; padding: 8px 10px 8px 8px; border: 1px solid #303030; border-radius: 6px; background: #181818; font-size: 11px; font-weight: 500; white-space: nowrap"><span style="display: grid; place-items: center; width: 28px; height: 28px; border-radius: 4px; background: #232323; color: #d8d8d3; font: 9px SFMono-Regular, Consolas, monospace">www</span>morrow.site</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding: 0 30px 22px; font-size: 12px">
+                      <span style="display: inline-flex; align-items: center; min-height: 39px; padding: 0 14px; border: 1px solid #303030; border-radius: 5px; background: {{h.later.bg}}; transform: {{h.later.shift}}; font-weight: 500; transition: background 120ms, transform 160ms">Set aside <span style="margin-left: 8px; padding: 1px 4px; border: 1px solid #4a4a47; border-radius: 3px; font: 9px SFMono-Regular, Consolas, monospace">⌘ ←</span></span>
+                      <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 39px; padding: 0 14px; border-radius: 6px; background: #f4f4f2; color: #0c0c0c; font-weight: 650">Review and decide <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg></span>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{h.showClear}}">
+                  <div style="display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; max-width: 480px; margin: 0 auto; padding: 120px 30px 0; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">
+                    <span style="display: grid; place-items: center; width: 28px; height: 28px; margin-top: 3px; border-radius: 50%; background: #2a2a28; color: #f4f4f2"><svg aria-hidden="true" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"></path></svg></span>
+                    <div>
+                      <p style="margin: 0; font-size: 28px; line-height: 1.2; font-weight: 650; letter-spacing: -1px">All caught up.</p>
+                      <p style="margin: 14px 0 0; color: #aaa9a5; font-size: 13px; line-height: 1.6">1 set aside for later.</p>
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; font-size: 12px">
+                        <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border-radius: 6px; background: #f4f4f2; color: #0c0c0c; font-weight: 650">Get back to it <span style="padding: 1px 5px; border: 1px solid currentColor; border-radius: 3px; font: 9px SFMono-Regular, Consolas, monospace">↵</span></span>
+                      </div>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; min-height: 43px; padding: 0 22px; border-top: 1px solid #303030; background: #0b0b0b; color: #aaa9a5; font: 10px SFMono-Regular, Consolas, monospace">
+                <sc-if value="{{h.showSignal}}"><span>‹ 01 / 01 ›</span><span>+ Details</span></sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="position: absolute; z-index: 1; left: 0; right: 0; bottom: 8px; display: flex; justify-content: center">
+          <div style="display: flex; align-items: center; gap: 6px; padding: 6px 7px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 22px; background: rgba(36, 34, 44, 0.32); backdrop-filter: blur(30px) saturate(1.6); -webkit-backdrop-filter: blur(30px) saturate(1.6); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 10px 30px rgba(0, 0, 0, 0.25)">
+            <span style="position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(180deg, #6cb8ff 0%, #2a7cf0 100%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 2px rgba(0, 0, 0, 0.3)"><svg aria-hidden="true" viewBox="0 0 24 24" width="30" height="30" fill="#ffffff"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h5l2 2h8A1.5 1.5 0 0 1 21 9.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" opacity="0.95"></path></svg></span>
+            <span style="display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(180deg, #ffffff 0%, #e3e6ec 100%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 1px 2px rgba(0, 0, 0, 0.3)"><svg aria-hidden="true" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#2f6fe0" stroke-width="1.4"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"></path></svg></span>
+            <span style="display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(180deg, #3b4262 0%, #161a2a 100%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.3); color: #9ec0ff; font: 600 15px 'SF Mono', Menlo, monospace">&lt;/&gt;</span>
+            <span style="position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(180deg, #444446 0%, #141414 100%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.3); color: #ffffff; font: 600 15px 'SF Mono', Menlo, monospace">&gt;_<span style="position: absolute; bottom: -7px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, 0.85)"></span></span>
+            <span style="position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(180deg, #1c1c1c 0%, #050505 100%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(0, 0, 0, 0.3)"><svg aria-hidden="true" viewBox="0 0 64 64" width="30" height="30" fill="#f4f4f2"><path d="M37 55.5C28.25 57 21.5 51.5 16.75 44.5L6.5 33.25C3.25 28.25 9.75 23.75 13.5 28.25L21.25 36L14.5 18.5C12.5 12.5 20.25 9 23.25 14.75L29.5 28.5C31 32 36 30 34.75 26.5L29 10.25C27 4.25 35.25 1.75 37.25 8L43 26.75C44 30.5 49.25 29 48.25 25.5L46.25 17.25C45 11.25 53.75 9.75 55 16.25L56.5 31.75C58.5 44.5 49.75 54.75 37 55.5Z"></path></svg><span style="position: absolute; bottom: -7px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, 0.85)"></span></span>
+            <span style="width: 1px; height: 44px; margin: 0 3px; background: rgba(255, 255, 255, 0.2)"></span>
+            <span style="display: grid; place-items: center; width: 52px; height: 52px"><svg aria-hidden="true" viewBox="0 0 24 24" width="34" height="34" fill="rgba(255, 255, 255, 0.22)" stroke="rgba(255, 255, 255, 0.75)" stroke-width="1" stroke-linejoin="round"><path d="M6 7h12l-1.1 13.2a1 1 0 0 1-1 .8H8.1a1 1 0 0 1-1-.8z"></path><path d="M5 7h14M9.5 4.5h5" fill="none"></path></svg></span>
+          </div>
+        </div>
+
+        <sc-if value="{{h.showKey}}">
+          <span aria-hidden="true" style="position: absolute; z-index: 4; right: clamp(16px, 3vw, 32px); bottom: 92px; display: inline-grid; place-items: center; min-width: 52px; height: 52px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, 0.2); border-bottom-width: 3px; border-radius: 9px; background: rgba(24, 24, 28, 0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: #ffffff; font: 18px 'SF Mono', SFMono-Regular, Menlo, monospace; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">{{h.keyLabel}}</span>
+        </sc-if>
+      </div>
+      </div>
+
+      <figcaption style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px">
+        <button type="button" data-on-click="{{h.toggle}}" aria-label="{{h.toggleLabel}}" style="min-height: 44px; min-width: 44px; padding: 0 14px; border: 1px solid #303030; border-radius: 6px; background: #141414; color: #f4f4f2; font-size: 13px">{{h.toggleText}}</button>
+        <sc-for list="{{h.steps}}" as="step">
+          <button type="button" data-on-click="{{step.pick}}" aria-pressed="{{step.pressed}}" style="min-height: 44px; padding: 0 14px; border: 1px solid {{step.border}}; border-radius: 6px; background: {{step.bg}}; color: {{step.fg}}; font-size: 13px">{{step.label}}</button>
+        </sc-for>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section id="review" style="margin-top: clamp(96px, 12vw, 160px)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 64px)">
+      <p style="margin: 0 0 18px; color: #92918c; font: 12px/1.5 SFMono-Regular, Consolas, monospace; letter-spacing: 1.1px">THE REVIEW CANVAS</p>
+      <h2 style="margin: 0; max-width: 12em; font-size: clamp(40px, 5.6vw, 76px); line-height: 1; font-weight: 750; letter-spacing: -0.045em">Approve the real thing.</h2>
+      <p style="margin: 24px 0 0; max-width: 36em; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; color: #aaa9a5">Somae opens the work itself, not a summary of it. Scrub a film to the frame, orbit a 3D asset, resize a live site, check a logo at every size. Pin a note where it belongs, approve the exact version, and your feedback goes straight back to the agent.</p>
+    </div>
+
+    <figure data-dc="review" style="max-width: 1340px; margin: clamp(40px, 6vw, 64px) auto 0; padding: 0 clamp(12px, 3vw, 40px)">
+      <div data-fit="1100">
+      <div role="img" aria-label="Animated demo of the review canvas: a launch film is paused at 0:04 with a note, a 3D ring asset turns on a turntable and gets a note, a website preview is checked at phone width, the logo is reviewed, and version 3 of all four files is approved with comments" style="position: relative; max-width: 1180px; margin: 0 auto; background: #0c0c0c; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; box-shadow: 0 0 0 1px #000000, 0px 34px 65px -20px rgba(0, 0, 0, 0.6); overflow: hidden">
+
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 72px; padding: 14px 22px; border-bottom: 1px solid #303030">
+          <span style="display: grid; place-items: center; width: 34px; height: 34px; color: #aaa9a5"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"></path></svg></span>
+          <span style="flex: 1; min-width: 0">
+            <span style="display: block; font-size: 15px; font-weight: 600; line-height: 1.4">{{r.title}}</span>
+            <span style="display: block; margin-top: 4px; color: #aaa9a5; font-size: 11px; line-height: 1.5">Claude Code · ~/morrow</span>
+          </span>
+          <span style="display: flex; align-items: center; gap: 7px">
+            <span style="display: inline-flex; align-items: center; gap: 14px; min-height: 37px; padding: 0 12px; border-radius: 6px; background: #181818; box-shadow: inset 0 0 0 1px #303030; font-size: 12px; font-weight: 500">{{r.versionLabel}}<svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#aaa9a5" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg></span>
+            <span style="display: grid; place-items: center; width: 34px; height: 34px; color: #aaa9a5"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4 7h4v10H4zM16 7h4v10h-4z"></path></svg></span>
+            <span style="display: grid; place-items: center; width: 34px; height: 34px; color: #aaa9a5"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"></path></svg></span>
+          </span>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap">
+          <div style="flex: 1 1 560px; min-width: 0; min-height: 660px; padding: 22px 26px 28px; background: #0c0c0c">
+            <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 22px; font-size: 12px">
+              <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 33px; padding: 0 10px; border-radius: 5px; background: {{r.tabs.film.bg}}; color: {{r.tabs.film.fg}}"><svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m10 9 5 3-5 3z"></path></svg>launch-film.mp4<sc-if value="{{r.tabs.film.count}}"><span style="color: #92918c; font-size: 11px">1</span></sc-if></span>
+              <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 33px; padding: 0 10px; border-radius: 5px; background: {{r.tabs.model.bg}}; color: {{r.tabs.model.fg}}"><svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"></path><path d="M4 7.5 12 12l8-4.5M12 12v9"></path></svg>ring.glb<sc-if value="{{r.tabs.model.count}}"><span style="color: #92918c; font-size: 11px">1</span></sc-if></span>
+              <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 33px; padding: 0 10px; border-radius: 5px; background: {{r.tabs.site.bg}}; color: {{r.tabs.site.fg}}"><svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"></path></svg>morrow.site<sc-if value="{{r.tabs.site.count}}"><span style="color: #92918c; font-size: 11px">1</span></sc-if></span>
+              <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 33px; padding: 0 10px; border-radius: 5px; background: {{r.tabs.logo.bg}}; color: {{r.tabs.logo.fg}}"><svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19v-7a3.5 3.5 0 0 1 7 0v7M12 19v-7a3.5 3.5 0 0 1 7 0v7"></path></svg>logo.svg</span>
+            </div>
+
+            <sc-if value="{{r.onFilm}}">
+              <div style="max-width: 760px; margin: 0 auto; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">
+                <div style="position: relative; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; background: #0d0b10">
+                  <span style="position: absolute; left: 50%; top: 34%; width: 150px; height: 150px; margin-left: -75px; border-radius: 50%; background: radial-gradient(circle at 42% 38%, #fff4ec 0%, #ffc9a8 28%, #e07a5f 58%, rgba(224, 122, 95, 0) 72%); box-shadow: 0 0 120px 30px rgba(224, 122, 95, 0.22); animation: film-rise 2500ms cubic-bezier(0.16, 1, 0.3, 1) both; animation-play-state: {{r.filmPlay}}"></span>
+                  <svg aria-hidden="true" viewBox="0 0 760 428" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%"><path d="M0 300 C 160 262 300 286 420 276 C 560 264 660 236 760 250 L760 428 L0 428Z" fill="#1a1520"></path><path d="M0 352 C 200 316 380 340 540 330 C 640 324 700 312 760 318 L760 428 L0 428Z" fill="#241c26"></path></svg>
+                  <span style="position: absolute; left: 0; right: 0; bottom: 18%; text-align: center; color: #f4f4f2; font-size: clamp(20px, 3vw, 34px); font-weight: 300; letter-spacing: 0.32em; animation: film-title 2500ms ease-out both; animation-play-state: {{r.filmPlay}}">MORROW</span>
+                  <sc-if value="{{r.filmRegion}}">
+                    <span style="position: absolute; left: 36%; top: 22%; width: 28%; height: 46%; border: 1px {{r.filmRegionStyle}} #d8d8d3; background: rgba(216, 216, 211, 0.08); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.27); animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both"></span>
+                    <span style="position: absolute; left: 36%; top: 22%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 25px; height: 25px; border: 2px solid #0c0c0c; border-radius: 50%; background: #f4f4f2; color: #0c0c0c; font-size: 11px; font-weight: 600">1</span>
+                  </sc-if>
+                </div>
+                <div style="display: flex; align-items: center; gap: 14px; margin-top: 14px">
+                  <span style="display: grid; place-items: center; width: 34px; height: 34px; border-radius: 5px; background: #181818; color: #f4f4f2"><sc-if value="{{r.filmPlaying}}"><svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg></sc-if><sc-if value="{{r.filmStopped}}"><svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></sc-if></span>
+                  <span style="color: #f4f4f2; font: 11px SFMono-Regular, Consolas, monospace; font-variant-numeric: tabular-nums">0:0{{r.filmSec}} <span style="color: #92918c">/ 0:12</span></span>
+                  <span style="position: relative; flex: 1; height: 40px">
+                    <span style="position: absolute; inset: 6px 0; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 2px; border-radius: 4px; overflow: hidden">
+                      <span style="background: #0d0b10"></span><span style="background: #15121a"></span><span style="background: #1f1824"></span><span style="background: #3a2230"></span><span style="background: #b2475a"></span><span style="background: #7a3145"></span><span style="background: #2a1d29"></span><span style="background: #1a1520"></span>
+                    </span>
+                    <span style="position: absolute; top: 0; bottom: 0; left: {{r.playPct}}%; width: 2px; margin-left: -1px; background: #f4f4f2; box-shadow: 0 0 0 1px #0c0c0c"></span>
+                    <sc-if value="{{r.filmMarker}}">
+                      <span style="position: absolute; top: -13px; left: 33.3%; transform: translateX(-50%); display: grid; place-items: center; width: 19px; height: 19px; border: 2px solid #0c0c0c; border-radius: 50%; background: #d8d8d3; color: #0c0c0c; font-size: 9px; font-weight: 600">1</span>
+                    </sc-if>
+                  </span>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{r.onModel}}">
+              <div style="position: relative; max-width: 760px; height: 520px; margin: 0 auto; border-radius: 6px; overflow: hidden; background: #0e0e10; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">
+                <span style="position: absolute; left: -30%; right: -30%; bottom: -10%; height: 70%; background-image: linear-gradient(#232323 1px, transparent 1px), linear-gradient(90deg, #232323 1px, transparent 1px); background-size: 46px 46px; transform: perspective(520px) rotateX(68deg); transform-origin: 50% 100%; opacity: 0.9"></span>
+                <span style="position: absolute; left: 50%; top: 74%; width: 300px; height: 46px; margin-left: -150px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))"></span>
+                <span style="position: absolute; left: 50%; top: 44%; width: 0; height: 0; perspective: 900px">
+                  <span style="position: absolute; left: -130px; top: -130px; width: 260px; height: 260px; transform-style: preserve-3d; animation: orbit 9s linear infinite; animation-play-state: {{r.spin}}">
+                    <span style="position: absolute; inset: 0; border: 3px solid #d8d8d3; border-radius: 50%; transform: rotateX(78deg)"></span>
+                    <span style="position: absolute; inset: 18px; border: 2px solid #92918c; border-radius: 50%; transform: rotateY(64deg)"></span>
+                    <span style="position: absolute; inset: 34px; border: 5px solid #f4f4f2; border-radius: 50%; animation: orbit-inner 6s linear infinite; animation-play-state: {{r.spin}}; box-shadow: 0 0 24px rgba(255, 255, 255, 0.18)"></span>
+                    <span style="position: absolute; left: 92px; top: 92px; width: 76px; height: 76px; border-radius: 50%; background: radial-gradient(circle at 36% 32%, #f4f4f2 0%, #aaa9a5 30%, #3a3a38 70%, #1a1a1a 100%)"></span>
+                  </span>
+                </span>
+                <span style="position: absolute; left: 16px; top: 14px; display: flex; gap: 6px; font-size: 11px">
+                  <span style="padding: 6px 9px; border-radius: 5px; background: #232323">Turntable</span>
+                  <span style="padding: 6px 9px; border-radius: 5px; color: #aaa9a5">Wireframe</span>
+                  <span style="padding: 6px 9px; border-radius: 5px; color: #aaa9a5">Studio light</span>
+                </span>
+                <span style="position: absolute; right: 16px; top: 16px; color: #92918c; font: 10px/1.6 SFMono-Regular, Consolas, monospace; text-align: right">ring.glb · 18.4k tris<br>drag to orbit</span>
+                <svg aria-hidden="true" viewBox="0 0 60 60" width="56" height="56" style="position: absolute; left: 16px; bottom: 16px"><path d="M30 34 L52 40" stroke="#ff9878" stroke-width="2" stroke-linecap="round"></path><path d="M30 34 L30 8" stroke="#8ab4ff" stroke-width="2" stroke-linecap="round"></path><path d="M30 34 L10 46" stroke="#c9a4ff" stroke-width="2" stroke-linecap="round"></path><text x="54" y="44" fill="#aaa9a5" font-size="8" font-family="monospace">x</text><text x="27" y="6" fill="#aaa9a5" font-size="8" font-family="monospace">y</text><text x="3" y="52" fill="#aaa9a5" font-size="8" font-family="monospace">z</text></svg>
+                <sc-if value="{{r.modelPin}}">
+                  <span style="position: absolute; left: calc(50% + 112px); top: calc(44% - 22px); transform: translate(-50%, -50%); display: grid; place-items: center; width: 25px; height: 25px; border: {{r.modelPinBorder}}; border-radius: 50%; background: {{r.modelPinBg}}; color: {{r.modelPinFg}}; font-size: 11px; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">2</span>
+                </sc-if>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{r.onSite}}">
+              <div style="display: grid; justify-items: center; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">
+                <div style="display: flex; gap: 3px; margin-bottom: 14px; padding: 3px; border-radius: 6px; background: #181818; font-size: 11px">
+                  <span style="padding: 6px 12px; border-radius: 4px; background: {{r.deskBg}}">Desktop</span>
+                  <span style="padding: 6px 12px; border-radius: 4px; background: {{r.phoneBg}}">Phone</span>
+                </div>
+                <div style="width: {{r.siteW}}; max-width: 100%; height: 470px; border: 1px solid #303030; border-radius: {{r.siteRadius}}; overflow: hidden; background: #0f0f11; transition: width 330ms cubic-bezier(0.16, 1, 0.3, 1), border-radius 330ms">
+                  <div style="display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px; border-bottom: 1px solid #262626; background: #161616">
+                    <span style="display: flex; gap: 5px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #3a3a38"></span><span style="width: 8px; height: 8px; border-radius: 50%; background: #3a3a38"></span></span>
+                    <span style="flex: 1; max-width: 220px; margin: 0 auto; padding: 3px 10px; border-radius: 4px; background: #0c0c0c; color: #aaa9a5; font: 10px SFMono-Regular, Consolas, monospace; text-align: center">morrow.site</span>
+                  </div>
+                  <div style="position: relative; padding: 22px 26px">
+                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: #aaa9a5"><span style="color: #f4f4f2; font-weight: 650; letter-spacing: 0.24em">MORROW</span><span>Plans · Stays · Journal</span></div>
+                    <p style="margin: 64px 0 0; max-width: 11em; font-size: {{r.siteHead}}; line-height: 0.98; font-weight: 750; letter-spacing: -0.04em; transition: font-size 330ms">Plan less. Arrive more.</p>
+                    <p style="margin: 18px 0 0; max-width: 30em; color: #aaa9a5; font-size: 13px; line-height: 1.6">Trips that plan themselves around the way you travel.</p>
+                    <span style="display: inline-flex; align-items: center; margin-top: 22px; min-height: 36px; padding: 0 14px; border-radius: 6px; background: #d8d8d3; color: #0c0c0c; font-size: 12px; font-weight: 650">Start a trip</span>
+                    <span style="display: block; margin-top: 36px; height: 120px; border-radius: 6px; background: #2b3040"></span>
+                    <sc-if value="{{r.sitePin}}">
+                      <span style="position: absolute; left: 18px; top: 92px; display: grid; place-items: center; width: 25px; height: 25px; border: {{r.sitePinBorder}}; border-radius: 50%; background: {{r.sitePinBg}}; color: {{r.sitePinFg}}; font-size: 11px; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">3</span>
+                    </sc-if>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{r.onLogo}}">
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 760px; margin: 0 auto; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">
+                <div style="display: grid; place-items: center; height: 300px; border: 1px solid #262626; border-radius: 6px; background: #0c0c0c">
+                  <span style="display: flex; align-items: center; gap: 16px; color: #f4f4f2"><svg aria-hidden="true" viewBox="0 0 64 64" width="72" height="72" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"><path d="M8 54V30a12 12 0 0 1 24 0v24M32 54V30a12 12 0 0 1 24 0v24"></path></svg><span style="font-size: 40px; font-weight: 650; letter-spacing: -0.04em">morrow</span></span>
+                </div>
+                <div style="display: grid; place-items: center; height: 300px; border-radius: 6px; background: #e9e8e3">
+                  <span style="display: flex; align-items: center; gap: 16px; color: #0c0c0c"><svg aria-hidden="true" viewBox="0 0 64 64" width="72" height="72" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"><path d="M8 54V30a12 12 0 0 1 24 0v24M32 54V30a12 12 0 0 1 24 0v24"></path></svg><span style="font-size: 40px; font-weight: 650; letter-spacing: -0.04em">morrow</span></span>
+                </div>
+                <div style="grid-column: 1 / -1; display: flex; align-items: end; justify-content: center; gap: 36px; height: 150px; border: 1px solid #262626; border-radius: 6px; background: #121212; color: #f4f4f2">
+                  <span style="display: grid; justify-items: center; gap: 10px; margin-bottom: 22px"><svg aria-hidden="true" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"><path d="M8 54V30a12 12 0 0 1 24 0v24M32 54V30a12 12 0 0 1 24 0v24"></path></svg><span style="color: #92918c; font: 10px SFMono-Regular, Consolas, monospace">64</span></span>
+                  <span style="display: grid; justify-items: center; gap: 10px; margin-bottom: 22px"><svg aria-hidden="true" viewBox="0 0 64 64" width="32" height="32" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"><path d="M8 54V30a12 12 0 0 1 24 0v24M32 54V30a12 12 0 0 1 24 0v24"></path></svg><span style="color: #92918c; font: 10px SFMono-Regular, Consolas, monospace">32</span></span>
+                  <span style="display: grid; justify-items: center; gap: 10px; margin-bottom: 22px"><svg aria-hidden="true" viewBox="0 0 64 64" width="16" height="16" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"><path d="M8 54V30a12 12 0 0 1 24 0v24M32 54V30a12 12 0 0 1 24 0v24"></path></svg><span style="color: #92918c; font: 10px SFMono-Regular, Consolas, monospace">16</span></span>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="flex: 0 1 320px; min-width: 280px; min-height: 660px; display: flex; flex-direction: column; border-left: 1px solid #303030; background: #0c0c0c">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 10px">
+              <span style="display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; line-height: 1.4">Comments <span style="display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 6px; background: #181818; color: #aaa9a5; font-size: 11px; font-weight: 450">{{r.count}}</span></span>
+              <span style="display: grid; place-items: center; width: 28px; height: 28px; color: #aaa9a5"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+            </div>
+            <div style="flex: 1; min-height: 0; padding: 2px 0 22px">
+              <sc-if value="{{r.composer}}">
+                <div style="margin: 6px 20px 8px; padding: 12px; border: 1px solid #92918c; border-radius: 10px; background: #181818; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">
+                  <p style="margin: 2px 0 8px; color: #aaa9a5; font: 10px/1.5 SFMono-Regular, Consolas, monospace">{{r.anchor}}</p>
+                  <p style="min-height: 46px; margin: 0; padding: 5px 2px; font-size: 14px; line-height: 1.6">{{r.typed}}<sc-if value="{{r.caret}}"><span style="display: inline-block; width: 1px; height: 1.1em; margin-left: 1px; background: #f4f4f2; vertical-align: text-bottom; animation: somae-caret 1s steps(1) infinite"></span></sc-if></p>
+                  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 9px; font-size: 11px">
+                    <span style="display: inline-flex; align-items: center; min-height: 29px; padding: 0 8px; color: #aaa9a5">Cancel</span>
+                    <span style="display: inline-flex; align-items: center; gap: 6px; min-height: 29px; padding: 0 8px; border: 1px solid #303030; border-radius: 5px; background: #232323">Save <span style="padding: 1px 4px; border: 1px solid #4a4a47; border-radius: 3px; font: 9px SFMono-Regular, Consolas, monospace">↵</span></span>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{r.card}}">
+                <div style="padding: 16px 20px; border-bottom: 1px solid #303030; background: {{r.cardBg}}; animation: somae-enter 210ms cubic-bezier(0.16, 1, 0.3, 1) both">
+                  <div style="display: flex; align-items: center; gap: 8px; min-height: 26px"><span style="display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #2a2a28; font: 500 10px/1 'Helvetica Neue', Arial, sans-serif">{{r.cardNum}}</span><span style="color: #92918c; font: 10px SFMono-Regular, Consolas, monospace">{{r.anchor}}</span></div>
+                  <p style="margin: 5px 0 0; padding-left: 28px; font-size: 14px; line-height: 1.6">{{r.cardText}}</p>
+                </div>
+              </sc-if>
+              <sc-if value="{{r.logoNote}}">
+                <p style="margin: 0; padding: 22px 20px 12px; color: #aaa9a5; font-size: 12px; line-height: 1.7">No notes on the logo. Approving sends the decision for all four files, with the three notes on the others.</p>
+              </sc-if>
+            </div>
+            <div style="display: grid; gap: 12px; padding: 16px 20px 14px; border-top: 1px solid #303030">
+              <p style="margin: 0; color: #aaa9a5; font-size: 11px; line-height: 1.5">Review requested for 4 files at version 3</p>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; font-size: 12px">
+                <span style="display: grid; place-items: center; min-height: 41px; border: 1px solid #303030; border-radius: 5px; background: #181818; font-weight: 500">Request changes</span>
+                <span style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 41px; border-radius: 6px; background: #f4f4f2; color: #0c0c0c; font-weight: 650; transform: {{r.approveShift}}; filter: {{r.approveFilter}}; transition: transform 160ms, filter 120ms">Approve <span style="padding: 1px 4px; border: 1px solid currentColor; border-radius: 3px; font: 9px SFMono-Regular, Consolas, monospace; opacity: 0.8">⌘ ↵</span></span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; color: #92918c; font-size: 11px; line-height: 1.5"><span>{{r.history}}</span><span style="display: inline-flex; align-items: center; gap: 5px; margin-left: auto; color: #aaa9a5; font: 10px/1.6 SFMono-Regular, Consolas, monospace">History <svg aria-hidden="true" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span></div>
+            </div>
+          </div>
+        </div>
+
+        <sc-if value="{{r.showToast}}">
+          <span style="position: absolute; left: 50%; bottom: 18px; width: max-content; max-width: calc(100% - 40px); padding: 11px 15px; border: 1px solid #303030; border-radius: 5px; background: #181818; font: 10px/1.5 SFMono-Regular, Consolas, monospace; box-shadow: 0px 30px 90px 0px rgba(0, 0, 0, 0.3); animation: somae-toast 150ms cubic-bezier(0.16, 1, 0.3, 1) both">{{r.toast}}</span>
+        </sc-if>
+      </div>
+      </div>
+
+      <figcaption style="max-width: 1180px; margin: 14px auto 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+        <button type="button" data-on-click="{{r.toggle}}" aria-label="{{r.toggleLabel}}" style="min-height: 44px; min-width: 44px; padding: 0 14px; border: 1px solid #303030; border-radius: 6px; background: #141414; color: #f4f4f2; font-size: 13px">{{r.toggleText}}</button>
+        <sc-for list="{{r.steps}}" as="step">
+          <button type="button" data-on-click="{{step.pick}}" aria-pressed="{{step.pressed}}" style="min-height: 44px; padding: 0 14px; border: 1px solid {{step.border}}; border-radius: 6px; background: {{step.bg}}; color: {{step.fg}}; font-size: 13px">{{step.label}}</button>
+        </sc-for>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section id="anything" style="margin-top: clamp(96px, 12vw, 160px)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 64px)">
+      <h2 style="margin: 0; max-width: 14em; font-size: clamp(40px, 5.6vw, 76px); line-height: 1; font-weight: 750; letter-spacing: -0.045em">Review anything an agent makes.</h2>
+      <p style="margin: 24px 0 0; max-width: 36em; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; color: #aaa9a5">Every file arrives as the original, with its versions kept side by side. Notes attach to a frame, a region, a line or a moment.</p>
+
+      <div class="bento" style="margin-top: 48px">
+
+        <div class="b-big" style="display: flex; flex-direction: column; border: 1px solid #262626; border-radius: 10px; background: #121212; overflow: hidden">
+          <div aria-hidden="true" style="flex: 1; min-height: 300px; padding: 26px; display: flex; flex-direction: column; justify-content: center; gap: 14px; background: #0e0e0e">
+            <div style="position: relative; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; background: #0d0b10">
+              <span style="position: absolute; left: 50%; top: 26%; width: 96px; height: 96px; margin-left: -48px; border-radius: 50%; background: radial-gradient(circle at 42% 38%, #fff4ec 0%, #ffc9a8 28%, #e07a5f 58%, rgba(224, 122, 95, 0) 72%); box-shadow: 0 0 80px 20px rgba(224, 122, 95, 0.2)"></span>
+              <svg viewBox="0 0 760 428" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%"><path d="M0 300 C 160 262 300 286 420 276 C 560 264 660 236 760 250 L760 428 L0 428Z" fill="#1a1520"></path><path d="M0 352 C 200 316 380 340 540 330 C 640 324 700 312 760 318 L760 428 L0 428Z" fill="#241c26"></path></svg>
+            </div>
+            <div style="position: relative; height: 28px; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 2px; border-radius: 4px; overflow: hidden">
+              <span style="background: #0d0b10"></span><span style="background: #15121a"></span><span style="background: #1f1824"></span><span style="background: #3a2230"></span><span style="background: #b2475a"></span><span style="background: #7a3145"></span><span style="background: #4a2234"></span><span style="background: #2a1d29"></span><span style="background: #1f1824"></span><span style="background: #1a1520"></span>
+              <span style="position: absolute; top: 0; bottom: 0; left: 42%; width: 2px; background: #f4f4f2"></span>
+            </div>
+          </div>
+          <div style="padding: 22px 26px 26px">
+            <h3 style="margin: 0 0 8px; font-size: 22px; font-weight: 650; letter-spacing: -0.4px">Video and motion</h3>
+            <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #aaa9a5">Scrub to the frame and pin a note to the moment. Films, edits, product demos, motion graphics.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; border: 1px solid #262626; border-radius: 10px; background: #121212; overflow: hidden">
+          <div aria-hidden="true" style="position: relative; height: 180px; background: #0e0e0e; overflow: hidden">
+            <span style="position: absolute; left: 50%; top: 50%; width: 0; height: 0; perspective: 600px">
+              <span style="position: absolute; left: -60px; top: -60px; width: 120px; height: 120px; transform-style: preserve-3d; animation: mini-orbit 10s linear infinite">
+                <span style="position: absolute; inset: 0; border: 2px solid #d8d8d3; border-radius: 50%; transform: rotateX(76deg)"></span>
+                <span style="position: absolute; inset: 10px; border: 2px solid #92918c; border-radius: 50%; transform: rotateY(62deg)"></span>
+                <span style="position: absolute; inset: 18px; border: 3px solid #f4f4f2; border-radius: 50%; transform: rotateX(40deg) rotateY(-30deg)"></span>
+                <span style="position: absolute; left: 42px; top: 42px; width: 36px; height: 36px; border-radius: 50%; background: radial-gradient(circle at 36% 32%, #f4f4f2 0%, #aaa9a5 30%, #3a3a38 70%, #1a1a1a 100%)"></span>
+              </span>
+            </span>
+          </div>
+          <div style="padding: 20px 22px 24px">
+            <h3 style="margin: 0 0 8px; font-size: 18px; font-weight: 650; letter-spacing: -0.3px">3D models</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #aaa9a5">Orbit, light and pin notes to the surface. glTF, USDZ, OBJ.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; border: 1px solid #262626; border-radius: 10px; background: #121212; overflow: hidden">
+          <div aria-hidden="true" style="height: 180px; display: grid; place-items: center; gap: 0; background: #0e0e0e">
+            <span style="display: flex; align-items: center; gap: 12px; color: #f4f4f2"><svg viewBox="0 0 64 64" width="44" height="44" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"><path d="M8 54V30a12 12 0 0 1 24 0v24M32 54V30a12 12 0 0 1 24 0v24"></path></svg><svg viewBox="0 0 64 64" width="24" height="24" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"><path d="M8 54V30a12 12 0 0 1 24 0v24M32 54V30a12 12 0 0 1 24 0v24"></path></svg><svg viewBox="0 0 64 64" width="14" height="14" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"><path d="M8 54V30a12 12 0 0 1 24 0v24M32 54V30a12 12 0 0 1 24 0v24"></path></svg></span>
+          </div>
+          <div style="padding: 20px 22px 24px">
+            <h3 style="margin: 0 0 8px; font-size: 18px; font-weight: 650; letter-spacing: -0.3px">Logos and brand</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #aaa9a5">Check a mark on light and dark, at every size it ships.</p>
+          </div>
+        </div>
+
+        <div class="b-wide" style="display: flex; flex-direction: column; border: 1px solid #262626; border-radius: 10px; background: #121212; overflow: hidden">
+          <div aria-hidden="true" style="height: 200px; padding: 22px 26px 0; display: flex; align-items: end; justify-content: center; gap: 16px; background: #0e0e0e; overflow: hidden">
+            <div style="flex: 1; max-width: 360px; height: 170px; border: 1px solid #303030; border-bottom: 0; border-radius: 6px 6px 0 0; background: #0f0f11; overflow: hidden">
+              <div style="height: 18px; border-bottom: 1px solid #262626; background: #161616"></div>
+              <div style="padding: 16px 18px"><p style="margin: 0; font-size: 22px; font-weight: 750; letter-spacing: -0.04em; line-height: 1">Plan less.<br>Arrive more.</p><span style="display: inline-block; margin-top: 12px; width: 64px; height: 18px; border-radius: 4px; background: #d8d8d3"></span></div>
+            </div>
+            <div style="width: 84px; height: 150px; border: 1px solid #303030; border-bottom: 0; border-radius: 14px 14px 0 0; background: #0f0f11; padding: 16px 10px"><p style="margin: 0; font-size: 12px; font-weight: 750; letter-spacing: -0.04em; line-height: 1">Plan less. Arrive more.</p></div>
+          </div>
+          <div style="padding: 20px 22px 24px">
+            <h3 style="margin: 0 0 8px; font-size: 18px; font-weight: 650; letter-spacing: -0.3px">Websites and live previews</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #aaa9a5">Open the deployed preview, switch between desktop and phone, and pin notes to the page.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; border: 1px solid #262626; border-radius: 10px; background: #121212; overflow: hidden">
+          <div aria-hidden="true" style="height: 160px; display: grid; place-items: center; background: #0e0e0e">
+            <div style="position: relative; width: 150px; height: 100px; border-radius: 4px; background: #2b3040">
+              <span style="position: absolute; left: 12%; top: 14%; color: #d8d8d3; font-size: 18px; font-weight: 750; letter-spacing: -0.05em">Morrow</span>
+              <span style="position: absolute; left: 8%; top: 8%; width: 58%; height: 36%; border: 1px solid #d8d8d3; background: rgba(216, 216, 211, 0.08); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.27)"></span>
+              <span style="position: absolute; left: 8%; top: 8%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 17px; height: 17px; border: 2px solid #0c0c0c; border-radius: 50%; background: #f4f4f2; color: #0c0c0c; font-size: 8px; font-weight: 600">1</span>
+            </div>
+          </div>
+          <div style="padding: 20px 22px 24px">
+            <h3 style="margin: 0 0 8px; font-size: 18px; font-weight: 650; letter-spacing: -0.3px">Images and illustration</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #aaa9a5">Drop a pin or drag a region. Covers, renders, art, screenshots.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; border: 1px solid #262626; border-radius: 10px; background: #121212; overflow: hidden">
+          <div aria-hidden="true" style="height: 160px; display: grid; place-items: center; background: #0e0e0e">
+            <div style="width: 150px; padding: 14px 16px; border-radius: 3px; background: #f4f4f2; color: #0c0c0c; font-size: 8px; line-height: 1.7"><p style="margin: 0 0 6px; font-size: 12px; font-weight: 700">Morrow brief</p><p style="margin: 0"><span style="background: #cecec7">Plan less, arrive more.</span> Trips that plan themselves.</p></div>
+          </div>
+          <div style="padding: 20px 22px 24px">
+            <h3 style="margin: 0 0 8px; font-size: 18px; font-weight: 650; letter-spacing: -0.3px">Documents and copy</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #aaa9a5">Comment on a line or suggest the exact words. Markdown, text, HTML.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; border: 1px solid #262626; border-radius: 10px; background: #121212; overflow: hidden">
+          <div aria-hidden="true" style="height: 160px; display: flex; align-items: center; justify-content: center; gap: 3px; background: #0e0e0e">
+            <span style="width: 4px; height: 28px; border-radius: 2px; background: #92918c; transform-origin: center; animation: wave-bar 1.2s ease-in-out infinite"></span>
+            <span style="width: 4px; height: 52px; border-radius: 2px; background: #aaa9a5; animation: wave-bar 1.2s ease-in-out 0.1s infinite"></span>
+            <span style="width: 4px; height: 70px; border-radius: 2px; background: #d8d8d3; animation: wave-bar 1.2s ease-in-out 0.2s infinite"></span>
+            <span style="width: 4px; height: 44px; border-radius: 2px; background: #aaa9a5; animation: wave-bar 1.2s ease-in-out 0.3s infinite"></span>
+            <span style="width: 4px; height: 82px; border-radius: 2px; background: #f4f4f2; animation: wave-bar 1.2s ease-in-out 0.4s infinite"></span>
+            <span style="width: 4px; height: 60px; border-radius: 2px; background: #d8d8d3; animation: wave-bar 1.2s ease-in-out 0.5s infinite"></span>
+            <span style="width: 4px; height: 36px; border-radius: 2px; background: #aaa9a5; animation: wave-bar 1.2s ease-in-out 0.6s infinite"></span>
+            <span style="width: 4px; height: 54px; border-radius: 2px; background: #92918c; animation: wave-bar 1.2s ease-in-out 0.7s infinite"></span>
+            <span style="width: 4px; height: 24px; border-radius: 2px; background: #92918c; animation: wave-bar 1.2s ease-in-out 0.8s infinite"></span>
+          </div>
+          <div style="padding: 20px 22px 24px">
+            <h3 style="margin: 0 0 8px; font-size: 18px; font-weight: 650; letter-spacing: -0.3px">Audio</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #aaa9a5">Voiceover, music and sound, with notes on the timestamp.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; border: 1px solid #262626; border-radius: 10px; background: #121212; overflow: hidden">
+          <div aria-hidden="true" style="height: 160px; display: grid; place-items: center; background: #0e0e0e">
+            <div style="display: flex; gap: 8px">
+              <span style="width: 54px; height: 96px; border: 1px solid #303030; border-radius: 10px; background: #181818; padding: 10px 6px"><span style="display: block; height: 6px; width: 70%; border-radius: 2px; background: #aaa9a5"></span><span style="display: block; margin-top: 6px; height: 24px; border-radius: 3px; background: #232323"></span><span style="display: block; margin-top: 6px; height: 10px; border-radius: 3px; background: #d8d8d3"></span></span>
+              <span style="width: 54px; height: 96px; border: 1px solid #303030; border-radius: 10px; background: #181818; padding: 10px 6px"><span style="display: block; height: 6px; width: 50%; border-radius: 2px; background: #aaa9a5"></span><span style="display: block; margin-top: 6px; height: 40px; border-radius: 3px; background: #232323"></span></span>
+            </div>
+          </div>
+          <div style="padding: 20px 22px 24px">
+            <h3 style="margin: 0 0 8px; font-size: 18px; font-weight: 650; letter-spacing: -0.3px">UI and prototypes</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #aaa9a5">Screens and flows, reviewed screen by screen.</p>
+          </div>
+        </div>
+
+        <div class="b-wide" style="display: flex; flex-direction: column; justify-content: space-between; gap: 24px; padding: 26px; border: 1px solid #262626; border-radius: 10px; background: #121212">
+          <h3 style="margin: 0; font-size: 18px; font-weight: 650; letter-spacing: -0.3px">And the rest of the job</h3>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; color: #d0d0cc">
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">Slides and decks</span>
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">PDFs</span>
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">Icons</span>
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">Social posts</span>
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">Email</span>
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">Charts</span>
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">Lottie animations</span>
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">Fonts</span>
+            <span style="padding: 7px 11px; border: 1px solid #303030; border-radius: 5px">Release notes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="agents" style="margin-top: clamp(96px, 12vw, 160px); background: #101010; border-top: 1px solid #1f1f1f; border-bottom: 1px solid #1f1f1f">
+    <div style="max-width: 1280px; margin: 0 auto; padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 64px)">
+      <div style="display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px 48px">
+        <h2 style="flex: 1 1 520px; margin: 0; max-width: 12em; font-size: clamp(40px, 5.6vw, 76px); line-height: 1; font-weight: 750; letter-spacing: -0.045em">Works with your coding agents.</h2>
+        <p style="flex: 1 1 360px; margin: 0; max-width: 28em; font-size: 17px; line-height: 1.6; color: #aaa9a5">Somae is an MCP server. Any agent that can call MCP tools can send you a result, ask a question or request a review.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 12px; margin-top: 48px">
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path clip-rule="evenodd" d="M20.998 10.949H24v3.102h-3v3.028h-1.487V20H18v-2.921h-1.487V20H15v-2.921H9V20H7.488v-2.921H6V20H4.487v-2.921H3V14.05H0V10.95h3V5h17.998v5.949zM6 10.949h1.488V8.102H6v2.847zm10.51 0H18V8.102h-1.49v2.847z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Claude Code</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path clip-rule="evenodd" d="M8.086.457a6.105 6.105 0 013.046-.415c1.333.153 2.521.72 3.564 1.7a.117.117 0 00.107.029c1.408-.346 2.762-.224 4.061.366l.063.03.154.076c1.357.703 2.33 1.77 2.918 3.198.278.679.418 1.388.421 2.126a5.655 5.655 0 01-.18 1.631.167.167 0 00.04.155 5.982 5.982 0 011.578 2.891c.385 1.901-.01 3.615-1.183 5.14l-.182.22a6.063 6.063 0 01-2.934 1.851.162.162 0 00-.108.102c-.255.736-.511 1.364-.987 1.992-1.199 1.582-2.962 2.462-4.948 2.451-1.583-.008-2.986-.587-4.21-1.736a.145.145 0 00-.14-.032c-.518.167-1.04.191-1.604.185a5.924 5.924 0 01-2.595-.622 6.058 6.058 0 01-2.146-1.781c-.203-.269-.404-.522-.551-.821a7.74 7.74 0 01-.495-1.283 6.11 6.11 0 01-.017-3.064.166.166 0 00.008-.074.115.115 0 00-.037-.064 5.958 5.958 0 01-1.38-2.202 5.196 5.196 0 01-.333-1.589 6.915 6.915 0 01.188-2.132c.45-1.484 1.309-2.648 2.577-3.493.282-.188.55-.334.802-.438.286-.12.573-.22.861-.304a.129.129 0 00.087-.087A6.016 6.016 0 015.635 2.31C6.315 1.464 7.132.846 8.086.457zm-.804 7.85a.848.848 0 00-1.473.842l1.694 2.965-1.688 2.848a.849.849 0 001.46.864l1.94-3.272a.849.849 0 00.007-.854l-1.94-3.393zm5.446 6.24a.849.849 0 000 1.695h4.848a.849.849 0 000-1.696h-4.848z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Codex</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M22.106 5.68L12.5.135a.998.998 0 00-.998 0L1.893 5.68a.84.84 0 00-.419.726v11.186c0 .3.16.577.42.727l9.607 5.547a.999.999 0 00.998 0l9.608-5.547a.84.84 0 00.42-.727V6.407a.84.84 0 00-.42-.726zm-.603 1.176L12.228 22.92c-.063.108-.228.064-.228-.061V12.34a.59.59 0 00-.295-.51l-9.11-5.26c-.107-.062-.063-.228.062-.228h18.55c.264 0 .428.286.296.514z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Cursor</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M19.245 5.364c1.322 1.36 1.877 3.216 2.11 5.817.622 0 1.2.135 1.592.654l.73.964c.21.278.323.61.323.955v2.62c0 .339-.173.669-.453.868C20.239 19.602 16.157 21.5 12 21.5c-4.6 0-9.205-2.583-11.547-4.258-.28-.2-.452-.53-.453-.868v-2.62c0-.345.113-.679.321-.956l.73-.963c.392-.517.974-.654 1.593-.654l.029-.297c.25-2.446.81-4.213 2.082-5.52 2.461-2.54 5.71-2.851 7.146-2.864h.198c1.436.013 4.685.323 7.146 2.864zm-7.244 4.328c-.284 0-.613.016-.962.05-.123.447-.305.85-.57 1.108-1.05 1.023-2.316 1.18-2.994 1.18-.638 0-1.306-.13-1.851-.464-.516.165-1.012.403-1.044.996a65.882 65.882 0 00-.063 2.884l-.002.48c-.002.563-.005 1.126-.013 1.69.002.326.204.63.51.765 2.482 1.102 4.83 1.657 6.99 1.657 2.156 0 4.504-.555 6.985-1.657a.854.854 0 00.51-.766c.03-1.682.006-3.372-.076-5.053-.031-.596-.528-.83-1.046-.996-.546.333-1.212.464-1.85.464-.677 0-1.942-.157-2.993-1.18-.266-.258-.447-.661-.57-1.108-.32-.032-.64-.049-.96-.05zm-2.525 4.013c.539 0 .976.426.976.95v1.753c0 .525-.437.95-.976.95a.964.964 0 01-.976-.95v-1.752c0-.525.437-.951.976-.951zm5 0c.539 0 .976.426.976.95v1.753c0 .525-.437.95-.976.95a.964.964 0 01-.976-.95v-1.752c0-.525.437-.951.976-.951zM7.635 5.087c-1.05.102-1.935.438-2.385.906-.975 1.037-.765 3.668-.21 4.224.405.394 1.17.657 1.995.657h.09c.649-.013 1.785-.176 2.73-1.11.435-.41.705-1.433.675-2.47-.03-.834-.27-1.52-.63-1.813-.39-.336-1.275-.482-2.265-.394zm6.465.394c-.36.292-.6.98-.63 1.813-.03 1.037.24 2.06.675 2.47.968.957 2.136 1.104 2.776 1.11h.044c.825 0 1.59-.263 1.995-.657.555-.556.765-3.187-.21-4.224-.45-.468-1.335-.804-2.385-.906-.99-.088-1.875.058-2.265.394zM12 7.615c-.24 0-.525.015-.84.044.03.16.045.336.06.526l-.001.159a2.94 2.94 0 01-.014.25c.225-.022.425-.027.612-.028h.366c.187 0 .387.006.612.028-.015-.146-.015-.277-.015-.409.015-.19.03-.365.06-.526a9.29 9.29 0 00-.84-.044z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">GitHub Copilot</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M16.793 10.358v3.867L7.236 18.82v-2.8l7.751-3.728-7.75-3.728V5.763l9.556 4.595z"></path><path clip-rule="evenodd" d="M19.608 0A4.392 4.392 0 0124 4.392v15.216A4.392 4.392 0 0119.608 24H4.392A4.392 4.392 0 010 19.608V4.392A4.392 4.392 0 014.392 0h15.216zM4.26 1.444A2.816 2.816 0 001.444 4.26v15.48a2.816 2.816 0 002.816 2.816h15.48a2.816 2.816 0 002.816-2.816V4.26a2.816 2.816 0 00-2.816-2.816H4.26z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Gemini CLI</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path clip-rule="evenodd" d="M23.78 5.004h-.228a2.187 2.187 0 00-2.18 2.196v4.912c0 .98-.804 1.775-1.76 1.775a1.818 1.818 0 01-1.472-.773L13.168 5.95a2.197 2.197 0 00-1.81-.95c-1.134 0-2.154.972-2.154 2.173v4.94c0 .98-.797 1.775-1.76 1.775-.57 0-1.136-.289-1.472-.773L.408 5.098C.282 4.918 0 5.007 0 5.228v4.284c0 .216.066.426.188.604l5.475 7.889c.324.466.8.812 1.351.938 1.377.316 2.645-.754 2.645-2.117V11.89c0-.98.787-1.775 1.76-1.775h.002c.586 0 1.135.288 1.472.773l4.972 7.163a2.15 2.15 0 001.81.95c1.158 0 2.151-.973 2.151-2.173v-4.939c0-.98.787-1.775 1.76-1.775h.194c.122 0 .22-.1.22-.222V5.225a.221.221 0 00-.22-.222z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Windsurf</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M17.035 3.991c2.75 0 4.98 2.24 4.98 5.003v1.667l1.45 2.896a1.01 1.01 0 01-.002.909l-1.448 2.864v1.668c0 2.762-2.23 5.002-4.98 5.002H7.074c-2.751 0-4.98-2.24-4.98-5.002V17.33l-1.48-2.855a1.01 1.01 0 01-.003-.927l1.482-2.887V8.994c0-2.763 2.23-5.003 4.98-5.003h9.962zM8.265 9.6a2.274 2.274 0 00-2.274 2.274v4.042a2.274 2.274 0 004.547 0v-4.042A2.274 2.274 0 008.265 9.6zm7.326 0a2.274 2.274 0 00-2.274 2.274v4.042a2.274 2.274 0 104.548 0v-4.042A2.274 2.274 0 0015.59 9.6z"></path><path d="M12.054 5.558a2.779 2.779 0 100-5.558 2.779 2.779 0 000 5.558z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Cline</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M21.595 23.61c1.167-.254 2.405-.944 2.405-.944l-2.167-1.784a12.124 12.124 0 01-2.695-3.131 12.127 12.127 0 00-3.97-4.049l-.794-.462a1.115 1.115 0 01-.488-.815.844.844 0 01.154-.575c.413-.582 2.548-3.115 2.94-3.44.503-.416 1.065-.762 1.586-1.159.074-.056.148-.112.221-.17.003-.002.007-.004.009-.007.167-.131.325-.272.45-.438.453-.524.563-.988.59-1.193-.061-.197-.244-.639-.753-1.148.319.02.705.272 1.056.569.235-.376.481-.773.727-1.171.165-.266-.08-.465-.086-.471h-.001V3.22c-.007-.007-.206-.25-.471-.086-.567.35-1.134.702-1.639 1.021 0 0-.597-.012-1.305.599a2.464 2.464 0 00-.438.45l-.007.009c-.058.072-.114.147-.17.221-.397.521-.743 1.083-1.16 1.587-.323.391-2.857 2.526-3.44 2.94a.842.842 0 01-.574.153 1.115 1.115 0 01-.815-.488l-.462-.794a12.123 12.123 0 00-4.049-3.97 12.133 12.133 0 01-3.13-2.695L1.332 0S.643 1.238.39 2.405c.352.428 1.27 1.49 2.34 2.302C1.58 4.167.73 3.75.06 3.4c-.103.765-.063 1.92.043 2.816.726.317 1.961.806 3.219 1.066-1.006.236-2.11.278-2.961.262.15.554.358 1.119.64 1.688.119.263.25.52.39.77.452.125 2.222.383 3.164.171l-2.51.897a27.776 27.776 0 002.544 2.726c2.031-1.092 2.494-1.241 4.018-2.238-2.467 2.008-3.108 2.828-3.8 3.67l-.483.678c-.25.351-.469.725-.65 1.117-.61 1.31-1.47 4.1-1.47 4.1-.154.486.202.842.674.674 0 0 2.79-.861 4.1-1.47.392-.182.766-.4 1.118-.65l.677-.483c.227-.187.453-.37.701-.586 0 0 1.705 2.02 3.458 3.349l.896-2.511c-.211.942.046 2.712.17 3.163.252.142.509.272.772.392.569.28 1.134.49 1.688.64-.016-.853.026-1.956.261-2.962.26 1.258.75 2.493 1.067 3.219.895.106 2.051.146 2.816.043a73.87 73.87 0 01-1.308-2.67c.811 1.07 1.874 1.988 2.302 2.34h-.001z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Goose</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M15.087 23.18L12.03 24l-2.097-7.823-5.738 5.738-2.251-2.251 5.718-5.719-7.769-2.082.82-3.057 11.294 3.08 3.08 11.295z"></path><path d="M19.505 18.762l-3.057.82-2.564-9.573-9.572-2.564.819-3.057 11.295 3.079 3.08 11.295z"></path><path d="M23.893 14.374l-3.057.82-2.565-9.572L8.7 3.057 9.52 0l11.295 3.08 3.079 11.294z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Amp</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M16 6H8v12h8V6zm4 16H4V2h16v20z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">opencode</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M20.113 5.5l-.442 1.557a.157.157 0 01-.196.106l-7.414-2.157a.16.16 0 00-.143.028l-7.342 5.74a.159.159 0 01-.074.032l-4.37.656a.154.154 0 00-.132.162l.02.245c.005.078.071.14.152.141l5.074.128.058.002 3.75-1.953a.16.16 0 01.164.01l2.657 1.847a.152.152 0 01.066.125l-.023 2.45c0 .032.01.063.028.089l3.737 5.227c.03.04.077.065.129.065h1.182a.153.153 0 00.14-.224l-2.664-4.919a.15.15 0 01.005-.152l1.389-2.169a.156.156 0 01.062-.055l4.965-2.456a.16.16 0 01.158.01l1.418.921a.16.16 0 00.087.026h1.289c.125 0 .2-.136.13-.237l-3.578-5.29c-.074-.109-.246-.082-.282.044z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Roo Code</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M4.594 6.677C6.67-2.226 18.746-2.211 21.16 6.632c.353 1.297 1.725 7.582-1.673 13.747-1.545 2.797-5.841 5.49-6.99 1.883C8.6 25.477 3.315 24.1 5.789 18.609l-.318.143c-3.57 1.305-3.863-1.208-3.173-2.513.45-.84.727-1.335.937-1.897.353-.975.458-1.568.593-2.498.27-1.837.277-3.607.765-5.167zm8.37.01a.92.92 0 00-.81.428c-.217.323-.33.825-.33 1.462 0 .705.15 1.89 1.14 1.89h.008c.757 0 1.214-.705 1.214-1.89 0-.622-.127-1.125-.367-1.455a1.014 1.014 0 00-.855-.435zm4.08 0a.92.92 0 00-.81.428c-.217.323-.33.825-.33 1.462 0 .705.15 1.89 1.14 1.89h.008c.757 0 1.215-.705 1.215-1.89 0-.622-.128-1.125-.368-1.455a1.014 1.014 0 00-.855-.435z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Kiro</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M24 9.333C24 18.666 20 24 9.333 24H8v-8h1.333C14 16 16 14 16 9.333V8h8v1.333zM8 16H0V8h8v8zM16 8H8V0h8v8z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Junie</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M12.604 1.34c.393.69.784 1.382 1.174 2.075a.18.18 0 00.157.091h5.552c.174 0 .322.11.446.327l1.454 2.57c.19.337.24.478.024.837-.26.43-.513.864-.76 1.3l-.367.658c-.106.196-.223.28-.04.512l2.652 4.637c.172.301.111.494-.043.77-.437.785-.882 1.564-1.335 2.34-.159.272-.352.375-.68.37-.777-.016-1.552-.01-2.327.016a.099.099 0 00-.081.05 575.097 575.097 0 01-2.705 4.74c-.169.293-.38.363-.725.364-.997.003-2.002.004-3.017.002a.537.537 0 01-.465-.271l-1.335-2.323a.09.09 0 00-.083-.049H4.982c-.285.03-.553-.001-.805-.092l-1.603-2.77a.543.543 0 01-.002-.54l1.207-2.12a.198.198 0 000-.197 550.951 550.951 0 01-1.875-3.272l-.79-1.395c-.16-.31-.173-.496.095-.965.465-.813.927-1.625 1.387-2.436.132-.234.304-.334.584-.335a338.3 338.3 0 012.589-.001.124.124 0 00.107-.063l2.806-4.895a.488.488 0 01.422-.246c.524-.001 1.053 0 1.583-.006L11.704 1c.341-.003.724.032.9.34zm-3.432.403a.06.06 0 00-.052.03L6.254 6.788a.157.157 0 01-.135.078H3.253c-.056 0-.07.025-.041.074l5.81 10.156c.025.042.013.062-.034.063l-2.795.015a.218.218 0 00-.2.116l-1.32 2.31c-.044.078-.021.118.068.118l5.716.008c.046 0 .08.02.104.061l1.403 2.454c.046.081.092.082.139 0l5.006-8.76.783-1.382a.055.055 0 01.096 0l1.424 2.53a.122.122 0 00.107.062l2.763-.02a.04.04 0 00.035-.02.041.041 0 000-.04l-2.9-5.086a.108.108 0 010-.113l.293-.507 1.12-1.977c.024-.041.012-.062-.035-.062H9.2c-.059 0-.073-.026-.043-.077l1.434-2.505a.107.107 0 000-.114L9.225 1.774a.06.06 0 00-.053-.031zm6.29 8.02c.046 0 .058.02.034.06l-.832 1.465-2.613 4.585a.056.056 0 01-.05.029.058.058 0 01-.05-.029L8.498 9.841c-.02-.034-.01-.052.028-.054l.216-.012 6.722-.012z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Qwen Code</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M0 0v24h24V0H0zm22.222 22.222H1.778V1.778h20.444v20.444zm-7.555-4.964h2.222v1.778h-2.794L12.89 17.83v-2.794h1.778v2.222zm4 0h-1.778v-2.222h-2.222v-1.778h2.793l1.207 1.207v2.793zm-7.556-2.591H9.333v-1.778h1.778v1.778zm-5.778-1.778h1.778v4h4v1.778H6.54L5.333 17.46V12.89zm13.334-3.556v1.778h-5.778V9.333h1.987V7.111h-1.987V5.333h2.558l1.206 1.207v2.793h2.014zm-11.556-2h2.222l1.778 1.778v2H9.333v-2H7.111v2H5.333V5.333h1.778v2zm4 0H9.333v-2h1.778v2z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Kilo Code</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px solid #262626; border-radius: 8px; background: #121212">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="#d0d0cc" fill-rule="evenodd"><path d="M24 20.541H3.428v-3.426H0V3.4h24V20.54zM3.428 17.115h17.144V6.827H3.428v10.288zm8.573-5.196l-2.425 2.424-2.424-2.424 2.424-2.424 2.425 2.424zm6.857-.001l-2.424 2.423-2.425-2.423 2.425-2.425 2.424 2.425z"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">TRAE</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 0 18px; border: 1px dashed #4a4a47; border-radius: 8px">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#d0d0cc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"></path></svg>
+          <span style="font-size: 15px; font-weight: 500">Any MCP client</span>
+        </div>
+      </div>
+      <p style="margin: 28px 0 0; color: #92918c; font: 12px/1.7 SFMono-Regular, Consolas, monospace">reply · ask_question · request_review · publish_artifact</p>
+    </div>
+  </section>
+
+  <section id="signals">
+    <div style="max-width: 1280px; margin: 0 auto; padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 64px)">
+      <h2 style="margin: 0; font-size: clamp(36px, 4.6vw, 60px); line-height: 1.02; font-weight: 750; letter-spacing: -0.04em">Three kinds of signal.</h2>
+      <div style="margin-top: 48px; border-top: 1px solid #4a4a47">
+        <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 40px; padding: 32px 0; border-bottom: 1px solid #303030">
+          <span style="flex: 0 0 auto; width: 1.4em; color: #92918c; font-size: clamp(48px, 6vw, 88px); line-height: 1; font-weight: 750; letter-spacing: -0.05em">1</span>
+          <h3 style="flex: 1 1 240px; margin: 0; font-size: clamp(26px, 2.8vw, 36px); font-weight: 700; letter-spacing: -1px">A result.</h3>
+          <p style="flex: 2 1 360px; margin: 0; font-size: 18px; line-height: 1.55; color: #aaa9a5">The agent finished something and wants you to know. Read it, reply, or mark it done.</p>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 40px; padding: 32px 0; border-bottom: 1px solid #303030">
+          <span style="flex: 0 0 auto; width: 1.4em; color: #92918c; font-size: clamp(48px, 6vw, 88px); line-height: 1; font-weight: 750; letter-spacing: -0.05em">2</span>
+          <h3 style="flex: 1 1 240px; margin: 0; font-size: clamp(26px, 2.8vw, 36px); font-weight: 700; letter-spacing: -1px">A question.</h3>
+          <p style="flex: 2 1 360px; margin: 0; font-size: 18px; line-height: 1.55; color: #aaa9a5">The agent's exact choices, numbered, or room for your own words. Press a number and it goes back to the same session.</p>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 40px; padding: 32px 0; border-bottom: 1px solid #303030">
+          <span style="flex: 0 0 auto; width: 1.4em; color: #92918c; font-size: clamp(48px, 6vw, 88px); line-height: 1; font-weight: 750; letter-spacing: -0.05em">3</span>
+          <h3 style="flex: 1 1 240px; margin: 0; font-size: clamp(26px, 2.8vw, 36px); font-weight: 700; letter-spacing: -1px">A review.</h3>
+          <p style="flex: 2 1 360px; margin: 0; font-size: 18px; line-height: 1.55; color: #aaa9a5">The exact versions of the work, side by side. Approve or request changes, with notes or without.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <footer style="border-top: 1px solid #1f1f1f">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 36px clamp(20px, 5vw, 64px) 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; font-size: 14px; color: #aaa9a5">
+      <span style="display: flex; align-items: center; gap: 9px; color: #f4f4f2; font-size: 17px; font-weight: 650; letter-spacing: -0.7px"><svg aria-hidden="true" viewBox="0 0 64 64" width="24" height="24" fill="#f4f4f2"><path d="M37 55.5C28.25 57 21.5 51.5 16.75 44.5L6.5 33.25C3.25 28.25 9.75 23.75 13.5 28.25L21.25 36L14.5 18.5C12.5 12.5 20.25 9 23.25 14.75L29.5 28.5C31 32 36 30 34.75 26.5L29 10.25C27 4.25 35.25 1.75 37.25 8L43 26.75C44 30.5 49.25 29 48.25 25.5L46.25 17.25C45 11.25 53.75 9.75 55 16.25L56.5 31.75C58.5 44.5 49.75 54.75 37 55.5Z"></path></svg>somae</span>
+      <span>Built in the open.</span>
+      <span style="display: flex; flex-wrap: wrap; gap: 4px 22px; margin-left: auto">
+        <a href="https://github.com/Hendrixer/somae" style="color: #aaa9a5; text-decoration: none; padding: 12px 0">GitHub</a>
+      </span>
+    </div>
+    <p style="max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 64px) 36px; color: #92918c; font-size: 11px; line-height: 1.6">Agent names and marks belong to their owners and identify compatible tools; they don't imply endorsement. Marks from LobeHub Icons (MIT). Desktop photo by John Towner on Unsplash.</p>
+  </footer>
+</div>
+<script type="module" src="/assets/site.js"></script>
+</body>
+</html>

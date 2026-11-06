@@ -1,0 +1,48 @@
+/* Somae Aura. Content is calm; controls carry light and depth. */
+:root, [data-theme="aura"], [data-theme="studio"] {
+  color-scheme: light;
+  --canvas: #eeedf3;
+  --surface: #fcfbff;
+  --surface-raised: #ffffff;
+  --surface-inset: #f2eff8;
+  --ink: #282532;
+  --ink-muted: #706b7e;
+  --ink-soft: #8a8495;
+  --line: #e8e3ef;
+  --accent: #7052c5;
+  --accent-hover: #6043b4;
+  --accent-soft: #ede7fa;
+  --accent-ink: #6443b2;
+  --leaf: #37725d;
+  --leaf-soft: #e9f4ee;
+  --petal: #f5e9ef;
+  --honey: #faf0df;
+  --glow: #c9b5ed;
+  --glow-secondary: #c8e0dc;
+  --glass: rgb(255 255 255 / 57%);
+  --glass-edge: rgb(93 74 125 / 14%);
+  --glass-highlight: rgb(255 255 255 / 92%);
+  --font-body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  --radius-sm: 10px; --radius-md: 16px; --radius-lg: 24px; --radius-xl: 32px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+  --ease-out: cubic-bezier(.2,.8,.2,1);
+  --ease-spring: cubic-bezier(.22,1,.36,1);
+  --motion: 180ms; --motion-press: 110ms; --motion-content: 340ms;
+  --motion-layout: 420ms; --motion-confirm: 380ms; --motion-presence: 440ms;
+  --shadow: 0 32px 80px -24px rgb(64 46 94 / 23%), 0 8px 24px -12px rgb(53 39 74 / 12%);
+  --shadow-control: 0 5px 14px -5px rgb(64 46 94 / 17%), inset 0 1px 0 var(--glass-highlight);
+}
+[data-theme="pearl"] {
+  --canvas: #f2ecec; --surface: #fffcfb; --surface-inset: #f7eeec;
+  --line: #eddfdf; --accent: #a55168; --accent-hover: #904256;
+  --accent-soft: #f7e4eb; --accent-ink: #91445b;
+  --glow: #eac2cb; --glow-secondary: #e7d7bf;
+}
+[data-theme="sage"] {
+  --canvas: #eaf0ed; --surface: #fbfffd; --surface-inset: #edf4f0;
+  --line: #dfeae3; --accent: #397b65; --accent-hover: #286852;
+  --accent-soft: #e0f0e8; --accent-ink: #286b54;
+  --glow: #b4d6c7; --glow-secondary: #cad1eb;
+}

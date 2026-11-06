@@ -1,0 +1,15 @@
+/* Gather owns its tokens so the Aura prototype stays fixed. */
+:root,[data-theme="mint"] {
+  color-scheme:light;
+  --canvas:#edf1ef; --surface:#fcfdfb; --surface-raised:#fff;
+  --surface-inset:#eff4f0; --ink:#263a36; --ink-muted:#6f7f77; --ink-soft:#84938b;
+  --line:#e0e9e3; --accent:#3f7b69; --accent-hover:#306553; --accent-soft:#e3f0e9; --accent-ink:#346b5a;
+  --glow:#bdd6c9; --secondary:#d9d6e5; --success:#39785a; --success-soft:#e6f2e9;
+  --glass:rgb(255 255 255 / 70%); --rim:rgb(63 85 72 / 11%);
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
+  --shadow:0 30px 80px -30px rgb(44 68 54 / 22%),0 4px 16px -8px rgb(44 68 54 / 9%);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+[data-theme="iris"] {--canvas:#eeedf4;--surface:#fdfcff;--surface-inset:#f2eff8;--ink:#302a42;--ink-muted:#7a718c;--ink-soft:#90879e;--line:#e8e2f0;--accent:#7959af;--accent-hover:#67469d;--accent-soft:#eee5f8;--accent-ink:#68499c;--glow:#d0bde9;--secondary:#c7dddf;}
+[data-theme="sand"] {--canvas:#f3eee7;--surface:#fffdf9;--surface-inset:#f6f0e8;--ink:#443930;--ink-muted:#8b7b6c;--ink-soft:#a19284;--line:#eae1d7;--accent:#a26945;--accent-hover:#8d5837;--accent-soft:#f7e8dc;--accent-ink:#945e3c;--glow:#e4cbb1;--secondary:#d9d9c2;}

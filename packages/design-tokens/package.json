@@ -1,0 +1,5 @@
+{
+  "name": "@somae/design-tokens",
+  "private": true,
+  "exports": { "./tokens.css": "./tokens.css" }
+}

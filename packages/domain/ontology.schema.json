@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://somae.ai/schemas/domain-ontology-0.1.json",
+  "title": "Somae executable ontology metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "id",
+    "version",
+    "status",
+    "path_base",
+    "enums",
+    "entities",
+    "relationships",
+    "commands",
+    "rules",
+    "deferred"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "path_base": {
+      "const": "repository"
+    },
+    "enums": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "test_sources": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string" }
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "collection",
+          "identity",
+          "description"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "collection": {
+            "type": "string"
+          },
+          "identity": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "immutable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "from",
+          "field",
+          "to",
+          "cardinality"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "cardinality": {
+            "enum": [
+              "many-to-one",
+              "one-to-one",
+              "zero-or-one-to-one"
+            ]
+          }
+        }
+      }
+    },
+    "commands": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "actor",
+          "required",
+          "optional"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "actor": {
+            "enum": [
+              "person",
+              "endpoint",
+              "system"
+            ]
+          },
+          "capability": {
+            "type": "string"
+          },
+          "required": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "optional": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "description",
+          "enforcement",
+          "tests",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^SOMAE-[0-9]{3}$"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enforcement": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "tests": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "const": "implemented-reference"
+          }
+        }
+      }
+    },
+    "deferred": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

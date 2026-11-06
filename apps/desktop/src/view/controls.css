@@ -1,0 +1,26 @@
+.select-control{position:relative;min-width:0;display:inline-flex;vertical-align:middle}
+.select-control select[hidden]{display:none}
+.select-trigger{justify-content:space-between;gap:16px;width:100%;min-height:40px;padding:10px 12px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);border-radius:var(--somae-radius-action);font-size:13px;font-weight:500;text-align:left}
+.select-trigger .select-value{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.select-trigger>svg{width:16px;height:16px;stroke:var(--muted);stroke-width:1.5;flex:none;transition:transform var(--somae-motion-duration-hover) var(--somae-motion-easing-standard)}
+.select-trigger[aria-expanded=true]>svg{transform:rotate(180deg)}
+.select-trigger:hover,.select-trigger[aria-expanded=true]{background:var(--hover)}
+.select-trigger:disabled{opacity:.6}
+.select-popover,.menu-popover{position:fixed;inset:auto;margin:0;padding:6px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--somae-radius-dialog);box-shadow:var(--somae-shadow-dialog);overflow:auto;z-index:50;overscroll-behavior:contain}
+.select-popover[hidden],.menu-popover[hidden]{display:none}
+.select-popover:popover-open,.menu-popover:popover-open{animation:control-reveal var(--somae-motion-duration-hover) var(--somae-motion-easing-standard)}
+.select-option,.menu-option{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:39px;width:100%;padding:10px 11px;text-align:left;font-size:13px;line-height:1.4;font-weight:450;border-radius:var(--somae-radius-action);white-space:normal}
+.select-option>span{min-width:0;overflow-wrap:anywhere}
+.select-option>svg{width:15px;height:15px;opacity:0;flex:none}
+.select-option[aria-selected=true]>svg{opacity:1;color:var(--ink)}
+.select-option[aria-selected=true]{color:var(--ink)}
+.select-option:focus-visible,.menu-option:focus-visible{outline:2px solid var(--somae-color-focus);outline-offset:-2px;background:var(--hover)}
+.menu-option:hover,.select-option:hover{background:var(--hover)}
+.menu-option kbd{margin-left:auto;flex:none;font-size:10px}
+.menu-option svg{width:16px;height:16px;color:var(--muted)}
+.menu-option>span{margin-right:auto}
+.menu-divider{height:1px;margin:5px 6px;background:var(--line)}
+.app-menu{-webkit-app-region:no-drag}
+dialog .select-control{display:flex;width:100%}
+@keyframes control-reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.select-trigger>svg{transition:none}.select-popover:popover-open,.menu-popover:popover-open{animation:none}}

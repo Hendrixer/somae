@@ -1,0 +1,15 @@
+{
+  "name": "@somae/design-system",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Somae Signal design tokens and a shareable visual reference.",
+  "scripts": {
+    "build": "node build.mjs",
+    "validate": "node validate.mjs",
+    "check": "node build.mjs && node validate.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@somae/library",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./index.js",
+  "types": "./index.d.ts",
+  "dependencies": {
+    "marked": "18.1.1",
+    "parse5": "8.0.1"
+  }
+}

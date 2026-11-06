@@ -1,0 +1,1 @@
+{"name":"@somae/signal-prototype","private":true,"type":"module","scripts":{"dev":"node ../desktop/server.mjs"}}

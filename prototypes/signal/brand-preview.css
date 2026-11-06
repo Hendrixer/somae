@@ -1,0 +1,37 @@
+/* Brand studies live in the prototype chrome; the product keeps its quiet shape. */
+html[data-brand] .signal-mark{display:block;width:25px;height:25px;flex-shrink:0}
+html[data-brand] .beacon .signal-mark{width:22px;height:22px;transform:none}
+html[data-brand] .signal-mark svg,[data-brand-mark] svg{display:block;width:100%;height:100%;fill:currentColor;stroke:none}
+.brand-preview-trigger{background:none;padding:7px 0;font:10px var(--mono);color:var(--stage-ink);white-space:nowrap}
+.brand-preview-trigger:hover{text-decoration:underline;text-underline-offset:4px}
+.brand-preview-trigger:disabled{opacity:.45;cursor:default}
+#brand-preview{width:min(430px,calc(100vw - 32px));padding:32px}
+#brand-preview h2{margin:18px 0 23px;font-size:29px;letter-spacing:-1.1px}
+.brand-options{display:inline-flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:7px}
+.brand-options button{background:transparent;color:var(--muted);padding:8px 16px;border-radius:4px;font:11px var(--mono)}
+.brand-options button[aria-pressed=true]{background:var(--surface);color:var(--ink)}
+.brand-scale-study{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;margin:36px 0 30px}
+.brand-scale-study figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:17px}
+.brand-scale-study figcaption{font:8px var(--mono);letter-spacing:.6px;color:var(--muted)}
+.brand-app-icon{display:grid;place-items:center;background:var(--accent);color:var(--panel);box-shadow:inset 0 1px 1px rgb(255 255 255 / 32%),0 8px 22px rgb(0 0 0 / 12%)}
+.brand-app-icon-large{width:112px;height:112px;border-radius:28px}
+.brand-app-icon-small{width:48px;height:48px;border-radius:12px}
+.brand-app-icon svg{width:70%;height:70%}
+.brand-menu-icon{display:block;width:16px;height:16px;color:var(--ink)}
+#brand-preview p{color:var(--muted);font:12px/1.6 var(--sans);margin:0 0 25px}
+.brand-preview-links{display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:19px;font:9px var(--mono);color:var(--muted)}
+.brand-preview-links a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+@media(max-width:1300px){.beacon{top:88px}}
+@media(max-width:850px){.lab-header .lab-index{display:none}.preview-scenarios>button,.preview-scenarios label{white-space:nowrap}}
+@media(max-width:720px){.preview-scenarios{gap:12px;align-items:flex-end}.brand-preview-trigger{font-size:9px;padding:6px 0}.lab-header{gap:20px}.preview-scenarios label{white-space:nowrap}}
+@media(max-width:540px){
+  .lab-header{flex-wrap:wrap;row-gap:12px;top:18px}
+  .lab-header>span{padding-top:0}
+  .preview-scenarios{width:100%;justify-content:flex-end;gap:16px;position:relative}
+  .preview-scenarios label{flex-direction:row;align-items:center;font-size:9px;gap:6px}
+  #sample-signal{position:absolute;bottom:calc(100% + 15px);right:0}
+  .stage{padding-top:120px}
+  .instrument{max-height:calc(100dvh - 200px)}
+  .beacon{top:106px}
+}
+@media(max-width:370px){.preview-scenarios{gap:10px}.preview-scenarios label{gap:4px;font-size:8px}.brand-preview-trigger{font-size:8px}#brand-preview{padding:26px}.brand-scale-study{gap:15px}}

@@ -1,0 +1,44 @@
+/* A focused comparison of the two finalists, with the marks at their real UI sizes. */
+.refined-studies{grid-template-columns:repeat(2,minmax(0,1fr))}
+.refined-studies article{padding:24px 38px 27px}
+.refinement-note{font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 4px;max-width:330px}
+.refined-studies .hero-mark{width:156px;height:156px;margin:30px auto 19px}
+.refined-studies .lockup{height:34px}
+.refined-studies .lockup>span{width:28px;height:28px}
+.refined-studies .lockup b{font-size:25px}
+.refined-description{margin:29px 0 23px}
+.refined-description h2{font-size:21px;font-weight:500;letter-spacing:-.7px;margin-bottom:7px}
+.refined-description p{font-size:12px;line-height:1.6;color:var(--muted);margin:0}
+.detail-row{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:19px 0 20px;border-top:1px solid var(--line)}
+.geometry-comparison,.actual-sizes{display:flex;align-items:center;gap:19px}
+.detail-row figure,.icon-sample{margin:0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.geometry-comparison figure>span{display:block;width:40px;height:40px}
+.comparison-arrow{font-size:16px;color:var(--muted);align-self:flex-start;margin-top:10px}
+.detail-row figcaption,.icon-sample figcaption,.application-label{font:8px/1.5 'SFMono-Regular',Consolas,monospace;color:var(--muted);letter-spacing:.75px}
+.actual-sizes{gap:22px;align-self:flex-end}
+.actual-sizes figure{height:62px;justify-content:flex-end;gap:14px;min-width:31px}
+.in-use{background:var(--tile);padding:21px 22px 22px;border-radius:4px}
+.application-label{display:block;margin-bottom:12px}
+.sample-header{height:54px;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:0 19px;border-radius:10px 10px 0 0;background:#17191c;color:#f5f4ee;border:1px solid #ffffff1a}
+.sample-wordmark{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:650;letter-spacing:-.7px}
+.sample-wordmark>span{display:block;width:25px;height:25px;color:#e2ff64}
+.sample-actions{display:flex;align-items:center;gap:10px}
+.sample-actions>kbd,.sample-new{font:10px/1 'SFMono-Regular',Consolas,monospace;border:1px solid #ffffff1a;border-radius:5px;padding:7px;color:#b1b5b0;white-space:nowrap}
+.sample-new{color:#f5f4ee}
+.sample-close{font-size:23px;color:#b1b5b0;line-height:1;margin-left:2px}
+.secondary-samples{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:22px}
+.beacon-sample .application-label{font-size:7px;letter-spacing:.65px;margin-bottom:11px}
+.sample-beacon{display:inline-flex;align-items:center;gap:13px;background:#17191c;color:#f5f4ee;border:1px solid #ffffff26;box-shadow:0 4px 9px #17191c15;border-radius:8px;height:42px;padding:0 14px;font:11px/1 'SFMono-Regular',Consolas,monospace}
+.sample-beacon>span:first-child{display:block;width:22px;height:22px;color:#e2ff64}
+.sample-beacon kbd{font:9px/1 'SFMono-Regular',Consolas,monospace;color:#b1b5b0;border-left:1px solid #ffffff1a;padding-left:13px;margin-left:7px}
+.refined-app-icon{display:grid;place-items:center;width:64px;height:64px;background:#e2ff64;color:#17191c;border-radius:15px;box-shadow:0 1px 0 #ffffff70 inset,0 3px 8px #17191c12}
+.refined-app-icon svg{width:44px;height:44px}
+.icon-sample{gap:8px}
+.try-mark{display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:12px;font-weight:500;margin-top:24px;padding:4px 0}
+.try-mark>span:last-child{font-size:18px;font-weight:400}
+.try-mark:hover{text-decoration:none}.try-mark:hover>span:first-child{text-decoration:underline;text-underline-offset:4px}
+@media(min-width:1600px){.refined-studies .hero-mark{margin-top:35px;margin-bottom:25px}}
+@media(max-width:1000px){.refined-studies article{padding-inline:23px}.in-use{padding-inline:17px}.sample-header{padding-inline:14px}.sample-actions{gap:7px}.detail-row{gap:17px}.geometry-comparison{gap:13px}.actual-sizes{gap:15px}}
+@media(max-width:800px){.refinement-note{font-size:11px;max-width:250px}.refined-studies article{padding-inline:17px}.refined-studies .hero-mark{width:136px;height:136px}.in-use{padding:18px 13px}.sample-header{padding-inline:12px;gap:8px}.sample-actions{gap:6px}.sample-actions .sample-new{display:none}.geometry-comparison{gap:9px}.actual-sizes{gap:12px}.detail-row{gap:12px}.detail-row figcaption{font-size:7px;letter-spacing:.4px}.secondary-samples{gap:15px}.beacon-sample .application-label{font-size:6px;letter-spacing:.25px}.sample-beacon{gap:9px;padding-inline:11px}.sample-beacon kbd{padding-left:10px;margin-left:0}.refined-app-icon{border-radius:15px}}
+@media(max-width:620px){.intro{align-items:flex-start;flex-direction:column;gap:20px}.refinement-note{max-width:none}.refined-studies{grid-template-columns:1fr}.refined-studies article{padding:24px 14px 28px}.refined-studies article+article{border-left:0;border-top:1px solid var(--line)}.refined-studies .hero-mark{width:156px;height:156px}.detail-row{gap:25px}.geometry-comparison{gap:19px}.actual-sizes{gap:22px}.detail-row figcaption{font-size:8px;letter-spacing:.7px}.in-use{padding:20px 17px}.sample-header{padding-inline:15px}.sample-actions .sample-new{display:block}.sample-actions{gap:8px}.sample-beacon{gap:13px;padding-inline:14px}.sample-beacon kbd{padding-left:13px;margin-left:7px}.beacon-sample .application-label{font-size:7px;letter-spacing:.4px}}
+@media(max-width:360px){header{gap:10px;padding-inline:18px}.round-navigation{gap:9px}.tones{gap:1px}.brand{font-size:23px}main{padding-inline:18px}.refined-studies article{padding-inline:10px}.in-use{padding-inline:12px}.detail-row{gap:12px}.geometry-comparison{gap:13px}.actual-sizes{gap:17px}.sample-actions{gap:6px}.sample-header{padding-inline:12px}.sample-actions .sample-new{display:none}.sample-beacon{padding-inline:10px;gap:10px}.sample-beacon kbd{margin-left:0;padding-left:10px}.beacon-sample .application-label{font-size:6px}}

@@ -1,0 +1,10 @@
+{
+  "name": "@somae/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "types": "./index.d.ts",
+  "exports": { ".": { "types": "./index.d.ts", "import": "./index.js" }, "./fixtures": { "types": "./fixtures.d.ts", "import": "./fixtures.js" }, "./ontology": "./ontology.json" },
+  "engines": { "node": ">=20" },
+  "scripts": { "check": "node validate.mjs && node --test *.test.js" }
+}

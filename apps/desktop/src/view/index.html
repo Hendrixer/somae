@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" data-theme="electric">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Somae</title>
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/controls.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header id="header"></header>
+    <main id="main" tabindex="-1"><div class="loading">Finding your place…</div></main>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <dialog id="dialog"></dialog>
+    <div id="selection-tools" hidden><button data-action="annotate">Comment</button><button data-action="suggest">Suggest edit</button></div>
+  </div>
+</body>
+</html>

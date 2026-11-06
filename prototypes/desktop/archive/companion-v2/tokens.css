@@ -1,0 +1,41 @@
+/* Somae v2: compact surfaces, quiet color, stronger typography. */
+:root,[data-theme="linen"] {
+  --canvas: #eaece7;
+  --surface: #fcfcf9;
+  --surface-raised: #ffffff;
+  --surface-inset: #f0f1ec;
+  --ink: #292e29;
+  --ink-muted: #6d746c;
+  --ink-soft: #858c82;
+  --line: #e4e7df;
+  --accent: #506a50;
+  --accent-hover: #3d563e;
+  --accent-soft: #e1e9da;
+  --accent-ink: #3c543d;
+  --leaf: #506a50;
+  --leaf-soft: #e1e9da;
+  --petal: #e8e3ef;
+  --honey: #eee7d5;
+  --font-body: 'DM Sans','Avenir Next','Segoe UI',sans-serif;
+  --font-display: 'DM Sans','Avenir Next','Segoe UI',sans-serif;
+  --radius-sm: 9px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+  --motion: 180ms;
+  --shadow: 0 20px 65px rgb(31 45 25 / 9%),0 3px 12px rgb(31 45 25 / 3%);
+}
+[data-theme="mist"] {
+  --canvas:#e9e9ef; --surface:#fbfafc; --surface-raised:#fff;
+  --surface-inset:#f0eef5; --ink:#33313b; --ink-muted:#75717f; --ink-soft:#8a8594;
+  --line:#e5e1eb; --accent:#716382; --accent-hover:#5d506d; --accent-soft:#e9e1ee;
+  --accent-ink:#625171; --leaf:#536f5c; --leaf-soft:#e0eade; --petal:#e9e1ee;
+}
+[data-theme="fern"] {
+  --canvas:#e3e9e3; --surface:#f8fbf6; --surface-raised:#fff;
+  --surface-inset:#eaf0e7; --ink:#2e382e; --ink-muted:#6c7a6b; --ink-soft:#80907d;
+  --line:#dce6d9; --accent:#4f6e53; --accent-hover:#3d5941; --accent-soft:#dce8d6;
+  --accent-ink:#3e5e41; --leaf:#4f6e53; --leaf-soft:#dce8d6; --petal:#e6e3ec;
+}
